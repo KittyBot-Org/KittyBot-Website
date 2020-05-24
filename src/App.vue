@@ -1,21 +1,57 @@
 <template>
-  <div id="app">
-    <div id="app-nav">
-      <router-link to="/">Home</router-link>
-      <a href="/#features">Features</a>
-      <a href="/#commands">Commands</a>
-      <router-link to="/about">About</router-link>
-      <a class="login" href="/login">login with Discord</a>
+  <div class="app">
+    <div class="app-nav">
+      <div class="app-nav-group">
+        <router-link to="/">Home</router-link>
+        <router-link to="#features">Features</router-link>
+        <router-link to="#commands">Commands</router-link>
+        <router-link to="/about">About</router-link>
+        <router-link to="/guilds">Guilds</router-link>
+      </div>
+      <div class="app-nav-group">
+        <div v-if="loggedIn">
+          <img :src="icon" />
+        </div>
+        <a v-else class="login" :href="`${backend}/discord_login`">login with Discord</a>
+      </div>
     </div>
-    <router-view />
+    <router-view :guilds="guilds" :loggedIn="loggedIn" />
   </div>
 </template>
+
+<script>
+export default {
+  name: "App",
+
+  data() {
+    return {
+      backend: "http://localhost:6969",
+      loggedIn: false,
+      name: "",
+      icon: "",
+      guilds: []
+    };
+  },
+
+  created() {
+    console.log(this);
+    this.$http.get("http://localhost:6969/user/me", { withCredentials: true }).then(response => {
+        this.loggedIn = response.status == 200;
+        let info = response.body;
+        this.name = info.name;
+        this.icon = info.icon;
+        this.guilds = info.guilds;
+
+      });
+  }
+}
+</script>
 
 <style lang="less">
 @import "./style/style.less";
 html,
 body,
-#app {
+.app {
   .font-default;
   background-color: @secondary;
   text-align: center;
@@ -26,11 +62,20 @@ body,
     align-items: center;
     justify-content: center;
     padding-top: 12px;
-    & * {
-      margin-left: 4px;
-      margin-right: 4px;
+    &-group {
+      & * {
+        margin-left: 4px;
+        margin-right: 4px;
+      }
+    }
+    & login {
+      float: right;
     }
   }
+}
+
+.group {
+
 }
 
 a {
