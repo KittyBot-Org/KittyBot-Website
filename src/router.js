@@ -10,23 +10,32 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
+    name: "home",
     component: Home
   },
   {
     path: "/about",
+    name: "about",
     component: About
   },
   {
     path: "/guilds",
+    name: "guilds",
     component: Guilds
   },
   {
     path: "/guild/:guildId",
+    name: "guild",
     component: Guild
+  },
+  {
+    path: "*",
+    redirect: { name: "home" }
   }
 ];
 
 const router = new VueRouter({
+  history: true,
   mode: "history",
   base: process.env.BASE_URL,
   routes
