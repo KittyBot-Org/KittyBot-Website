@@ -32,5 +32,7 @@ export default {
 
 .view-guilds {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

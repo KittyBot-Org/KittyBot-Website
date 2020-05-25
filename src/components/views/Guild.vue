@@ -8,6 +8,13 @@
 export default {
   name: "ViewGuilds",
 
+  props: {
+    backend: {
+      required: true,
+      type: String
+    }
+  },
+
   data() {
     return {
       settings: ""
@@ -15,7 +22,7 @@ export default {
   },
 
   created() {
-    this.$http.get(`http://localhost:6969/guild/${this.$route.params.guildId}/settings/get`, { withCredentials: true }).then(response => {
+    this.$http.get(`${this.backend}/guild/${this.$route.params.guildId}/settings/get`, { withCredentials: true }).then(response => {
         console.log(response);
         this.settings = response.body;
       });

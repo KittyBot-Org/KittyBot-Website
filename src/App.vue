@@ -10,12 +10,12 @@
       </div>
       <div class="app-nav-group">
         <div v-if="loggedIn">
-          <img :src="icon" />
+          <img class="icon" :src="icon" />
         </div>
         <a v-else class="login" :href="`${backend}/discord_login`">login with Discord</a>
       </div>
     </div>
-    <router-view :guilds="guilds" :loggedIn="loggedIn" />
+    <router-view :guilds="guilds" :loggedIn="loggedIn" :backend="backend" />
   </div>
 </template>
 
@@ -74,8 +74,9 @@ body,
   }
 }
 
-.group {
-
+.icon {
+  width: 42px;
+  height: 42px;
 }
 
 a {
