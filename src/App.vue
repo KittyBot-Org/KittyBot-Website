@@ -25,7 +25,7 @@ export default {
 
   data() {
     return {
-      backend: "http://localhost:6969",
+      backend: "https://api.anteiku.de",
       loggedIn: false,
       name: "",
       icon: "",
@@ -35,7 +35,7 @@ export default {
 
   created() {
     console.log(this);
-    this.$http.get("http://localhost:6969/user/me", { withCredentials: true }).then(response => {
+    this.$http.get(`${this.backend}/user/me`, { withCredentials: true }).then(response => {
         this.loggedIn = response.status == 200;
         let info = response.body;
         this.name = info.name;
