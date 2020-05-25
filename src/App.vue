@@ -3,8 +3,8 @@
     <div class="app-nav">
       <div class="app-nav-group">
         <router-link to="/">Home</router-link>
-        <router-link to="#features">Features</router-link>
-        <router-link to="#commands">Commands</router-link>
+        <router-link to="/#features">Features</router-link>
+        <router-link to="/#commands">Commands</router-link>
         <router-link to="/about">About</router-link>
         <router-link to="/guilds">Guilds</router-link>
       </div>
