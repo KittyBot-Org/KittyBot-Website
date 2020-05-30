@@ -12,7 +12,7 @@
         <div v-if="loggedIn">
           <img class="icon" :src="icon" />
         </div>
-        <a v-else href="https://api.anteiku.de/discord_login">Login</a>
+        <a v-else href="`${backend}/discord_login`">Login</a>
       </div>
     </div>
     <router-view :guilds="guilds" :loggedIn="loggedIn" :backend="backend" />
@@ -25,6 +25,7 @@ export default {
 
   data() {
     return {
+      backend: "https://api.anteiku.de",
       loggedIn: false,
       name: "",
       icon: "",
