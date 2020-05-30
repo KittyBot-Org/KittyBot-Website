@@ -77,7 +77,7 @@ body,
 .icon {
   width: 42px;
   height: 42px;
-  border: 1px solid red;
+  border: 1px solid @primary;
   border-radius: 30px;
 }
 
