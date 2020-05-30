@@ -1,7 +1,5 @@
 <template>
-  <div class="view-guild">
-    {{ settings }}
-  </div>
+  <div class="view-guild">{{ settings }}</div>
 </template>
 
 <script>
@@ -22,7 +20,11 @@ export default {
   },
 
   created() {
-    this.$http.get(`${this.backend}/guild/${this.$route.params.guildId}/settings/get`, { withCredentials: true }).then(response => {
+    this.$http
+      .get(`${this.backend}/guild/${this.$route.params.guildId}/settings/get`, {
+        withCredentials: true
+      })
+      .then(response => {
         console.log(response);
         this.settings = response.body;
       });

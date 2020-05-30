@@ -1,9 +1,15 @@
 <template>
   <div class="view-guilds">
     <div v-if="!loggedIn">
-      <span>Please login to manage guilds</span>
+      <span>Please login to manage your guilds</span>
     </div>
-    <router-link v-else v-for="guild in guilds" :key="guild.id" :to="`/guild/${guild.id}`">
+    <router-link
+      v-else
+      class="view-guilds-guild"
+      v-for="guild in guilds"
+      :key="guild.id"
+      :to="`/guild/${guild.id}`"
+    >
       <span>{{ guild.name }}</span>
       <img :src="guild.icon" />
     </router-link>
@@ -34,5 +40,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  &-guild {
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>
