@@ -3,8 +3,8 @@
     <div class="app-nav">
       <div class="app-nav-group">
         <router-link to="/">Home</router-link>
-        <a href="#features">Features</a>
-        <a href="#commands">Commands</a>
+        <!--<a href="#features">Features</a>
+        <a href="#commands">Commands</a> -->
         <router-link to="/about">About</router-link>
         <router-link to="/guilds">Guilds</router-link>
       </div>
@@ -12,7 +12,7 @@
         <div v-if="loggedIn">
           <img class="icon" :src="icon" />
         </div>
-        <a v-else class="login" :href="`${backend}/discord_login`">login with Discord</a>
+        <a v-else href="https://api.anteiku.de/discord_login">Login</a>
       </div>
     </div>
     <router-view :guilds="guilds" :loggedIn="loggedIn" :backend="backend" />
@@ -25,7 +25,6 @@ export default {
 
   data() {
     return {
-      backend: "https://api.anteiku.de",
       loggedIn: false,
       name: "",
       icon: "",
@@ -34,17 +33,17 @@ export default {
   },
 
   created() {
-    console.log(this);
-    this.$http.get(`${this.backend}/user/me`, { withCredentials: true }).then(response => {
+    this.$http
+      .get(`${this.backend}/user/me`, { withCredentials: true })
+      .then(response => {
         this.loggedIn = response.status == 200;
         let info = response.body;
         this.name = info.name;
         this.icon = info.icon;
         this.guilds = info.guilds;
-
       });
   }
-}
+};
 </script>
 
 <style lang="less">
@@ -77,6 +76,8 @@ body,
 .icon {
   width: 42px;
   height: 42px;
+  border: 1px solid red;
+  border-radius: 30px;
 }
 
 a {
@@ -87,17 +88,6 @@ a {
   }
   &.router-link-exact-active {
     color: @primary;
-  }
-}
-
-.login {
-  border: 4px solid @primary;
-  border-radius: 32px;
-  padding: 8px;
-  color: @primary;
-  &:hover {
-    color: @primary-dark;
-    border-color: @primary-dark;
   }
 }
 </style>
