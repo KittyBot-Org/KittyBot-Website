@@ -4,6 +4,7 @@ import Home from "./components/views/Home";
 import About from "./components/views/About";
 import Guilds from "./components/views/Guilds";
 import Guild from "./components/views/Guild";
+import NotFound from "./components/views/NotFound";
 
 Vue.use(VueRouter);
 
@@ -21,16 +22,16 @@ const routes = [
   {
     path: "/guilds",
     name: "guilds",
-    component: Guilds
+    component: Guilds,
   },
   {
-    path: "/guild/:guildId",
+    path: "/guilds/:guildId",
     name: "guild",
     component: Guild
   },
   {
     path: "*",
-    redirect: { name: "home" }
+    component: NotFound
   }
 ];
 
