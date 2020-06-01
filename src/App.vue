@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       loading: false,
-      backend: "http://localhost:6969",
+      backend: "https://api.anteiku.de",
       loggedIn: false,
       name: "",
       icon: null,
