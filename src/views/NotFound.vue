@@ -1,5 +1,7 @@
 <template>
-  <h1>Error 404 not found!</h1>
+  <h1>
+    Error 404 not found!
+  </h1>
 </template>
 
 <script>
@@ -8,5 +10,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

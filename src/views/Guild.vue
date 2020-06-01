@@ -1,8 +1,5 @@
 <template>
-  <div class="view-guild">{{ settings }}
-
-    
-  </div>
+  <div class="view-guild">{{ settings }}</div>
 </template>
 
 <script>
@@ -24,7 +21,10 @@ export default {
 
   created() {
     this.$http
-      .get(`${this.backend}/guilds/${this.$route.params.guildId}/settings/get`, { headers: { Authorization: localStorage.getItem("auth_key") } })
+      .get(
+        `${this.backend}/guilds/${this.$route.params.guildId}/settings/get`,
+        { headers: { Authorization: localStorage.getItem("auth_key") } }
+      )
       .then(response => {
         console.log(response);
         this.settings = response.body;
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../style/style.less";
+@import "../style/style.less";
 
 .view-guilds {
   display: flex;

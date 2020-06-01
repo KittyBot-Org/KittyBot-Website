@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../style/style.less";
+@import "../style/style.less";
 
 .view-guilds {
   display: flex;

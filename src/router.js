@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "./components/views/Home";
-import About from "./components/views/About";
-import Guilds from "./components/views/Guilds";
-import Guild from "./components/views/Guild";
-import NotFound from "./components/views/NotFound";
+import Home from "./views/Home";
+import About from "./views/About";
+import Guilds from "./views/Guilds";
+import Guild from "./views/Guild";
+import NotFound from "./views/NotFound";
 
 Vue.use(VueRouter);
 
@@ -22,7 +22,7 @@ const routes = [
   {
     path: "/guilds",
     name: "guilds",
-    component: Guilds,
+    component: Guilds
   },
   {
     path: "/guilds/:guildId",
