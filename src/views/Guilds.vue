@@ -10,8 +10,8 @@
       :key="guild.id"
       :to="`/guilds/${guild.id}`"
     >
-      <span>{{ guild.name }}</span>
       <img :src="guild.icon" />
+      <span>{{ guild.name }}</span>
     </router-link>
   </div>
 </template>
@@ -39,7 +39,6 @@ export default {
 .view-guilds {
   display: flex;
   justify-content: center;
-  align-items: center;
   &-guild {
     display: flex;
     flex-direction: column;
