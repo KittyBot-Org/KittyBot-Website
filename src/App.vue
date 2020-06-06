@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <v-app class="app" :dark="dark">
     <div class="app-nav">
       <div class="app-nav-group">
         <router-link to="/">Home</router-link>
@@ -9,14 +9,14 @@
         <router-link to="/guilds">Guilds</router-link>
       </div>
       <div class="app-nav-group">
+        <v-btn :outlined="true" color="#7289DA" @click="theme()">Theme</v-btn>
         <v-btn
           v-if="loggedIn"
           :loading="loading"
           :outlined="true"
           color="#7289DA"
           @click="logout"
-          >Logout</v-btn
-        >
+        >Logout</v-btn>
         <v-btn
           v-else
           :loading="loading"
@@ -24,8 +24,7 @@
           color="#7289DA"
           :href="`${backend}/discord_login`"
           @click="loading = true"
-          >Login</v-btn
-        >
+        >Login</v-btn>
       </div>
       <v-avatar v-if="icon == null">
         <span>{{ shortName }}</span>
@@ -35,13 +34,8 @@
       </v-avatar>
     </div>
 
-    <router-view
-      class="app-view"
-      :guilds="guilds"
-      :loggedIn="loggedIn"
-      :backend="backend"
-    />
-  </div>
+    <router-view class="app-view" :guilds="guilds" :loggedIn="loggedIn" :backend="backend" />
+  </v-app>
 </template>
 
 <script>
@@ -50,8 +44,9 @@ export default {
 
   data() {
     return {
+      dark: true,
       loading: false,
-      backend: "https://api.anteiku.de",
+      backend: "http://localhost:6969",
       loggedIn: false,
       name: "",
       icon: null,
@@ -60,6 +55,7 @@ export default {
   },
 
   created() {
+    this.$vuetify.theme.dark = this.dark;
     if (
       this.$route.query.code != undefined &&
       this.$route.query.state != undefined
@@ -96,6 +92,10 @@ export default {
   },
 
   methods: {
+    theme() {
+      this.dark = !this.dark;
+      this.$vuetify.theme.dark = this.dark;
+    },
     request() {
       if (localStorage.getItem("auth_key") != null) {
         this.$http
@@ -128,6 +128,9 @@ export default {
 html,
 body,
 .app {
+  display: flex;
+  overflow-y: hidden;
+  flex-direction: column;
   .font-default;
   background-color: @secondary;
   text-align: center;
@@ -135,6 +138,7 @@ body,
   min-height: 100%;
   &-nav {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     margin-top: 12px;
@@ -150,18 +154,19 @@ body,
     }
   }
   &-view {
+    flex-grow: 1;
     margin: 12px 22px 12px 22px;
   }
 }
 
 a {
   text-decoration: none;
-  .fc;
+  .fc !important;
   &:hover {
-    .fc-dark;
+    .fc-dark !important;
   }
   &.router-link-exact-active {
-    color: @primary;
+    color: @primary !important;
   }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div class="view-home">
     <div class="view-home-title">
-      <span class="title" :style="`font-size: ${titleSize}px;`">KittyBot</span>
+      <span id="title" :style="`font-size: ${titleSize}px`">KittyBot</span>
       <v-img
         alt="KittyBot Logo"
-        class="shrink mt-1 hidden-sm-and-down"
+        class="shrink"
         contain
         src="../assets/KittyBlink.gif"
       />
@@ -18,9 +18,7 @@
           <v-img class="login-text-img" src="../assets/Discord-Wordmark.png" />
         </div>
       </a>
-      <span class="subtitle" :style="`font-size: ${titleSize}px;`"
-        >Here to manage your Discord</span
-      >
+      <span id="subtitle" :style="`font-size: ${titleSize}px;`">Here to manage your Discord</span>
     </div>
     <!--<div id="features">
       <span>Features</span>
@@ -64,12 +62,12 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-.title {
+#title {
   .font-bungee;
   color: @primary;
   font-weight: bolder;
 }
-.subtitle {
+#subtitle {
   .font-bangers;
   font-weight: bolder;
 }
