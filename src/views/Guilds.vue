@@ -4,10 +4,10 @@
       <span>Please login to manage your guilds</span>
     </div>
     <router-link
-      v-else
-      class="view-guilds-guild"
       v-for="guild in guilds"
+      v-else
       :key="guild.id"
+      class="view-guilds-guild"
       :to="`/guilds/${guild.id}`"
     >
       <img :src="guild.icon" />

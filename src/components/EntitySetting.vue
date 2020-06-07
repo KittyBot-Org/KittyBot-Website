@@ -2,7 +2,7 @@
   <div class="entity-setting">
     <span class="entity-setting-label">{{ label }}</span>
     <div class="entity-setting-content">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
@@ -21,7 +21,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 .entity-setting {
   display: flex;
   border: 1px solid green;
@@ -37,5 +36,4 @@ export default {
     border: 1px solid blue;
   }
 }
-
 </style>
