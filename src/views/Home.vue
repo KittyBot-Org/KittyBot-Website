@@ -18,7 +18,9 @@
           <v-img class="login-text-img" src="../assets/Discord-Wordmark.png" />
         </div>
       </a>
-      <span id="subtitle" :style="`font-size: ${titleSize}px;`">Here to manage your Discord</span>
+      <span id="subtitle" :style="`font-size: ${titleSize}px;`"
+        >Here to manage your Discord</span
+      >
     </div>
     <!--<div id="features">
       <span>Features</span>

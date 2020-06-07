@@ -1,80 +1,71 @@
 <template>
-  <v-app class="app" :dark="dark">
+  <v-app class="app">
     <div class="app-nav">
       <div class="app-nav-group">
-        <router-link to="/">Home</router-link>
+        <router-link to="/">
+          Home
+        </router-link>
         <!--<a href="#features">Features</a>
         <a href="#commands">Commands</a>-->
-        <router-link to="/about">About</router-link>
-        <router-link to="/guilds">Guilds</router-link>
+        <router-link to="/about">
+          About
+        </router-link>
+        <router-link to="/guilds">
+          Guilds
+        </router-link>
       </div>
       <div class="app-nav-group">
-        <v-btn :outlined="true" color="#7289DA" @click="theme()">Theme</v-btn>
+        <v-btn :outlined="true" color="#7289DA" @click="theme()">
+          Theme
+        </v-btn>
         <v-btn
           v-if="loggedIn"
           :loading="loading"
           :outlined="true"
           color="#7289DA"
           @click="logout"
-        >Logout</v-btn>
+        >
+          Logout
+        </v-btn>
         <v-btn
           v-else
           :loading="loading"
           :outlined="true"
           color="#7289DA"
-          :href="`${backend}/discord_login`"
+          :href="api.getURL('discord_login')"
           @click="loading = true"
-        >Login</v-btn>
+        >
+          Login
+        </v-btn>
+        <v-avatar v-if="icon == null">
+          <span>{{ shortName }}</span>
+        </v-avatar>
+        <v-avatar v-else :src="icon">
+          <v-img :alt="`${name} profile`" :src="icon" />
+        </v-avatar>
       </div>
-      <v-avatar v-if="icon == null">
-        <span>{{ shortName }}</span>
-      </v-avatar>
-      <v-avatar v-else :src="icon">
-        <v-img :alt="`${name} profile`" :src="icon" />
-      </v-avatar>
     </div>
 
-    <router-view class="app-view" :guilds="guilds" :loggedIn="loggedIn" :backend="backend" />
+    <router-view class="app-view" :guilds="guilds" :logged-in="loggedIn" />
   </v-app>
 </template>
 
 <script>
+import API from "./api";
+
 export default {
   name: "App",
 
   data() {
     return {
+      api: API,
       dark: true,
       loading: false,
-      backend: "http://localhost:6969",
       loggedIn: false,
       name: "",
       icon: null,
       guilds: []
     };
-  },
-
-  created() {
-    this.$vuetify.theme.dark = this.dark;
-    if (
-      this.$route.query.code != undefined &&
-      this.$route.query.state != undefined
-    ) {
-      this.$http
-        .post(`${this.backend}/login`, {
-          code: this.$route.query.code,
-          state: this.$route.query.state
-        })
-        .then(response => {
-          this.$router.replace({ query: null });
-          if (response.status == 200) {
-            localStorage.setItem("auth_key", response.body.key);
-            this.request();
-          }
-        });
-    } else {
-      this.request();
-    }
   },
 
   computed: {
@@ -91,28 +82,50 @@ export default {
     }
   },
 
+  created() {
+    this.$vuetify.theme.dark = this.dark;
+    if (
+      this.$route.query.code != undefined &&
+      this.$route.query.state != undefined
+    ) {
+      API.post(
+        "login",
+        { code: this.$route.query.code, state: this.$route.query.state },
+        {}
+      ).then(response => {
+        this.$router.replace({ query: null });
+        if (response.status == 200) {
+          API.authKey.set = response.body.key;
+          this.loadData();
+        } else {
+          // TODO throw error
+        }
+      });
+    } else {
+      this.loadData();
+    }
+  },
+
   methods: {
     theme() {
       this.dark = !this.dark;
       this.$vuetify.theme.dark = this.dark;
     },
-    request() {
-      if (localStorage.getItem("auth_key") != null) {
-        this.$http
-          .get(`${this.backend}/user/me`, {
-            headers: { Authorization: localStorage.getItem("auth_key") }
-          })
-          .then(response => {
-            this.loggedIn = response.status == 200;
+    loadData() {
+      if (API.authKey.get != null) {
+        API.get("user/me").then(response => {
+          this.loggedIn = response.status == 200;
+          if (response.status == 200) {
             this.icon = response.body.icon;
             this.name = response.body.name;
             this.guilds = response.body.guilds;
-          });
+          }
+        });
       }
     },
     logout() {
       this.loading = true;
-      localStorage.removeItem("auth_key");
+      API.authKey.set;
       this.loggedIn = false;
       this.icon = null;
       this.name = "";
@@ -129,10 +142,9 @@ html,
 body,
 .app {
   display: flex;
-  overflow-y: hidden;
   flex-direction: column;
   .font-default;
-  background-color: @secondary;
+  background-color: @secondary !important;
   text-align: center;
   .fc;
   min-height: 100%;
@@ -144,13 +156,16 @@ body,
     margin-top: 12px;
     height: 48px;
     &-group {
-      & * {
-        margin-left: 4px;
-        margin-right: 4px;
+      &:first-child {
+        width: 67%;
+        & * {
+          margin-left: 4px;
+          margin-right: 4px;
+        }
       }
-    }
-    & login {
-      float: right;
+      &:last-child {
+        width: 33%;
+      }
     }
   }
   &-view {
