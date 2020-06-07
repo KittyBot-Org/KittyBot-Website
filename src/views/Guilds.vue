@@ -8,7 +8,7 @@
       class="view-guilds-guild"
       v-for="guild in guilds"
       :key="guild.id"
-      :to="`/guild/${guild.id}`"
+      :to="`/guilds/${guild.id}`"
     >
       <span>{{ guild.name }}</span>
       <img :src="guild.icon" />
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../style/style.less";
+@import "../style/style.less";
 
 .view-guilds {
   display: flex;
