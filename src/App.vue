@@ -1,6 +1,6 @@
 <template>
   <v-app class="app">
-    <div class="app-nav">
+    <v-app-bar class="app-nav">
       <div class="app-nav-group">
         <router-link to="/">
           Home
@@ -44,7 +44,7 @@
           <v-img :alt="`${name} profile`" :src="icon" />
         </v-avatar>
       </div>
-    </div>
+    </v-app-bar>
 
     <router-view class="app-view" :guilds="guilds" :logged-in="loggedIn" />
   </v-app>
@@ -141,13 +141,9 @@ export default {
 html,
 body,
 .app {
-  display: flex;
-  flex-direction: column;
   .font-default;
-  background-color: @secondary !important;
   text-align: center;
   .fc;
-  min-height: 100%;
   &-nav {
     display: flex;
     flex-shrink: 0;

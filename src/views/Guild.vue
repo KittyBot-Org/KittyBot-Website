@@ -33,7 +33,7 @@
       </entity-setting>
 
       <entity-setting label="Self-assignable Roles">
-        <v-list :flat="true">
+        <v-list v-if="settings.self_assignable_roles.length > 0" :flat="true">
           <v-list-item
             v-for="(role, i) in settings.self_assignable_roles"
             :key="role.role"
@@ -51,6 +51,11 @@
             </v-list-item-action>
           </v-list-item>
         </v-list>
+        <div>
+          <span>
+            You have no self assignable roles yet
+          </span>
+        </div>
         <div class="view-guild-settings-selfassignableroles">
           <v-autocomplete v-model="selectedRole" :items="getRoles()" />
           <v-autocomplete v-model="selectedEmote" :items="getEmotes()" />
