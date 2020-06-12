@@ -1,17 +1,17 @@
 <template>
-  <div class="view-about">
-    <h1>This is an about page</h1>
+  <div class="view-commands">
+    <h1>This is an commands page</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ViewAbout"
+  name: "ViewCommands"
 };
 </script>
 
 <style lang="less" scoped>
-.view-about {
+.view-commands {
   text-align: center;
 }
 </style>
