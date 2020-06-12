@@ -1,9 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import NormalNavigation from "./views/NormalNavigation";
 import Home from "./views/Home";
+import Features from "./views/Features";
+import Commands from "./views/Commands";
 import About from "./views/About";
+import DashboardNavigation from "./views/DashboardNavigation";
 import Guilds from "./views/Guilds";
-import Guild from "./views/Guild";
+import Dashboard from "./views/Dashboard";
 import NotFound from "./views/NotFound";
 
 Vue.use(VueRouter);
@@ -11,23 +15,39 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: Home
-  },
-  {
-    path: "/about",
-    name: "about",
-    component: About
+    component: NormalNavigation,
+    children: [
+      {
+        path: "/",
+        component: Home
+      },
+      {
+        path: "/features",
+        component: Features
+      },
+      {
+        path: "/commands",
+        component: Commands
+      },
+      {
+        path: "/about",
+        component: About
+      }
+    ]
   },
   {
     path: "/guilds",
-    name: "guilds",
-    component: Guilds
-  },
-  {
-    path: "/guilds/:guildId",
-    name: "guild",
-    component: Guild
+    component: DashboardNavigation,
+    children: [
+      {
+        path: "/",
+        component: Guilds
+      },
+      {
+        path: ":guildId/dashboard",
+        component: Dashboard
+      }
+    ]
   },
   {
     path: "*",

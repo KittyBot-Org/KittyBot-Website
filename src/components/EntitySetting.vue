@@ -23,17 +23,16 @@ export default {
 <style lang="less" scoped>
 .entity-setting {
   display: flex;
-  border: 1px solid green;
+  align-items: baseline;
   &-label {
     text-align: left;
     min-width: 220px;
     padding: 8px;
-    border: 1px solid red;
   }
   &-content {
-    min-width: 800px;
+    max-width: 800px;
+    min-width: 400px;
     padding: 8px;
-    border: 1px solid blue;
   }
 }
 </style>
