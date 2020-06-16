@@ -7,6 +7,7 @@ import Commands from "./views/Commands";
 import About from "./views/About";
 import DashboardNavigation from "./views/DashboardNavigation";
 import Guilds from "./views/Guilds";
+import Admin from "./views/Admin";
 import Dashboard from "./views/Dashboard";
 import NotFound from "./views/NotFound";
 
@@ -42,6 +43,10 @@ const routes = [
       {
         path: "/",
         component: Guilds
+      },
+      {
+        path: "/admin",
+        component: Admin
       },
       {
         path: ":guildId/dashboard",
