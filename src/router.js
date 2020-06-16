@@ -45,7 +45,7 @@ const routes = [
         component: Guilds
       },
       {
-        path: "/admin",
+        path: "admin/dashboard",
         component: Admin
       },
       {
