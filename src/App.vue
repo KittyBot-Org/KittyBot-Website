@@ -22,5 +22,4 @@ export default {
 html {
   overflow-y: auto !important;
 }
-
 </style>
