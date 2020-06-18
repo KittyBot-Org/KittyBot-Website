@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "ViewCommands"
+  name: "ViewCommands",
 };
 </script>
 

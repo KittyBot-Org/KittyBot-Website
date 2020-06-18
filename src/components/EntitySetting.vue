@@ -14,13 +14,15 @@ export default {
   props: {
     label: {
       required: false,
-      type: String
-    }
-  }
+      type: String,
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
+@import "../style/style.less";
+
 .entity-setting {
   display: flex;
   align-items: baseline;

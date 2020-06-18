@@ -14,8 +14,8 @@ export default {
   name: "NormalNavigation",
 
   components: {
-    Navigation
-  }
+    Navigation,
+  },
 };
 </script>
 

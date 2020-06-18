@@ -2,42 +2,26 @@
   <div class="view-home">
     <div class="view-home-title">
       <span id="title" :style="`font-size: ${titleSize}px`">KittyBot</span>
-      <v-img
-        alt="KittyBot Logo"
-        class="shrink"
-        contain
-        src="../assets/KittyBlink.gif"
-      />
-      <a
-        class="login"
-        :href="
-          `https://discordapp.com/api/oauth2/authorize?client_id=${api.CLIENT_ID}&permissions=1345711302&scope=bot`
-        "
-      >
-        <v-img class="login-logo" src="../assets/Discord-Logo.png" />
-        <div class="login-text">
-          <span>Invite me to your</span>
-          <v-img class="login-text-img" src="../assets/Discord-Wordmark.png" />
-        </div>
-      </a>
-      <span id="subtitle" :style="`font-size: ${titleSize}px;`"
+
+      <span id="subtitle" :style="`font-size: ${subTitleSize}px;`"
         >Here to manage your Discord</span
       >
+      <invite-button />
     </div>
+    <v-img
+      alt="KittyBot Logo"
+      class="shrink"
+      contain
+      src="../assets/KittyBlink.gif"
+    />
   </div>
 </template>
 
 <script>
-import API from "../api";
+import InviteButton from "../components/InviteButton";
 
 export default {
   name: "ViewHome",
-
-  data() {
-    return {
-      api: API
-    };
-  },
 
   computed: {
     titleSize() {
@@ -45,7 +29,7 @@ export default {
         case "xs":
           return "42";
         default:
-          return "64";
+          return "72";
       }
     },
     subTitleSize() {
@@ -55,29 +39,36 @@ export default {
         default:
           return "42";
       }
-    }
-  }
+    },
+  },
+
+  components: {
+    InviteButton,
+  },
 };
 </script>
 
 <style lang="less" scoped>
 @import "../style/style.less";
 
-.view-home-title {
+.view-home {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  &-title {
+    display: flex;
+    flex-direction: column;
+    margin-right: 32px;
+  }
 }
 
 #title {
   .font-bungee;
   color: @primary;
   font-weight: bolder;
-  line-height: 1em;
   overflow: hidden;
 }
 #subtitle {
-  .font-bangers;
   font-weight: bolder;
 }
 </style>

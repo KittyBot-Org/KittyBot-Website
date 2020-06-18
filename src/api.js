@@ -16,7 +16,7 @@ const SETTING_PROPS = [
   "welcome_message",
   "welcome_channel_id",
   "nsfw_enabled",
-  "self_assignable_roles"
+  "self_assignable_roles",
 ];
 
 const authKey = {
@@ -29,7 +29,7 @@ const authKey = {
     } else {
       localStorage.setItem(AUTH_KEY, key);
     }
-  }
+  },
 };
 
 const theme = {
@@ -43,7 +43,7 @@ const theme = {
   },
   set setDark(isDark) {
     localStorage.setItem(IS_DARK, `${isDark}`);
-  }
+  },
 };
 
 function post(url, body, options = getOptions()) {
@@ -61,8 +61,8 @@ function getURL(url) {
 function getOptions() {
   return {
     headers: {
-      Authorization: authKey.get
-    }
+      Authorization: authKey.get,
+    },
   };
 }
 
@@ -86,7 +86,7 @@ function areSelfAssignableRolesChanged(setting, initialSetting) {
 }
 
 function areSettingsChanged(settings, initialSettings) {
-  return SETTING_PROPS.some(s => {
+  return SETTING_PROPS.some((s) => {
     const setting = settings[s];
     if (s == "self_assignable_roles" && setting instanceof Array) {
       return areSelfAssignableRolesChanged(setting, initialSettings[s]);
@@ -104,5 +104,5 @@ export default {
   theme,
   getURL,
   areSettingsChanged,
-  areSelfAssignableRolesChanged
+  areSelfAssignableRolesChanged,
 };

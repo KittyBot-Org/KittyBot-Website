@@ -6,33 +6,23 @@
         :key="guild.id"
         :to="`/guilds/${guild.id}/dashboard`"
       >
-        <v-img :src="guild.icon" />
+        <v-img :src="guild.icon" height="128" width="128" />
         <span>{{ guild.name }}</span>
       </router-link>
     </div>
     <div v-else class="view-guilds-no-guilds">
       <span
-        >I'm not in a mutal server where you have administrator
+        >I'm not in any mutal servers where you have administrator
         permissions</span
       >
       <span>Do you want to add me to your server?</span>
-      <a
-        class="login"
-        :href="
-          `https://discordapp.com/api/oauth2/authorize?client_id=${api.CLIENT_ID}&permissions=1345711302&scope=bot`
-        "
-      >
-        <v-img class="login-logo" src="../assets/Discord-Logo.png" />
-        <div class="login-text">
-          <span>Invite me to your</span>
-          <v-img class="login-text-img" src="../assets/Discord-Wordmark.png" />
-        </div>
-      </a>
+      <invite-button />
     </div>
   </div>
 </template>
 
 <script>
+import InviteButton from "../components/InviteButton";
 import API from "../api";
 
 export default {
@@ -41,15 +31,19 @@ export default {
   props: {
     guilds: {
       required: true,
-      type: Array
-    }
+      type: Array,
+    },
   },
 
   data() {
     return {
-      api: API
+      api: API,
     };
-  }
+  },
+
+  components: {
+    InviteButton,
+  },
 };
 </script>
 

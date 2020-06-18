@@ -101,6 +101,9 @@
       </v-expansion-panels>
     </div>
     <div class="view-dashboard-buttons">
+      <v-btn color="error" text :disabled="isSaveAndResetButtonDisabled">
+        Reset
+      </v-btn>
       <v-btn
         color="success"
         :loading="saveLoading"
@@ -108,10 +111,6 @@
         @click="save"
       >
         Save
-      </v-btn>
-
-      <v-btn color="error" text :disabled="isSaveAndResetButtonDisabled">
-        Reset
       </v-btn>
     </div>
   </div>
@@ -126,7 +125,7 @@ export default {
   name: "ViewDashboard",
 
   components: {
-    EntitySetting
+    EntitySetting,
   },
 
   data() {
@@ -141,7 +140,7 @@ export default {
       emotes: [],
       selectedRole: null,
       selectedEmote: null,
-      saveLoading: false
+      saveLoading: false,
     };
   },
 
@@ -151,57 +150,57 @@ export default {
     },
     isSaveAndResetButtonDisabled() {
       return !API.areSettingsChanged(this.settings, this.initialSettings);
-    }
+    },
   },
 
   created() {
     API.get(`guilds/${this.guildId()}/channels/get`).then(
-      response => {
-        response.body.channels.forEach(e => {
+      (response) => {
+        response.body.channels.forEach((e) => {
           this.channels.push({
             name: e.name,
-            id: e.id
+            id: e.id,
           });
         });
       },
-      response => {
+      (response) => {
         this.addError(response);
       }
     );
     API.get(`guilds/${this.guildId()}/emotes/get`).then(
-      response => {
-        response.body.emotes.forEach(e => {
+      (response) => {
+        response.body.emotes.forEach((e) => {
           this.emotes.push({
             id: e.id,
             name: e.name,
-            url: e.url
+            url: e.url,
           });
         });
       },
-      response => {
+      (response) => {
         this.addError(response);
       }
     );
     API.get(`guilds/${this.guildId()}/roles/get`).then(
-      response => {
-        response.body.roles.forEach(e => {
+      (response) => {
+        response.body.roles.forEach((e) => {
           this.roles.push({
             id: e.id,
-            name: e.name
+            name: e.name,
           });
         });
       },
-      response => {
+      (response) => {
         this.addError(response);
       }
     );
     API.get(`guilds/${this.guildId()}/settings/get`).then(
-      response => {
+      (response) => {
         this.initialSettings = response.body;
         this.settings = cloneDeep(this.initialSettings);
         this.ready = true;
       },
-      response => {
+      (response) => {
         this.addError(response);
         this.ready = true;
       }
@@ -216,49 +215,51 @@ export default {
       return this.$route.params.guildId;
     },
     getRoleEmote(sRole) {
-      let emote = this.emotes.find(e => e.id == sRole.emote);
+      let emote = this.emotes.find((e) => e.id == sRole.emote);
       return emote === undefined ? "../assets/loading.png" : emote.url;
     },
     getRoleName(sRole) {
-      let role = this.roles.find(r => r.id == sRole.role);
+      let role = this.roles.find((r) => r.id == sRole.role);
       return role === undefined ? "loading..." : role.name;
     },
     getChannels() {
-      return this.channels.map(c => {
+      return this.channels.map((c) => {
         return {
           text: c.name,
-          value: c.id
+          value: c.id,
         };
       });
     },
     getRoles() {
       return this.roles
         .filter(
-          r => !this.settings.self_assignable_roles.find(sr => sr.role == r.id)
+          (r) =>
+            !this.settings.self_assignable_roles.find((sr) => sr.role == r.id)
         )
-        .map(r => {
+        .map((r) => {
           return {
             text: r.name,
-            value: r.id
+            value: r.id,
           };
         });
     },
     getEmotes() {
       return this.emotes
         .filter(
-          e => !this.settings.self_assignable_roles.find(sr => sr.emote == e.id)
+          (e) =>
+            !this.settings.self_assignable_roles.find((sr) => sr.emote == e.id)
         )
-        .map(e => {
+        .map((e) => {
           return {
             text: e.name,
-            value: e.id
+            value: e.id,
           };
         });
     },
     addSelfAssignabelRole() {
       this.settings.self_assignable_roles.push({
         role: this.selectedRole,
-        emote: this.selectedEmote
+        emote: this.selectedEmote,
       });
       this.selectedRole = null;
       this.selectedEmote = null;
@@ -269,7 +270,7 @@ export default {
     save() {
       this.saveLoading = true;
       let settings = cloneDeep(this.settings);
-      Object.keys(settings).forEach(s => {
+      Object.keys(settings).forEach((s) => {
         if (s == "self_assignable_roles" && settings[s] instanceof Array) {
           if (
             API.areSelfAssignableRolesChanged(
@@ -290,7 +291,7 @@ export default {
         }
       });
       API.post(`guilds/${this.guildId()}/settings/set`, settings).then(
-        response => {
+        (response) => {
           this.saveLoading = false;
           if (response.code != 200) {
             // TODO throw error
@@ -303,8 +304,8 @@ export default {
       this.settings = cloneDeep(this.initialSettings);
       this.selectedRole = null;
       this.selectedEmote = null;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -329,9 +330,10 @@ export default {
   &-buttons {
     display: flex;
     flex-direction: row;
-    padding-top: 8px;
+    justify-content: flex-end;
+    padding-top: 16px;
     & *:not(:last-child) {
-      margin-right: 8px;
+      margin-right: 16px;
     }
   }
 }

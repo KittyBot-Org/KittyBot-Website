@@ -18,16 +18,16 @@ export default {
 
   data() {
     return {
-      guilds: []
+      guilds: [],
     };
   },
 
   created() {
     API.get(`guilds/all`).then(
-      response => {
+      (response) => {
         this.guilds = response.body.guilds;
       },
-      response => {
+      (response) => {
         this.addError(response);
       }
     );
@@ -35,8 +35,8 @@ export default {
   methods: {
     addError(response) {
       this.$emit("error", response);
-    }
-  }
+    },
+  },
 };
 </script>
 
