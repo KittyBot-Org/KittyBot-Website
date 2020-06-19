@@ -54,13 +54,23 @@
     <v-navigation-drawer v-if="isDashBoard" v-model="drawer" clipped app>
       <v-list shaped nav>
         <v-list-item :to="`/guilds`" exact>
-          <v-list-item-icon>
+          <v-list-item-avatar tile>
             <v-icon>
               dashboard
             </v-icon>
-          </v-list-item-icon>
+          </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>Guilds</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="isAdmin" to="/admin/dashboard" exact>
+          <v-list-item-avatar tile>
+            <v-icon>
+              dashboard
+            </v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>Admin</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -68,9 +78,9 @@
           :key="guild.id"
           :to="`/guilds/${guild.id}/dashboard`"
         >
-          <v-list-item-icon>
-            <v-img width="24" :src="guild.icon" />
-          </v-list-item-icon>
+          <v-list-item-avatar tile>
+            <v-img :src="guild.icon" />
+          </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>{{ guild.name }}</v-list-item-title>
           </v-list-item-content>
@@ -115,6 +125,7 @@ export default {
       loading: false,
       loggedIn: false,
       name: "",
+      id: "",
       icon: null,
       guilds: [],
     };
@@ -136,7 +147,6 @@ export default {
           API.authKey.set = response.body.key;
           this.loadData();
         } else {
-          console.log("response", response);
           this.addError(response.status, response.statusText);
         }
       });
@@ -147,7 +157,7 @@ export default {
 
   computed: {
     isAdmin() {
-      return false;
+      return this.id == API.ADMIN_ID;
     },
     isDashBoard() {
       return !(
@@ -200,6 +210,7 @@ export default {
             this.loggedIn = response.status == 200;
             this.icon = response.body.icon;
             this.name = response.body.name;
+            this.id = response.body.id;
             this.guilds = response.body.guilds;
           },
           (response) => {
