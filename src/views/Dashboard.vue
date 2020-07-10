@@ -42,7 +42,7 @@
           <v-expansion-panel-header>NSFW</v-expansion-panel-header>
           <v-expansion-panel-content>
             <entity-setting label="NSFW Commands Enabled">
-              <v-checkbox v-model="settings.nsfw_enabled" />
+              <v-switch v-model="settings.nsfw_enabled" />
             </entity-setting>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -52,24 +52,26 @@
           <v-expansion-panel-content>
             <entity-setting label="Self-assignable Roles">
               <v-list v-if="settings.self_assignable_roles.length > 0">
-                <v-list-item
-                  v-for="(role, i) in settings.self_assignable_roles"
-                  :key="role.role"
-                >
-                  <v-list-item-avatar tile>
-                    <v-img :src="getRoleEmote(role)" />
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title>{{
-                      getRoleName(role)
-                    }}</v-list-item-title>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-btn icon @click="removeSelfAssignableRole(i)">
-                      <v-icon color="red">delete</v-icon>
-                    </v-btn>
-                  </v-list-item-action>
-                </v-list-item>
+                <v-list-item-group>
+                  <v-list-item
+                    v-for="(role, i) in settings.self_assignable_roles"
+                    :key="role.role"
+                  >
+                    <v-list-item-avatar tile>
+                      <v-img :src="getRoleEmote(role)" />
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title>{{
+                        getRoleName(role)
+                      }}</v-list-item-title>
+                    </v-list-item-content>
+                    <v-list-item-action>
+                      <v-btn icon @click="removeSelfAssignableRole(i)">
+                        <v-icon color="red">delete</v-icon>
+                      </v-btn>
+                    </v-list-item-action>
+                  </v-list-item>
+                </v-list-item-group>
               </v-list>
               <div v-else>
                 <span>
