@@ -66,7 +66,7 @@
         <v-list-item v-if="isAdmin" to="/admin/dashboard" exact>
           <v-list-item-avatar tile>
             <v-icon>
-              dashboard
+              power_settings_new
             </v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
