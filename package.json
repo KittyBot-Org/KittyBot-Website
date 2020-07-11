@@ -2,8 +2,8 @@
   "name": "kittybot-website",
   "version": "0.1.0",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/TopiSenpai/KittyBot-Website"
+    "type": "git",
+    "url": "https://github.com/TopiSenpai/KittyBot-Website"
   },
   "homepage": "https://kittybot.anteiku.de",
   "scripts": {
