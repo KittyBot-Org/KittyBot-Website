@@ -63,7 +63,7 @@ const router = new VueRouter({
 
 router.afterEach((to) => {
   Vue.nextTick(() => {
-    document.title = to.meta.title;
+    document.title = `KittyBot - ${to.meta.title}`;
   });
 });
 
