@@ -221,7 +221,7 @@ export default {
     },
     logout() {
       this.loading = true;
-      API.authKey.set = undefined;
+      API.authKey.set = "";
       this.loggedIn = false;
       this.icon = null;
       this.name = "";

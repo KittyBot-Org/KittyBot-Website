@@ -16,23 +16,42 @@
         </v-expansion-panel>
 
         <v-expansion-panel>
-          <v-expansion-panel-header>Welcome</v-expansion-panel-header>
+          <v-expansion-panel-header>Announcement</v-expansion-panel-header>
           <v-expansion-panel-content>
-            <entity-setting label="Enable Welcome Messages">
-              <v-switch v-model="settings.welcome_message_enabled" />
+            <entity-setting label="Announcement Channel">
+              <v-autocomplete
+                v-model="settings.announcement_channel_id"
+                :items="getChannels()"
+              />
             </entity-setting>
 
+            <entity-setting label="Enable Welcome Messages">
+              <v-switch v-model="settings.welcome_messages_enabled" />
+            </entity-setting>
             <entity-setting label="Welcome Message">
               <v-textarea
-                v-model="settings.welcome_message"
+                v-model="settings.welcome_messages"
                 placeholder="Welcome Message"
               />
             </entity-setting>
 
-            <entity-setting label="Welcome Channel">
-              <v-autocomplete
-                v-model="settings.welcome_channel_id"
-                :items="getChannels()"
+            <entity-setting label="Enable Leave Messages">
+              <v-switch v-model="settings.leave_messages_enabled" />
+            </entity-setting>
+            <entity-setting label="Leave Message">
+              <v-textarea
+                v-model="settings.leave_messages"
+                placeholder="Leave Message"
+              />
+            </entity-setting>
+
+            <entity-setting label="Enable Boost Messages">
+              <v-switch v-model="settings.boost_messages_enabled" />
+            </entity-setting>
+            <entity-setting label="Boost Message">
+              <v-textarea
+                v-model="settings.boost_messages"
+                placeholder="Boost Message"
               />
             </entity-setting>
           </v-expansion-panel-content>
@@ -156,57 +175,39 @@ export default {
   },
 
   created() {
-    API.get(`guilds/${this.guildId()}/channels/get`).then(
-      (response) => {
-        response.body.channels.forEach((e) => {
+    Promise.all([
+      API.get(`guilds/${this.guildId()}/channels/get`),
+      API.get(`guilds/${this.guildId()}/emotes/get`),
+      API.get(`guilds/${this.guildId()}/roles/get`),
+      API.get(`guilds/${this.guildId()}/settings/get`),
+    ])
+      .then((responses) => {
+        responses[0].body.channels.forEach((e) => {
           this.channels.push({
             name: e.name,
             id: e.id,
           });
         });
-      },
-      (response) => {
-        this.addError(response);
-      }
-    );
-    API.get(`guilds/${this.guildId()}/emotes/get`).then(
-      (response) => {
-        response.body.emotes.forEach((e) => {
+        responses[1].body.emotes.forEach((e) => {
           this.emotes.push({
             id: e.id,
             name: e.name,
             url: e.url,
           });
         });
-      },
-      (response) => {
-        this.addError(response);
-      }
-    );
-    API.get(`guilds/${this.guildId()}/roles/get`).then(
-      (response) => {
-        response.body.roles.forEach((e) => {
+        responses[2].body.roles.forEach((e) => {
           this.roles.push({
             id: e.id,
             name: e.name,
           });
         });
-      },
-      (response) => {
-        this.addError(response);
-      }
-    );
-    API.get(`guilds/${this.guildId()}/settings/get`).then(
-      (response) => {
-        this.initialSettings = response.body;
+        this.initialSettings = responses[3].body;
         this.settings = cloneDeep(this.initialSettings);
         this.ready = true;
-      },
-      (response) => {
-        this.addError(response);
-        this.ready = true;
-      }
-    );
+      })
+      .catch((errors) => {
+        console.log(errors);
+      });
   },
 
   methods: {

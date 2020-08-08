@@ -13,9 +13,13 @@ const AUTH_KEY = "AUTH_KEY";
 const IS_DARK = "IS_DARK";
 const SETTING_PROPS = [
   "prefix",
-  "welcome_message_enabled",
-  "welcome_message",
-  "welcome_channel_id",
+  "announcement_channel_id",
+  "welcome_messages_enabled",
+  "welcome_messages",
+  "leave_messages_enabled",
+  "leave_messages",
+  "boost_messages_enabled",
+  "boost_messages",
   "nsfw_enabled",
   "self_assignable_roles",
 ];
@@ -25,7 +29,7 @@ const authKey = {
     return localStorage.getItem(AUTH_KEY);
   },
   set set(key) {
-    if (key == undefined) {
+    if (key == "") {
       localStorage.removeItem(AUTH_KEY);
     } else {
       localStorage.setItem(AUTH_KEY, key);
