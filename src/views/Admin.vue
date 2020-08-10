@@ -9,9 +9,15 @@
           <v-list-item-content>
             <span>{{ guild.name }}</span>
           </v-list-item-content>
+          <span>Members: {{ guild.count }}</span>
           <v-list-item-action>
-            <v-btn icon :to="`/guilds/${guild.id}/dashboard`">
-              <v-icon>open_in_full</v-icon>
+            <v-btn
+              icon
+              color="#5c5fea"
+              target="_blank"
+              :to="`/guilds/${guild.id}/dashboard`"
+            >
+              <v-icon>open_in_new</v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
@@ -31,7 +37,6 @@ export default {
       guilds: [],
     };
   },
-
   created() {
     API.get(`guilds/all`).then(
       (response) => {

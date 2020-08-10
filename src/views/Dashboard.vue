@@ -162,6 +162,7 @@ export default {
       selectedRole: null,
       selectedEmote: null,
       saveLoading: false,
+      color: "#f5f5f5",
     };
   },
 
@@ -318,6 +319,12 @@ export default {
 .view-dashboard {
   display: flex;
   flex-direction: column;
+  .theme--light &-buttons {
+    background-color: #FFFFFF;
+  }
+  .theme--dark &-buttons {
+    background-color: #272727;
+  }
   &-settings {
     display: flex;
     flex-direction: column;
@@ -333,8 +340,13 @@ export default {
   &-buttons {
     display: flex;
     flex-direction: row;
+    z-index: 1;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
     justify-content: flex-end;
-    padding-top: 16px;
+    padding: 16px;
     & *:not(:last-child) {
       margin-right: 16px;
     }
