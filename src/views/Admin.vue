@@ -7,7 +7,7 @@
             <v-img :src="guild.icon" />
           </v-list-item-avatar>
           <v-list-item-content>
-            <span>{{ guild.name }}</span>
+            <span>{{ guild.name }}({{ guild.id }})</span>
           </v-list-item-content>
           <span>Members: {{ guild.count }}</span>
           <v-list-item-action>
