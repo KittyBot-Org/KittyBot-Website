@@ -66,7 +66,7 @@
         <v-list-item v-if="isAdmin" to="/admin/dashboard" exact>
           <v-list-item-avatar tile>
             <v-icon>
-              power_settings_new
+              supervisor_account
             </v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
@@ -97,6 +97,7 @@
         </template>
         <span v-for="(error, i) in errors" :key="i">
           {{ error }}
+          <br />
         </span>
       </v-alert>
       <router-view
@@ -141,15 +142,20 @@ export default {
         "login",
         { code: this.$route.query.code, state: this.$route.query.state },
         {}
-      ).then((response) => {
-        this.$router.replace({ query: null });
-        if (response.status == 200) {
-          API.authKey.set = response.body.key;
-          this.loadData();
-        } else {
-          this.addError(response.status, response.statusText);
+      ).then(
+        (response) => {
+          this.$router.replace({ query: null });
+          if (response.status == 200) {
+            API.authKey.set = response.body.key;
+            this.loadData();
+          } else {
+            this.addError(response.status, response.statusText);
+          }
+        },
+        (error) => {
+          this.addError(error);
         }
-      });
+      );
     } else {
       this.loadData();
     }
@@ -191,7 +197,7 @@ export default {
 
   methods: {
     cleanErrors() {
-      this.errros = [];
+      this.errors = [];
     },
     addError(response) {
       this.errors.push(
@@ -213,8 +219,8 @@ export default {
             this.id = response.body.id;
             this.guilds = response.body.guilds;
           },
-          (response) => {
-            this.addError(response);
+          (error) => {
+            this.addError(error);
           }
         );
       }

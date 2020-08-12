@@ -181,8 +181,8 @@ export default {
       API.get(`guilds/${this.guildId()}/emotes/get`),
       API.get(`guilds/${this.guildId()}/roles/get`),
       API.get(`guilds/${this.guildId()}/settings/get`),
-    ])
-      .then((responses) => {
+    ]).then(
+      (responses) => {
         responses[0].body.channels.forEach((e) => {
           this.channels.push({
             name: e.name,
@@ -205,10 +205,11 @@ export default {
         this.initialSettings = responses[3].body;
         this.settings = cloneDeep(this.initialSettings);
         this.ready = true;
-      })
-      .catch((errors) => {
-        console.log(errors);
-      });
+      },
+      (error) => {
+        this.addError(error);
+      }
+    );
   },
 
   methods: {
@@ -319,8 +320,9 @@ export default {
 .view-dashboard {
   display: flex;
   flex-direction: column;
+  padding-bottom: 84px;
   .theme--light &-buttons {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
   .theme--dark &-buttons {
     background-color: #272727;

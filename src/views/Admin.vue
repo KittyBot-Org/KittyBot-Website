@@ -1,6 +1,27 @@
 <template>
   <div class="admin">
-    <v-list>
+    <v-data-table
+      :headers="headers"
+      :items="guilds"
+      item-key="name"
+      disable-pagination
+      hide-default-footer
+    >
+      <template v-slot:[`item.icon`]="{ item }">
+        <v-avatar><v-img :src="item.icon" /></v-avatar>
+      </template>
+      <template v-slot:[`item.open`]="{ item }">
+        <v-btn
+          icon
+          color="#5c5fea"
+          target="_blank"
+          :to="`/guilds/${item.id}/dashboard`"
+        >
+          <v-icon>open_in_new</v-icon>
+        </v-btn>
+      </template>
+    </v-data-table>
+    <!--  <v-list>
       <v-list-item-group>
         <v-list-item v-for="guild in guilds" :key="guild.id">
           <v-list-item-avatar tile>
@@ -22,7 +43,7 @@
           </v-list-item-action>
         </v-list-item>
       </v-list-item-group>
-    </v-list>
+    </v-list> -->
   </div>
 </template>
 
@@ -34,6 +55,13 @@ export default {
 
   data() {
     return {
+      headers: [
+        { value: "icon", sortable: false },
+        { text: "Name", value: "name" },
+        { text: "ID", value: "id" },
+        { text: "Member Count", value: "count" },
+        { value: "open", sortable: false },
+      ],
       guilds: [],
     };
   },
@@ -42,8 +70,8 @@ export default {
       (response) => {
         this.guilds = response.body.guilds;
       },
-      (response) => {
-        this.addError(response);
+      (error) => {
+        this.addError(error);
       }
     );
   },
