@@ -8,7 +8,7 @@
       hide-default-footer
     >
       <template v-slot:[`item.icon`]="{ item }">
-        <v-avatar><v-img :src="item.icon" /></v-avatar>
+        <v-avatar :size="36"><v-img :src="item.icon" /></v-avatar>
       </template>
       <template v-slot:[`item.open`]="{ item }">
         <v-btn
