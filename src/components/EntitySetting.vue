@@ -40,7 +40,8 @@ export default {
     padding: 8px;
   }
   &-description {
-    border: 1px solid red;
+    border-left: 2px solid #363636;
+    border-radius: 2px;
     max-width: 800px;
     padding: 8px;
   }
