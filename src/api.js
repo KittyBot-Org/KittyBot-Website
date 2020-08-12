@@ -14,8 +14,8 @@ const IS_DARK = "IS_DARK";
 const SETTING_PROPS = [
   "prefix",
   "announcement_channel_id",
-  "welcome_messages_enabled",
-  "welcome_messages",
+  "join_messages_enabled",
+  "join_messages",
   "leave_messages_enabled",
   "leave_messages",
   "boost_messages_enabled",

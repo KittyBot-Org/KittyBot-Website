@@ -2,7 +2,10 @@
   <div class="entity-setting">
     <span class="entity-setting-label">{{ label }}</span>
     <div class="entity-setting-content">
-      <slot />
+      <slot name="default" />
+    </div>
+    <div v-if="$slots.description" class="entity-setting-description">
+      <slot name="description" />
     </div>
   </div>
 </template>
@@ -34,6 +37,11 @@ export default {
   &-content {
     max-width: 800px;
     min-width: 400px;
+    padding: 8px;
+  }
+  &-description {
+    border: 1px solid red;
+    max-width: 800px;
     padding: 8px;
   }
 }

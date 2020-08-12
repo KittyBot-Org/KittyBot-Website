@@ -25,14 +25,27 @@
               />
             </entity-setting>
 
-            <entity-setting label="Enable Welcome Messages">
-              <v-switch v-model="settings.welcome_messages_enabled" />
+            <entity-setting label="Enable Join Messages">
+              <v-switch v-model="settings.join_messages_enabled" />
             </entity-setting>
-            <entity-setting label="Welcome Message">
+            <entity-setting label="Join Message">
               <v-textarea
-                v-model="settings.welcome_messages"
-                placeholder="Welcome Message"
+                v-model="settings.join_messages"
+                placeholder="Join Message"
               />
+              <div slot="description">
+                <span>Placeholders:</span>
+                <ul>
+                  <li>${random_join_message}</li>
+                  <li>${inviter}</li>
+                  <li>${invite_link}</li>
+                  <li>${invite_code}</li>
+                  <li>${invite_uses}</li>
+                  <li>${user}</li>
+                  <li>${user_tag}</li>
+                  <li>${name}</li>
+                </ul>
+              </div>
             </entity-setting>
 
             <entity-setting label="Enable Leave Messages">
@@ -43,6 +56,15 @@
                 v-model="settings.leave_messages"
                 placeholder="Leave Message"
               />
+              <div slot="description">
+                <span>Placeholders:</span>
+                <ul>
+                  <li>${random_leave_message}</li>
+                  <li>${user}</li>
+                  <li>${user_tag}</li>
+                  <li>${name}</li>
+                </ul>
+              </div>
             </entity-setting>
 
             <entity-setting label="Enable Boost Messages">
@@ -53,6 +75,15 @@
                 v-model="settings.boost_messages"
                 placeholder="Boost Message"
               />
+              <div slot="description">
+                <span>Placeholders:</span>
+                <ul>
+                  <li>${random_boost_message}</li>
+                  <li>${user}</li>
+                  <li>${user_tag}</li>
+                  <li>${name}</li>
+                </ul>
+              </div>
             </entity-setting>
           </v-expansion-panel-content>
         </v-expansion-panel>
