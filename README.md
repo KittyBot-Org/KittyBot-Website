@@ -17,5 +17,5 @@
 
 [Website](https://kittybot.de)
 
-# kittybot-website
+# KittyBot-Website
 
