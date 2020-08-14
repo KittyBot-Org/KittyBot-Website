@@ -71,6 +71,7 @@ export default {
       flex-direction: column;
     }
     & a {
+      justify-content: center;
       text-decoration: none;
     }
   }
