@@ -5,7 +5,7 @@
 [![Docker Latest Version](https://img.shields.io/docker/v/topisenpai/kittybot-website)](https://hub.docker.com/repository/docker/topisenpai/kittybot-website) 
 [![KittyBot Support Guild](https://img.shields.io/discord/608506410803658753)](https://discord.gg/sD3ABd5)
 [![KittyBot License](https://img.shields.io/github/license/TopISenpai/KittyBot)](LICENSE)
-[![Website Status](https://img.shields.io/website?down_message=offline&up_message=online&url=https%3A%2F%2Fkittybot.anteiku.de)](https://kittybot.anteiku.de)
+[![Website Status](https://img.shields.io/website?down_message=offline&up_message=online&url=https%3A%2F%2Fkittybot.de)](https://kittybot.anteiku.de)
 
 [![KittyBot Support Guild](https://discordapp.com/api/guilds/608506410803658753/embed.png?style=banner2)](https://discord.gg/sD3ABd5)
 
@@ -13,7 +13,7 @@
 
 [Docker Hub](https://hub.docker.com/repository/docker/topisenpai/kittybot-website)
 
-[Website](https://kittybot.anteiku.de)
+[Website](https://kittybot.de)
 
 # kittybot-website
 
