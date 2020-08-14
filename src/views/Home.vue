@@ -58,13 +58,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   &.mobile {
     flex-direction: column-reverse;
   }
   &-title {
     display: flex;
     flex-direction: column;
-    //margin-right: 32px;
   }
 }
 

@@ -10,10 +10,18 @@
       </v-avatar>
 
       <div v-if="!isMobile" class="nav">
-        <router-link v-for="n of nav" :key="n.name" :to="n.to" :exact="exact">{{
-          n.name
-        }}</router-link>
-        <a target="_blank" href="https://github.com/TopiSenpai/KittyBot"
+        <router-link
+          v-for="n of nav"
+          :key="n.name"
+          class="nav"
+          :to="n.to"
+          :exact="exact"
+          >{{ n.name }}</router-link
+        >
+        <a
+          class="nav"
+          target="_blank"
+          href="https://github.com/TopiSenpai/KittyBot"
           >GitHub
         </a>
       </div>
@@ -29,7 +37,7 @@
             <v-avatar v-if="icon == null">
               <span>{{ shortName }}</span>
             </v-avatar>
-            <v-avatar v-else :src="icon">
+            <v-avatar v-else :src="icon" :size="38">
               <v-img :alt="`${name} profile`" :src="icon" />
             </v-avatar>
           </v-btn>
@@ -158,6 +166,11 @@ export default {
           to: "/",
         },
         {
+          name: "Dashboard",
+          icon: "dashboard",
+          to: "/guilds",
+        },
+        {
           name: "Features",
           icon: "star",
           to: "/features",
@@ -171,11 +184,6 @@ export default {
           name: "About",
           icon: "info",
           to: "/about",
-        },
-        {
-          name: "Dashboard",
-          icon: "dashboard",
-          to: "/guilds",
         },
       ],
       alert: true,
@@ -305,6 +313,10 @@ export default {
 
 .dashboard-navigation-view {
   padding: 16px;
+}
+
+.nav {
+  color: #ffffff !important;
 }
 
 html {
