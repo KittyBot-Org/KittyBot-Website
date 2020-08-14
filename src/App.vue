@@ -1,20 +1,21 @@
 <template>
   <v-app>
     <v-app-bar app clipped-left :color="getAppBarColor">
-      <v-app-bar-nav-icon v-if="isDashBoard" @click="drawer = !drawer" />
+      <v-app-bar-nav-icon
+        v-if="isDashBoard || isMobile"
+        @click="drawer = !drawer"
+      />
       <v-avatar v-else tile>
         <v-img src="./assets/KittyBlink.gif" />
       </v-avatar>
 
-      <div class="nav">
-        <router-link to="/" exact>Home </router-link>
-        <router-link to="/features">Features </router-link>
-        <router-link to="/commands">Commands </router-link>
+      <div v-if="!isMobile" class="nav">
+        <router-link v-for="n of nav" :key="n.name" :to="n.to" :exact="exact">{{
+          n.name
+        }}</router-link>
         <a target="_blank" href="https://github.com/TopiSenpai/KittyBot"
-          >Source Code
+          >GitHub
         </a>
-        <router-link to="/about">About </router-link>
-        <router-link to="/guilds">Dashboard </router-link>
       </div>
 
       <v-spacer />
@@ -51,12 +52,43 @@
       </v-btn>
     </v-app-bar>
 
-    <v-navigation-drawer v-if="isDashBoard" v-model="drawer" clipped app>
+    <v-navigation-drawer
+      v-if="isDashBoard || isMobile"
+      v-model="drawer"
+      clipped
+      app
+    >
       <v-list shaped nav>
-        <v-list-item :to="`/guilds`" exact>
+        <v-list-item-group v-if="isMobile" style="padding-bottom: 8px;">
+          <v-list-item v-for="n of nav" :key="n.name" :to="n.to">
+            <v-list-item-avatar tile>
+              <v-icon>
+                {{ n.icon }}
+              </v-icon>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{ n.name }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item
+            href="https://github.com/TopiSenpai/KittyBot"
+            target="_blank"
+          >
+            <v-list-item-avatar tile>
+              <v-icon>
+                code
+              </v-icon>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>GitHub</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+        <v-list-item v-if="!isMobile" :to="`/guilds`" exact>
           <v-list-item-avatar tile>
             <v-icon>
-              dashboard
+              list
             </v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
@@ -119,6 +151,33 @@ export default {
 
   data() {
     return {
+      nav: [
+        {
+          name: "Home",
+          icon: "home",
+          to: "/",
+        },
+        {
+          name: "Features",
+          icon: "star",
+          to: "/features",
+        },
+        {
+          name: "Commands",
+          icon: "comment",
+          to: "/commands",
+        },
+        {
+          name: "About",
+          icon: "info",
+          to: "/about",
+        },
+        {
+          name: "Dashboard",
+          icon: "dashboard",
+          to: "/guilds",
+        },
+      ],
       alert: true,
       errors: [],
       drawer: null,
@@ -164,6 +223,9 @@ export default {
   computed: {
     isAdmin() {
       return this.id == API.ADMIN_ID;
+    },
+    isMobile() {
+      return this.$vuetify.breakpoint.xsOnly;
     },
     isDashBoard() {
       return !(

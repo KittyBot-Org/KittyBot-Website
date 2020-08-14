@@ -1,5 +1,5 @@
 <template>
-  <div class="view-home">
+  <div class="view-home" :class="{ mobile: isMobile }">
     <div class="view-home-title">
       <span id="title" :style="`font-size: ${titleSize}px`">KittyBot</span>
 
@@ -24,6 +24,9 @@ export default {
   name: "ViewHome",
 
   computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.xsOnly;
+    },
     titleSize() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
@@ -55,10 +58,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  &.mobile {
+    flex-direction: column-reverse;
+  }
   &-title {
     display: flex;
     flex-direction: column;
-    margin-right: 32px;
+    //margin-right: 32px;
   }
 }
 

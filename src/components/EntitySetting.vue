@@ -1,5 +1,5 @@
 <template>
-  <div class="entity-setting">
+  <div class="entity-setting" :class="{ mobile: isMobile }">
     <span class="entity-setting-label">{{ label }}</span>
     <div class="entity-setting-content">
       <slot name="default" />
@@ -20,6 +20,12 @@ export default {
       type: String,
     },
   },
+
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.xsOnly;
+    },
+  },
 };
 </script>
 
@@ -28,22 +34,38 @@ export default {
 
 .entity-setting {
   display: flex;
+  &.mobile {
+    flex-direction: column;
+  }
   align-items: baseline;
   &-label {
+    font-weight: 600;
     text-align: left;
     min-width: 220px;
     padding: 8px;
+  }
+  .mobile > &-label {
+    min-width: auto;
+    width: 100%;
   }
   &-content {
     max-width: 800px;
     min-width: 400px;
     padding: 8px;
   }
+  .mobile > &-content {
+    min-width: auto;
+    width: 100%;
+  }
   &-description {
     border-left: 2px solid #363636;
     border-radius: 2px;
     max-width: 800px;
     padding: 8px;
+  }
+  .mobile > &-description {
+    min-width: auto;
+    width: 100%;
   }
 }
 </style>

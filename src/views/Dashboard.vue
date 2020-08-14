@@ -25,10 +25,15 @@
               />
             </entity-setting>
 
+            <v-divider />
+
             <entity-setting label="Enable Join Messages">
               <v-switch v-model="settings.join_messages_enabled" />
             </entity-setting>
-            <entity-setting label="Join Message">
+            <entity-setting
+              v-if="settings.join_messages_enabled"
+              label="Join Message"
+            >
               <v-textarea
                 v-model="settings.join_messages"
                 placeholder="Join Message"
@@ -48,10 +53,15 @@
               </div>
             </entity-setting>
 
+            <v-divider />
+
             <entity-setting label="Enable Leave Messages">
               <v-switch v-model="settings.leave_messages_enabled" />
             </entity-setting>
-            <entity-setting label="Leave Message">
+            <entity-setting
+              v-if="settings.leave_messages_enabled"
+              label="Leave Message"
+            >
               <v-textarea
                 v-model="settings.leave_messages"
                 placeholder="Leave Message"
@@ -67,10 +77,15 @@
               </div>
             </entity-setting>
 
+            <v-divider />
+
             <entity-setting label="Enable Boost Messages">
               <v-switch v-model="settings.boost_messages_enabled" />
             </entity-setting>
-            <entity-setting label="Boost Message">
+            <entity-setting
+              v-if="settings.boost_messages_enabled"
+              label="Boost Message"
+            >
               <v-textarea
                 v-model="settings.boost_messages"
                 placeholder="Boost Message"
