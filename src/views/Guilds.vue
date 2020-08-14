@@ -1,6 +1,10 @@
 <template>
   <div class="view-guilds">
-    <div v-if="guilds.length > 0" class="view-guilds-guilds">
+    <div
+      v-if="guilds.length > 0"
+      class="view-guilds-guilds"
+      :class="{ mobile: isMobile }"
+    >
       <router-link
         v-for="guild in guilds"
         :key="guild.id"
@@ -41,6 +45,12 @@ export default {
     };
   },
 
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.xsOnly;
+    },
+  },
+
   components: {
     InviteButton,
   },
@@ -56,6 +66,9 @@ export default {
   &-guilds {
     display: flex;
     text-align: center;
+    &.mobile {
+      flex-direction: column;
+    }
     & a {
       text-decoration: none;
     }
