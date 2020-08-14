@@ -65,6 +65,7 @@ export default {
   justify-content: center;
   &-guilds {
     display: flex;
+    justify-content: center;
     text-align: center;
     &.mobile {
       flex-direction: column;
