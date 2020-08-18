@@ -15,7 +15,7 @@
           :key="n.name"
           class="nav"
           :to="n.to"
-          :exact="exact"
+          exact
           >{{ n.name }}</router-link
         >
         <a

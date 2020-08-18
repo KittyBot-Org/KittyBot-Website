@@ -59,6 +59,7 @@ export default {
         { value: "icon", sortable: false },
         { text: "Name", value: "name" },
         { text: "ID", value: "id" },
+        { text: "Owner", value: "owner" },
         { text: "Member Count", value: "count" },
         { value: "open", sortable: false },
       ],
