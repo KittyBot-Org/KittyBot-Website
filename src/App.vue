@@ -232,6 +232,9 @@ export default {
     isAdmin() {
       return this.id == API.ADMIN_ID;
     },
+    isDark() {
+      return API.theme.isDark;
+    },
     isMobile() {
       return this.$vuetify.breakpoint.xsOnly;
     },
@@ -311,11 +314,15 @@ export default {
 <style lang="less">
 @import "./style/style.less";
 
+.v-application {
+  .font-default();
+}
+
 .dashboard-navigation-view {
   padding: 16px;
 }
 
-.nav {
+.nav .dark {
   color: #ffffff !important;
 }
 
