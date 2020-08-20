@@ -21,7 +21,7 @@
         <a
           class="nav"
           target="_blank"
-          href="https://github.com/TopiSenpai/KittyBot"
+          href="https://github.com/KittyBot-Org/KittyBot"
           >GitHub
         </a>
       </div>
