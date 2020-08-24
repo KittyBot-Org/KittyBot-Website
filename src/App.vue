@@ -216,7 +216,7 @@ export default {
             API.authKey.set = response.body.key;
             this.loadData();
           } else {
-            this.addError(response.status, response.statusText);
+            this.addError(response);
           }
         },
         (error) => {
@@ -274,7 +274,7 @@ export default {
     },
     addError(response) {
       this.errors.push(
-        `${response.url}: ${response.status}: ${response.statusText}`
+        `${response.url}: ${response.status}: ${response.body.error}`
       );
     },
     switchTheme() {
