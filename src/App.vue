@@ -230,7 +230,7 @@ export default {
 
   computed: {
     isAdmin() {
-      return this.id == API.ADMIN_ID;
+      return API.ADMIN_IDS.includes(this.id);
     },
     isDark() {
       return API.theme.isDark;
