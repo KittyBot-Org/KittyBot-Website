@@ -274,7 +274,7 @@ export default {
     },
     addError(response) {
       this.errors.push(
-        `${response.url}: ${response.status}: ${response.body.error}`
+        `${response.url}: ${response.status}: ${response.body.error == undefined ? response.statusText : response.body.error}`
       );
     },
     switchTheme() {
