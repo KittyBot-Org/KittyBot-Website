@@ -145,14 +145,14 @@
               </div>
               <div class="view-dashboard-settings-selfassignable-roles">
                 <v-autocomplete
-                  v-model="selectedEmote"
-                  placeholder="Select Emote..."
-                  :items="getEmotes()"
-                />
-                <v-autocomplete
                   v-model="selectedRole"
                   placeholder="Select Role..."
                   :items="getRoles()"
+                />
+                <v-autocomplete
+                  v-model="selectedEmote"
+                  placeholder="Select Emote..."
+                  :items="getEmotes()"
                 />
                 <v-btn
                   color="#5c5fea"

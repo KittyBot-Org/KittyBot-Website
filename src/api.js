@@ -8,7 +8,7 @@ const CLIENT_ID =
   process.env.NODE_ENV === "production"
     ? "587697058602025011"
     : "695662898919506020";
-const ADMIN_ID = "170939974227591168";
+const ADMIN_IDS = ["170939974227591168", "394607709741252621"];
 const AUTH_KEY = "AUTH_KEY";
 const IS_DARK = "IS_DARK";
 const SETTING_PROPS = [
@@ -103,7 +103,7 @@ function areSettingsChanged(settings, initialSettings) {
 
 export default {
   CLIENT_ID,
-  ADMIN_ID,
+  ADMIN_IDS,
   post,
   get,
   authKey,

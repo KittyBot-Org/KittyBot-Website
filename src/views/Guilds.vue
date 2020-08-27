@@ -1,7 +1,16 @@
 <template>
   <div class="view-guilds">
+    <div v-if="!loggedIn">
+      <h2>Login to see mutual servers!</h2>
+      <v-img
+        alt="KittyBot Logo"
+        class="shrink"
+        contain
+        src="../assets/KittyBlink.gif"
+      />
+    </div>
     <div
-      v-if="guilds.length > 0"
+      v-else-if="guilds.length > 0"
       class="view-guilds-guilds"
       :class="{ mobile: isMobile }"
     >
@@ -15,11 +24,10 @@
       </router-link>
     </div>
     <div v-else class="view-guilds-no-guilds">
-      <span
-        >I'm not in any mutal servers where you have administrator
-        permissions</span
-      >
-      <span>Do you want to add me to your server?</span>
+      <h2>
+        I'm not in any mutual servers in which you have Administrator permission
+      </h2>
+      <h2>Do you want to add me to your server?</h2>
       <invite-button />
     </div>
   </div>
@@ -36,6 +44,10 @@ export default {
     guilds: {
       required: true,
       type: Array,
+    },
+    loggedIn: {
+      required: true,
+      type: Boolean,
     },
   },
 
@@ -63,6 +75,7 @@ export default {
 .view-guilds {
   display: flex;
   justify-content: center;
+  text-align: center;
   &-guilds {
     display: flex;
     justify-content: center;

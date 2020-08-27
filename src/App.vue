@@ -230,7 +230,7 @@ export default {
 
   computed: {
     isAdmin() {
-      return this.id == API.ADMIN_ID;
+      return API.ADMIN_IDS.includes(this.id);
     },
     isDark() {
       return API.theme.isDark;
@@ -274,7 +274,11 @@ export default {
     },
     addError(response) {
       this.errors.push(
-        `${response.url}: ${response.status}: ${response.body.error}`
+        `${response.url}: ${response.status}: ${
+          response.body.error == undefined
+            ? response.statusText
+            : response.body.error
+        }`
       );
     },
     switchTheme() {
