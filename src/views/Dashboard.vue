@@ -139,9 +139,7 @@
                 </v-list-item-group>
               </v-list>
               <div v-else>
-                <span>
-                  You have no self assignable roles added yet
-                </span>
+                <span> You have no self assignable roles added yet </span>
               </div>
               <div class="view-dashboard-settings-selfassignable-roles">
                 <v-autocomplete
