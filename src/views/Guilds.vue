@@ -1,6 +1,6 @@
 <template>
   <div class="view-guilds">
-    <div v-if="!loggedIn">
+    <div v-if="!loggedIn" class="view-guilds-not-logged-in">
       <h2>Login to see mutual servers!</h2>
       <v-img
         alt="KittyBot Logo"
@@ -91,6 +91,11 @@ export default {
     }
   }
   &-no-guilds {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  &-not-logged-in {
     display: flex;
     flex-direction: column;
     text-align: center;
