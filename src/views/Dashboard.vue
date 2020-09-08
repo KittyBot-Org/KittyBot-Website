@@ -104,8 +104,14 @@
         </v-expansion-panel>
 
         <v-expansion-panel>
-          <v-expansion-panel-header>NSFW</v-expansion-panel-header>
+          <v-expansion-panel-header>Others</v-expansion-panel-header>
           <v-expansion-panel-content>
+            <entity-setting label="DJ Role">
+              <v-autocomplete
+                v-model="settings.dj_role_id"
+                :items="getRoles()"
+              />
+            </entity-setting>
             <entity-setting label="NSFW Commands Enabled">
               <v-switch v-model="settings.nsfw_enabled" />
             </entity-setting>
@@ -113,7 +119,9 @@
         </v-expansion-panel>
 
         <v-expansion-panel>
-          <v-expansion-panel-header>Roles</v-expansion-panel-header>
+          <v-expansion-panel-header
+            >Self Assignable Roles</v-expansion-panel-header
+          >
           <v-expansion-panel-content>
             <entity-setting label="Self-assignable Roles">
               <v-list v-if="settings.self_assignable_roles.length > 0">
