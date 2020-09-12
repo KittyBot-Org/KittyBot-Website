@@ -1,13 +1,13 @@
 import Vue from "vue";
 
 const BACKEND_URL =
-  process.env.NODE_ENV === "production" ?
-  "https://api.kittybot.de/" :
-  "http://localhost:6969/";
+  process.env.NODE_ENV === "production"
+    ? "https://api.kittybot.de/"
+    : "http://localhost:6969/";
 const CLIENT_ID =
-  process.env.NODE_ENV === "production" ?
-  "587697058602025011" :
-  "695662898919506020";
+  process.env.NODE_ENV === "production"
+    ? "587697058602025011"
+    : "695662898919506020";
 const ADMIN_IDS = ["170939974227591168", "394607709741252621"];
 const AUTH_KEY = "AUTH_KEY";
 const IS_DARK = "IS_DARK";
