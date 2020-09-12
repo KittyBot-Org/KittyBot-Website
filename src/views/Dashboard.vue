@@ -21,7 +21,8 @@
             <entity-setting label="Announcement Channel">
               <v-autocomplete
                 v-model="settings.announcement_channel_id"
-                :items="getChannels()"
+                placeholder="Select Channel..."
+                :items="getChannels"
               />
             </entity-setting>
 
@@ -35,7 +36,7 @@
               label="Join Message"
             >
               <v-textarea
-                v-model="settings.join_messages"
+                v-model="settings.join_message"
                 placeholder="Join Message"
               />
               <div slot="description">
@@ -63,7 +64,7 @@
               label="Leave Message"
             >
               <v-textarea
-                v-model="settings.leave_messages"
+                v-model="settings.leave_message"
                 placeholder="Leave Message"
               />
               <div slot="description">
@@ -87,7 +88,7 @@
               label="Boost Message"
             >
               <v-textarea
-                v-model="settings.boost_messages"
+                v-model="settings.boost_message"
                 placeholder="Boost Message"
               />
               <div slot="description">
@@ -109,7 +110,8 @@
             <entity-setting label="DJ Role">
               <v-autocomplete
                 v-model="settings.dj_role_id"
-                :items="getRoles()"
+                placeholder="Select Role..."
+                :items="getRoles"
               />
             </entity-setting>
             <entity-setting label="NSFW Commands Enabled">
@@ -151,14 +153,25 @@
               </div>
               <div class="view-dashboard-settings-selfassignable-roles">
                 <v-autocomplete
-                  v-model="selectedRole"
-                  placeholder="Select Role..."
-                  :items="getRoles()"
-                />
-                <v-autocomplete
                   v-model="selectedEmote"
                   placeholder="Select Emote..."
-                  :items="getEmotes()"
+                  :items="getEmotes"
+                >
+                  <template v-slot:item="{ item }">
+                    <template>
+                      <v-list-item-avatar tile>
+                        <v-img :src="item.url" />
+                      </v-list-item-avatar>
+                      <v-list-item-content>
+                        <v-list-item-title> {{ item.text }}</v-list-item-title>
+                      </v-list-item-content>
+                    </template>
+                  </template>
+                </v-autocomplete>
+                <v-autocomplete
+                  v-model="selectedRole"
+                  placeholder="Select Role..."
+                  :items="getRoles"
                 />
                 <v-btn
                   color="#5c5fea"
@@ -174,6 +187,12 @@
       </v-expansion-panels>
     </div>
     <div class="view-dashboard-buttons">
+      <v-snackbar v-model="snackbar" :color="snackbarColor">
+        {{ result }}
+        <template v-slot:action="{ attrs }">
+          <v-btn text v-bind="attrs" @click="snackbar = false"> Close </v-btn>
+        </template>
+      </v-snackbar>
       <v-btn color="error" text :disabled="isSaveAndResetButtonDisabled">
         Reset
       </v-btn>
@@ -215,6 +234,9 @@ export default {
       selectedEmote: null,
       saveLoading: false,
       color: "#f5f5f5",
+      snackbar: false,
+      snackbarColor: "",
+      result: "",
     };
   },
 
@@ -225,14 +247,52 @@ export default {
     isSaveAndResetButtonDisabled() {
       return !API.areSettingsChanged(this.settings, this.initialSettings);
     },
+    getChannels() {
+      return this.channels.map((c) => {
+        return {
+          text: c.name,
+          value: c.id,
+        };
+      });
+    },
+    getRoles() {
+      return this.roles
+        .filter(
+          (r) =>
+            !this.settings.self_assignable_roles.find((sr) => sr.role == r.id)
+        )
+        .map((r) => {
+          return {
+            text: r.name,
+            value: r.id,
+          };
+        });
+    },
+    getEmotes() {
+      return this.emotes
+        .filter(
+          (e) =>
+            !this.settings.self_assignable_roles.find((sr) => sr.emote == e.id)
+        )
+        .map((e) => {
+          return {
+            text: e.name,
+            url: e.url,
+            value: e.id,
+          };
+        });
+    },
+    guildId() {
+      return this.$route.params.guildId;
+    },
   },
 
   created() {
     Promise.all([
-      API.get(`guilds/${this.guildId()}/channels/get`),
-      API.get(`guilds/${this.guildId()}/emotes/get`),
-      API.get(`guilds/${this.guildId()}/roles/get`),
-      API.get(`guilds/${this.guildId()}/settings/get`),
+      API.get(`guilds/${this.guildId}/channels/get`),
+      API.get(`guilds/${this.guildId}/emotes/get`),
+      API.get(`guilds/${this.guildId}/roles/get`),
+      API.get(`guilds/${this.guildId}/settings/get`),
     ]).then(
       (responses) => {
         responses[0].body.channels.forEach((e) => {
@@ -268,9 +328,6 @@ export default {
     addError(response) {
       this.$emit("error", response);
     },
-    guildId() {
-      return this.$route.params.guildId;
-    },
     getRoleEmote(sRole) {
       let emote = this.emotes.find((e) => e.id == sRole.emote);
       return emote === undefined ? "../assets/loading.png" : emote.url;
@@ -279,39 +336,8 @@ export default {
       let role = this.roles.find((r) => r.id == sRole.role);
       return role === undefined ? "loading..." : role.name;
     },
-    getChannels() {
-      return this.channels.map((c) => {
-        return {
-          text: c.name,
-          value: c.id,
-        };
-      });
-    },
-    getRoles() {
-      return this.roles
-        .filter(
-          (r) =>
-            !this.settings.self_assignable_roles.find((sr) => sr.role == r.id)
-        )
-        .map((r) => {
-          return {
-            text: r.name,
-            value: r.id,
-          };
-        });
-    },
-    getEmotes() {
-      return this.emotes
-        .filter(
-          (e) =>
-            !this.settings.self_assignable_roles.find((sr) => sr.emote == e.id)
-        )
-        .map((e) => {
-          return {
-            text: e.name,
-            value: e.id,
-          };
-        });
+    removeSelfAssignableRole(roleIndex) {
+      this.settings.self_assignable_roles.splice(roleIndex, 1);
     },
     addSelfAssignabelRole() {
       this.settings.self_assignable_roles.push({
@@ -320,9 +346,6 @@ export default {
       });
       this.selectedRole = null;
       this.selectedEmote = null;
-    },
-    removeSelfAssignableRole(roleIndex) {
-      this.settings.self_assignable_roles.splice(roleIndex, 1);
     },
     save() {
       this.saveLoading = true;
@@ -347,12 +370,18 @@ export default {
           }
         }
       });
-      API.post(`guilds/${this.guildId()}/settings/set`, settings).then(
-        (response) => {
+      API.post(`guilds/${this.guildId}/settings/set`, settings).then(
+        () => {
           this.saveLoading = false;
-          if (response.code != 200) {
-            // TODO throw error
-          }
+          this.snackbar = true;
+          this.snackbarColor = "success";
+          this.result = "Updated settings!";
+        },
+        () => {
+          this.saveLoading = false;
+          this.snackbar = true;
+          this.snackbarColor = "error";
+          this.result = "Failed to update settings!";
         }
       );
     },
