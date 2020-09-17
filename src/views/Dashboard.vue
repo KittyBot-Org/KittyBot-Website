@@ -9,18 +9,18 @@
               <v-text-field
                 v-model="settings.prefix"
                 placeholder="Prefix"
-                :counter="1"
+                :counter="10"
               />
             </entity-setting>
           </v-expansion-panel-content>
         </v-expansion-panel>
 
         <v-expansion-panel>
-          <v-expansion-panel-header>Announcement</v-expansion-panel-header>
+          <v-expansion-panel-header>Logging</v-expansion-panel-header>
           <v-expansion-panel-content>
-            <entity-setting label="Announcement Channel">
+            <entity-setting label="Log Channel">
               <v-autocomplete
-                v-model="settings.announcement_channel_id"
+                v-model="settings.log_channel_id"
                 :items="getChannels()"
               />
             </entity-setting>
@@ -185,7 +185,7 @@
 
 <script>
 import EntitySetting from "../components/EntitySetting";
-import { cloneDeep } from "lodash";
+import {cloneDeep} from "lodash";
 import API from "../api";
 
 export default {

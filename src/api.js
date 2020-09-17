@@ -13,7 +13,7 @@ const AUTH_KEY = "AUTH_KEY";
 const IS_DARK = "IS_DARK";
 const SETTING_PROPS = [
   "prefix",
-  "announcement_channel_id",
+  "log_channel_id",
   "join_messages_enabled",
   "join_messages",
   "leave_messages_enabled",
