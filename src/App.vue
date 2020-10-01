@@ -290,13 +290,14 @@ export default {
             this.id = response.body.id;
             this.guilds = response.body.guilds;
           },
-          (error) => {
-            this.addError(error);
+          () => {
+            window.location = API.getURL("discord_login");
           }
         );
       }
     },
     logout() {
+      API.post("logout").then();
       this.loading = true;
       API.authKey.set = "";
       this.loggedIn = false;
