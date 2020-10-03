@@ -1,0 +1,7 @@
+FROM node:lts-alpine
+
+WORKDIR /home/kittybot-website
+
+COPY ./ /home/kittybot-website/
+
+EXPOSE 80
