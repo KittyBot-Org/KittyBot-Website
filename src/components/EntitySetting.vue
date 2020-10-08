@@ -39,7 +39,7 @@ export default {
   }
   align-items: baseline;
   &-label {
-    font-weight: 600;
+    font-size: 15px;
     text-align: left;
     min-width: 220px;
     padding: 8px;

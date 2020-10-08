@@ -12,16 +12,29 @@
                 :counter="1"
               />
             </entity-setting>
+            <!--
+            <entity-setting label="DJ Role">
+              <v-autocomplete
+                v-model="settings.dj_role_id"
+                placeholder="Select Role..."
+                :items="getRoles"
+              />
+            </entity-setting>
+            -->
+            <entity-setting label="Enable NSFW Commands">
+              <v-switch v-model="settings.nsfw_enabled" />
+            </entity-setting>
           </v-expansion-panel-content>
         </v-expansion-panel>
 
         <v-expansion-panel>
-          <v-expansion-panel-header>Announcement</v-expansion-panel-header>
+          <v-expansion-panel-header>Announcements</v-expansion-panel-header>
           <v-expansion-panel-content>
             <entity-setting label="Announcement Channel">
               <v-autocomplete
                 v-model="settings.announcement_channel_id"
-                :items="getChannels()"
+                placeholder="Select Channel..."
+                :items="getChannels"
               />
             </entity-setting>
 
@@ -104,16 +117,9 @@
         </v-expansion-panel>
 
         <v-expansion-panel>
-          <v-expansion-panel-header>NSFW</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <entity-setting label="NSFW Commands Enabled">
-              <v-switch v-model="settings.nsfw_enabled" />
-            </entity-setting>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header>Roles</v-expansion-panel-header>
+          <v-expansion-panel-header
+            >Self Assignable Roles</v-expansion-panel-header
+          >
           <v-expansion-panel-content>
             <entity-setting label="Self-assignable Roles">
               <v-list v-if="settings.self_assignable_roles.length > 0">
@@ -126,9 +132,10 @@
                       <v-img :src="getRoleEmote(role)" />
                     </v-list-item-avatar>
                     <v-list-item-content>
-                      <v-list-item-title>{{
-                        getRoleName(role)
-                      }}</v-list-item-title>
+                      <v-list-item-title
+                        :style="{ color: getRoleColor(role) }"
+                        >{{ getRoleName(role) }}</v-list-item-title
+                      >
                     </v-list-item-content>
                     <v-list-item-action>
                       <v-btn icon @click="removeSelfAssignableRole(i)">
@@ -139,21 +146,36 @@
                 </v-list-item-group>
               </v-list>
               <div v-else>
-                <span>
-                  You have no self assignable roles added yet
-                </span>
+                <span> You have no self assignable roles added yet </span>
               </div>
               <div class="view-dashboard-settings-selfassignable-roles">
                 <v-autocomplete
-                  v-model="selectedRole"
-                  placeholder="Select Role..."
-                  :items="getRoles()"
-                />
-                <v-autocomplete
                   v-model="selectedEmote"
                   placeholder="Select Emote..."
-                  :items="getEmotes()"
-                />
+                  :items="getEmotes"
+                >
+                  <template v-slot:item="{ item }">
+                    <v-list-item-avatar tile>
+                      <v-img :src="item.url" />
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title> {{ item.text }}</v-list-item-title>
+                    </v-list-item-content>
+                  </template>
+                </v-autocomplete>
+                <v-autocomplete
+                  v-model="selectedRole"
+                  placeholder="Select Role..."
+                  :items="getRoles"
+                >
+                  <template v-slot:item="{ item }">
+                    <v-list-item-content>
+                      <v-list-item-title :style="{ color: item.color }">
+                        {{ item.text }}</v-list-item-title
+                      >
+                    </v-list-item-content>
+                  </template>
+                </v-autocomplete>
                 <v-btn
                   color="#5c5fea"
                   :disabled="isAddButtonDisabled"
@@ -168,6 +190,12 @@
       </v-expansion-panels>
     </div>
     <div class="view-dashboard-buttons">
+      <v-snackbar v-model="snackbar" :color="snackbarColor">
+        {{ result }}
+        <template v-slot:action="{ attrs }">
+          <v-btn text v-bind="attrs" @click="snackbar = false"> Close </v-btn>
+        </template>
+      </v-snackbar>
       <v-btn color="error" text :disabled="isSaveAndResetButtonDisabled">
         Reset
       </v-btn>
@@ -209,6 +237,9 @@ export default {
       selectedEmote: null,
       saveLoading: false,
       color: "#f5f5f5",
+      snackbar: false,
+      snackbarColor: "",
+      result: "",
     };
   },
 
@@ -218,60 +249,6 @@ export default {
     },
     isSaveAndResetButtonDisabled() {
       return !API.areSettingsChanged(this.settings, this.initialSettings);
-    },
-  },
-
-  created() {
-    Promise.all([
-      API.get(`guilds/${this.guildId()}/channels/get`),
-      API.get(`guilds/${this.guildId()}/emotes/get`),
-      API.get(`guilds/${this.guildId()}/roles/get`),
-      API.get(`guilds/${this.guildId()}/settings/get`),
-    ]).then(
-      (responses) => {
-        responses[0].body.channels.forEach((e) => {
-          this.channels.push({
-            name: e.name,
-            id: e.id,
-          });
-        });
-        responses[1].body.emotes.forEach((e) => {
-          this.emotes.push({
-            id: e.id,
-            name: e.name,
-            url: e.url,
-          });
-        });
-        responses[2].body.roles.forEach((e) => {
-          this.roles.push({
-            id: e.id,
-            name: e.name,
-          });
-        });
-        this.initialSettings = responses[3].body;
-        this.settings = cloneDeep(this.initialSettings);
-        this.ready = true;
-      },
-      (error) => {
-        this.addError(error);
-      }
-    );
-  },
-
-  methods: {
-    addError(response) {
-      this.$emit("error", response);
-    },
-    guildId() {
-      return this.$route.params.guildId;
-    },
-    getRoleEmote(sRole) {
-      let emote = this.emotes.find((e) => e.id == sRole.emote);
-      return emote === undefined ? "../assets/loading.png" : emote.url;
-    },
-    getRoleName(sRole) {
-      let role = this.roles.find((r) => r.id == sRole.role);
-      return role === undefined ? "loading..." : role.name;
     },
     getChannels() {
       return this.channels.map((c) => {
@@ -291,6 +268,7 @@ export default {
           return {
             text: r.name,
             value: r.id,
+            color: r.color,
           };
         });
     },
@@ -303,9 +281,72 @@ export default {
         .map((e) => {
           return {
             text: e.name,
+            url: e.url,
             value: e.id,
           };
         });
+    },
+    guildId() {
+      return this.$route.params.guildId;
+    },
+  },
+
+  created() {
+    Promise.all([
+      API.get(`guilds/${this.guildId}/channels/get`),
+      API.get(`guilds/${this.guildId}/emotes/get`),
+      API.get(`guilds/${this.guildId}/roles/get`),
+      API.get(`guilds/${this.guildId}/settings/get`),
+    ]).then(
+      (responses) => {
+        responses[0].body.channels.forEach((e) => {
+          this.channels.push({
+            name: e.name,
+            id: e.id,
+          });
+        });
+        responses[1].body.emotes.forEach((e) => {
+          this.emotes.push({
+            id: e.id,
+            name: e.name,
+            url: e.url,
+          });
+        });
+        responses[2].body.roles.forEach((e) => {
+          this.roles.push({
+            id: e.id,
+            name: e.name,
+            color: e.color,
+          });
+        });
+        this.initialSettings = responses[3].body;
+        this.settings = cloneDeep(this.initialSettings);
+        this.ready = true;
+      },
+      (error) => {
+        this.addError(error);
+      }
+    );
+  },
+
+  methods: {
+    addError(response) {
+      this.$emit("error", response);
+    },
+    getRoleEmote(sRole) {
+      let emote = this.emotes.find((e) => e.id == sRole.emote);
+      return emote === undefined ? "../assets/loading.png" : emote.url;
+    },
+    getRoleName(sRole) {
+      let role = this.roles.find((r) => r.id == sRole.role);
+      return role === undefined ? "loading..." : role.name;
+    },
+    getRoleColor(sRole) {
+      let role = this.roles.find((r) => r.id == sRole.role);
+      return role === undefined ? "" : role.color;
+    },
+    removeSelfAssignableRole(roleIndex) {
+      this.settings.self_assignable_roles.splice(roleIndex, 1);
     },
     addSelfAssignabelRole() {
       this.settings.self_assignable_roles.push({
@@ -315,38 +356,41 @@ export default {
       this.selectedRole = null;
       this.selectedEmote = null;
     },
-    removeSelfAssignableRole(roleIndex) {
-      this.settings.self_assignable_roles.splice(roleIndex, 1);
-    },
     save() {
       this.saveLoading = true;
-      let settings = cloneDeep(this.settings);
-      Object.keys(settings).forEach((s) => {
-        if (s == "self_assignable_roles" && settings[s] instanceof Array) {
-          if (
-            API.areSelfAssignableRolesChanged(
-              settings[s],
-              this.initialSettings[s]
-            )
-          ) {
-            this.initialSettings[s] = cloneDeep(settings[s]);
-          } else {
-            delete settings[s];
-          }
-        } else {
-          if (Object.is(settings[s], this.initialSettings[s])) {
-            delete settings[s];
-          } else {
-            this.initialSettings[s] = cloneDeep(settings[s]);
-          }
-        }
-      });
-      API.post(`guilds/${this.guildId()}/settings/set`, settings).then(
-        (response) => {
+      API.post(`guilds/${this.guildId}/settings/set`, this.settings).then(
+        () => {
+          let settings = cloneDeep(this.settings);
+          Object.keys(settings).forEach((s) => {
+            if (s == "self_assignable_roles" && settings[s] instanceof Array) {
+              if (
+                API.areSelfAssignableRolesChanged(
+                  settings[s],
+                  this.initialSettings[s]
+                )
+              ) {
+                this.initialSettings[s] = cloneDeep(settings[s]);
+              } else {
+                delete settings[s];
+              }
+            } else {
+              if (Object.is(settings[s], this.initialSettings[s])) {
+                delete settings[s];
+              } else {
+                this.initialSettings[s] = cloneDeep(settings[s]);
+              }
+            }
+          });
           this.saveLoading = false;
-          if (response.code != 200) {
-            // TODO throw error
-          }
+          this.snackbar = true;
+          this.snackbarColor = "success";
+          this.result = "Updated settings!";
+        },
+        () => {
+          this.saveLoading = false;
+          this.snackbar = true;
+          this.snackbarColor = "error";
+          this.result = "Failed to update settings!";
         }
       );
     },

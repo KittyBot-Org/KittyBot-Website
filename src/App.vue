@@ -67,7 +67,7 @@
       app
     >
       <v-list shaped nav>
-        <v-list-item-group v-if="isMobile" style="padding-bottom: 8px;">
+        <v-list-item-group v-if="isMobile" style="padding-bottom: 8px">
           <v-list-item v-for="n of nav" :key="n.name" :to="n.to">
             <v-list-item-avatar tile>
               <v-icon>
@@ -84,9 +84,7 @@
             target="_blank"
           >
             <v-list-item-avatar tile>
-              <v-icon>
-                code
-              </v-icon>
+              <v-icon> code </v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>GitHub</v-list-item-title>
@@ -95,9 +93,7 @@
         </v-list-item-group>
         <v-list-item v-if="!isMobile" :to="`/guilds`" exact>
           <v-list-item-avatar tile>
-            <v-icon>
-              list
-            </v-icon>
+            <v-icon> list </v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>Guilds</v-list-item-title>
@@ -105,9 +101,7 @@
         </v-list-item>
         <v-list-item v-if="isAdmin" to="/admin/dashboard" exact>
           <v-list-item-avatar tile>
-            <v-icon>
-              supervisor_account
-            </v-icon>
+            <v-icon> supervisor_account </v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>Admin</v-list-item-title>
@@ -303,6 +297,7 @@ export default {
       }
     },
     logout() {
+      API.post("logout").then();
       this.loading = true;
       API.authKey.set = "";
       this.loggedIn = false;
@@ -310,6 +305,8 @@ export default {
       this.name = "";
       this.guilds = [];
       this.loading = false;
+      this.id = "";
+      this.$router.push("/");
     },
   },
 };

@@ -95,6 +95,8 @@ function areSettingsChanged(settings, initialSettings) {
     const setting = settings[s];
     if (s == "self_assignable_roles" && setting instanceof Array) {
       return areSelfAssignableRolesChanged(setting, initialSettings[s]);
+    } else if (s == "prefix" && setting != undefined) {
+      return setting.length == 1 && setting != initialSettings[s];
     } else {
       return setting != initialSettings[s];
     }
