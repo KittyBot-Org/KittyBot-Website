@@ -22,7 +22,7 @@
         </v-btn>
       </template>
       <template v-slot:[`item.name`]="{ item }">{{
-        item.name.length > 36 ? item.name.substr(0, 35) : item.name
+        item.name.length > 36 ? item.name.substr(0, 35) + "..." : item.name
       }}</template>
       <template v-slot:[`item.owner`]="{ item }">{{
         item.owner == undefined ? "not loaded" : item.owner
