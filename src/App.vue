@@ -290,8 +290,8 @@ export default {
             this.id = response.body.id;
             this.guilds = response.body.guilds;
           },
-          () => {
-            window.location = API.getURL("discord_login");
+          (error) => {
+            this.addError(error);
           }
         );
       }
@@ -305,6 +305,8 @@ export default {
       this.name = "";
       this.guilds = [];
       this.loading = false;
+      this.id = "";
+      this.$router.push("/");
     },
   },
 };

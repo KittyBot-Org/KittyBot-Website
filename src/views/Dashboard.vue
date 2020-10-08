@@ -12,11 +12,23 @@
                 :counter="1"
               />
             </entity-setting>
+            <!--
+            <entity-setting label="DJ Role">
+              <v-autocomplete
+                v-model="settings.dj_role_id"
+                placeholder="Select Role..."
+                :items="getRoles"
+              />
+            </entity-setting>
+            -->
+            <entity-setting label="Enable NSFW Commands">
+              <v-switch v-model="settings.nsfw_enabled" />
+            </entity-setting>
           </v-expansion-panel-content>
         </v-expansion-panel>
 
         <v-expansion-panel>
-          <v-expansion-panel-header>Announcement</v-expansion-panel-header>
+          <v-expansion-panel-header>Announcements</v-expansion-panel-header>
           <v-expansion-panel-content>
             <entity-setting label="Announcement Channel">
               <v-autocomplete
@@ -36,7 +48,7 @@
               label="Join Message"
             >
               <v-textarea
-                v-model="settings.join_message"
+                v-model="settings.join_messages"
                 placeholder="Join Message"
               />
               <div slot="description">
@@ -64,7 +76,7 @@
               label="Leave Message"
             >
               <v-textarea
-                v-model="settings.leave_message"
+                v-model="settings.leave_messages"
                 placeholder="Leave Message"
               />
               <div slot="description">
@@ -88,7 +100,7 @@
               label="Boost Message"
             >
               <v-textarea
-                v-model="settings.boost_message"
+                v-model="settings.boost_messages"
                 placeholder="Boost Message"
               />
               <div slot="description">
@@ -100,22 +112,6 @@
                   <li>${name}</li>
                 </ul>
               </div>
-            </entity-setting>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header>Others</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <entity-setting label="DJ Role">
-              <v-autocomplete
-                v-model="settings.dj_role_id"
-                placeholder="Select Role..."
-                :items="getRoles"
-              />
-            </entity-setting>
-            <entity-setting label="NSFW Commands Enabled">
-              <v-switch v-model="settings.nsfw_enabled" />
             </entity-setting>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -136,9 +132,10 @@
                       <v-img :src="getRoleEmote(role)" />
                     </v-list-item-avatar>
                     <v-list-item-content>
-                      <v-list-item-title>{{
-                        getRoleName(role)
-                      }}</v-list-item-title>
+                      <v-list-item-title
+                        :style="{ color: getRoleColor(role) }"
+                        >{{ getRoleName(role) }}</v-list-item-title
+                      >
                     </v-list-item-content>
                     <v-list-item-action>
                       <v-btn icon @click="removeSelfAssignableRole(i)">
@@ -158,21 +155,27 @@
                   :items="getEmotes"
                 >
                   <template v-slot:item="{ item }">
-                    <template>
-                      <v-list-item-avatar tile>
-                        <v-img :src="item.url" />
-                      </v-list-item-avatar>
-                      <v-list-item-content>
-                        <v-list-item-title> {{ item.text }}</v-list-item-title>
-                      </v-list-item-content>
-                    </template>
+                    <v-list-item-avatar tile>
+                      <v-img :src="item.url" />
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title> {{ item.text }}</v-list-item-title>
+                    </v-list-item-content>
                   </template>
                 </v-autocomplete>
                 <v-autocomplete
                   v-model="selectedRole"
                   placeholder="Select Role..."
                   :items="getRoles"
-                />
+                >
+                  <template v-slot:item="{ item }">
+                    <v-list-item-content>
+                      <v-list-item-title :style="{ color: item.color }">
+                        {{ item.text }}</v-list-item-title
+                      >
+                    </v-list-item-content>
+                  </template>
+                </v-autocomplete>
                 <v-btn
                   color="#5c5fea"
                   :disabled="isAddButtonDisabled"
@@ -265,6 +268,7 @@ export default {
           return {
             text: r.name,
             value: r.id,
+            color: r.color,
           };
         });
     },
@@ -312,6 +316,7 @@ export default {
           this.roles.push({
             id: e.id,
             name: e.name,
+            color: e.color,
           });
         });
         this.initialSettings = responses[3].body;
@@ -336,6 +341,10 @@ export default {
       let role = this.roles.find((r) => r.id == sRole.role);
       return role === undefined ? "loading..." : role.name;
     },
+    getRoleColor(sRole) {
+      let role = this.roles.find((r) => r.id == sRole.role);
+      return role === undefined ? "" : role.color;
+    },
     removeSelfAssignableRole(roleIndex) {
       this.settings.self_assignable_roles.splice(roleIndex, 1);
     },
@@ -349,29 +358,29 @@ export default {
     },
     save() {
       this.saveLoading = true;
-      let settings = cloneDeep(this.settings);
-      Object.keys(settings).forEach((s) => {
-        if (s == "self_assignable_roles" && settings[s] instanceof Array) {
-          if (
-            API.areSelfAssignableRolesChanged(
-              settings[s],
-              this.initialSettings[s]
-            )
-          ) {
-            this.initialSettings[s] = cloneDeep(settings[s]);
-          } else {
-            delete settings[s];
-          }
-        } else {
-          if (Object.is(settings[s], this.initialSettings[s])) {
-            delete settings[s];
-          } else {
-            this.initialSettings[s] = cloneDeep(settings[s]);
-          }
-        }
-      });
-      API.post(`guilds/${this.guildId}/settings/set`, settings).then(
+      API.post(`guilds/${this.guildId}/settings/set`, this.settings).then(
         () => {
+          let settings = cloneDeep(this.settings);
+          Object.keys(settings).forEach((s) => {
+            if (s == "self_assignable_roles" && settings[s] instanceof Array) {
+              if (
+                API.areSelfAssignableRolesChanged(
+                  settings[s],
+                  this.initialSettings[s]
+                )
+              ) {
+                this.initialSettings[s] = cloneDeep(settings[s]);
+              } else {
+                delete settings[s];
+              }
+            } else {
+              if (Object.is(settings[s], this.initialSettings[s])) {
+                delete settings[s];
+              } else {
+                this.initialSettings[s] = cloneDeep(settings[s]);
+              }
+            }
+          });
           this.saveLoading = false;
           this.snackbar = true;
           this.snackbarColor = "success";

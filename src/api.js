@@ -15,13 +15,12 @@ const SETTING_PROPS = [
   "prefix",
   "announcement_channel_id",
   "join_messages_enabled",
-  "join_message",
+  "join_messages",
   "leave_messages_enabled",
-  "leave_message",
+  "leave_messages",
   "boost_messages_enabled",
-  "boost_message",
+  "boost_messages",
   "nsfw_enabled",
-  "dj_role_id",
   "self_assignable_roles",
 ];
 
