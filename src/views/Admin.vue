@@ -4,6 +4,7 @@
       :headers="headers"
       :items="guilds"
       item-key="name"
+      :loading="loading"
       disable-pagination
       hide-default-footer
     >
@@ -20,6 +21,12 @@
           <v-icon>open_in_new</v-icon>
         </v-btn>
       </template>
+      <template v-slot:[`item.name`]="{ item }">{{
+        item.name.length > 36 ? item.name.substr(0, 35) : item.name
+      }}</template>
+      <template v-slot:[`item.owner`]="{ item }">{{
+        item.owner == undefined ? "not loaded" : item.owner
+      }}</template>
     </v-data-table>
     <!--  <v-list>
       <v-list-item-group>
@@ -64,12 +71,14 @@ export default {
         { value: "open", sortable: false },
       ],
       guilds: [],
+      loading: true,
     };
   },
   created() {
     API.get(`guilds/all`).then(
       (response) => {
         this.guilds = response.body.guilds;
+        this.loading = false;
       },
       (error) => {
         this.addError(error);
