@@ -80,7 +80,7 @@ export default {
     },
     isdark() {
       return this.$vuetify.theme.dark;
-    }
+    },
   },
 
   components: {
