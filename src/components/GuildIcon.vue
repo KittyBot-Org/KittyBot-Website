@@ -1,11 +1,13 @@
 <template>
   <div class="guild-icon">
-    <v-avatar :color="icon == null ? 'blue' : undefined" :size="size">
-      <span
-        v-if="icon == null || icon == ''"
-        :style="{ 'font-size': `${size / 2.5}px` }"
-        >{{ shortText }}</span
-      >
+    <v-avatar
+      :color="icon == null ? 'blue' : undefined"
+      :size="size"
+      :tile="!hasIcon"
+    >
+      <span v-if="hasIcon" :style="{ 'font-size': `${size / 2.5}px` }">{{
+        shortText
+      }}</span>
       <v-img v-else :src="icon" :alt="alt" />
     </v-avatar>
   </div>
@@ -44,6 +46,9 @@ export default {
           .join("");
       }
       return text.substr(0, this.size > 42 ? 3 : 2);
+    },
+    hasIcon() {
+      return this.icon == null || this.icon == "";
     },
   },
 };
