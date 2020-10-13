@@ -323,7 +323,9 @@ export default {
 
   methods: {
     selectGuild(guildId) {
-      this.$router.push({ path: `/guilds/${guildId}/dashboard` });
+      if (guildId != undefined) {
+        this.$router.push({ path: `/guilds/${guildId}/dashboard` });
+      }
     },
     cleanErrors() {
       this.errors = [];
