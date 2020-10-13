@@ -9,7 +9,12 @@
       hide-default-footer
     >
       <template v-slot:[`item.icon`]="{ item }">
-        <v-avatar :size="36"><v-img :src="item.icon" /></v-avatar>
+        <guild-icon
+          :icon="item.icon"
+          :alt="`${item.name} profile`"
+          :text="item.name"
+          :size="36"
+        />
       </template>
       <template v-slot:[`item.open`]="{ item }">
         <v-btn
@@ -28,29 +33,6 @@
         item.owner == undefined ? "not loaded" : item.owner
       }}</template>
     </v-data-table>
-    <!--  <v-list>
-      <v-list-item-group>
-        <v-list-item v-for="guild in guilds" :key="guild.id">
-          <v-list-item-avatar tile>
-            <v-img :src="guild.icon" />
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <span>{{ guild.name }}({{ guild.id }})</span>
-          </v-list-item-content>
-          <span>Members: {{ guild.count }}</span>
-          <v-list-item-action>
-            <v-btn
-              icon
-              color="#5c5fea"
-              target="_blank"
-              :to="`/guilds/${guild.id}/dashboard`"
-            >
-              <v-icon>open_in_new</v-icon>
-            </v-btn>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list> -->
   </div>
 </template>
 

@@ -23,7 +23,7 @@ export default {
 
   computed: {
     isMobile() {
-      return this.$vuetify.breakpoint.xsOnly;
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
 };
@@ -50,7 +50,7 @@ export default {
   }
   &-content {
     max-width: 800px;
-    min-width: 400px;
+    min-width: 350px;
     padding: 8px;
   }
   .mobile > &-content {
