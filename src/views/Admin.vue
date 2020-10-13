@@ -37,10 +37,15 @@
 </template>
 
 <script>
+import GuildIcon from "../components/GuildIcon";
 import API from "../api";
 
 export default {
   name: "Admin",
+
+  components: {
+    GuildIcon,
+  },
 
   data() {
     return {
