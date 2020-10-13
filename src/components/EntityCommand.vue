@@ -41,6 +41,7 @@ export default {
   &-command {
     color: @primary;
     font-weight: 800;
+    text-align: start;
   }
   .mobile > &-command {
     width: 100%;
