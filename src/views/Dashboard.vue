@@ -122,29 +122,30 @@
           >
           <v-expansion-panel-content>
             <entity-setting label="Self-assignable Roles">
-              <v-list v-if="settings.self_assignable_roles.length > 0">
-                <v-list-item-group>
-                  <v-list-item
-                    v-for="(role, i) in settings.self_assignable_roles"
-                    :key="role.role"
-                  >
-                    <v-list-item-avatar tile>
-                      <v-img :src="getRoleEmote(role)" />
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-title
-                        :style="{ color: getRoleColor(role) }"
-                        >{{ getRoleName(role) }}</v-list-item-title
-                      >
-                    </v-list-item-content>
-                    <v-list-item-action>
-                      <v-btn icon @click="removeSelfAssignableRole(i)">
-                        <v-icon color="red">delete</v-icon>
-                      </v-btn>
-                    </v-list-item-action>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
+              <v-simple-table v-if="settings.self_assignable_roles.length > 0">
+                <template>
+                  <tbody>
+                    <tr
+                      v-for="(role, i) in settings.self_assignable_roles"
+                      :key="role.role"
+                    >
+                      <td tile>
+                        <v-avatar :size="32" tile>
+                          <v-img :src="getRoleEmote(role)" />
+                        </v-avatar>
+                      </td>
+                      <td :style="{ color: getRoleColor(role) }">
+                        {{ getRoleName(role) }}
+                      </td>
+                      <td>
+                        <v-btn icon @click="removeSelfAssignableRole(i)">
+                          <v-icon color="red">delete</v-icon>
+                        </v-btn>
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
               <div v-else>
                 <span> You have no self assignable roles added yet </span>
               </div>

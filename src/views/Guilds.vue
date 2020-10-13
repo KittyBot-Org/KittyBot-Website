@@ -10,26 +10,40 @@
       />
     </div>
     <div
-      v-else-if="guilds.length > 0"
-      class="view-guilds-guilds"
+      v-else-if="guilds.length == 0"
+      class="view-guilds-empty"
       :class="{ mobile: isMobile }"
     >
-      <router-link
-        v-for="guild in guilds"
-        :key="guild.id"
-        :to="`/guilds/${guild.id}/dashboard`"
-      >
-        <guild-icon :icon="guild.icon" :text="guild.name" :alt="guild.name" />
-        <span>{{ guild.name }}</span>
-      </router-link>
-    </div>
-    <div v-else class="view-guilds-no-guilds">
       <h2>
         I'm not in any mutual servers in which you have Administrator permission
       </h2>
       <h2>Do you want to add me to your server?</h2>
       <invite-button />
     </div>
+    <v-simple-table v-else class="view-guilds-list">
+      <template>
+        <tbody>
+          <tr v-for="guild in guilds" :key="guild.id">
+            <td>
+              <guild-icon
+                :icon="guild.icon"
+                :text="guild.name"
+                :alt="guild.name"
+                :size="78"
+              />
+            </td>
+            <td>
+              <span>{{ guild.name }}</span>
+            </td>
+            <td>
+              <v-btn :to="`/guilds/${guild.id}/dashboard`" color="primary"
+                >Open Dashboard</v-btn
+              >
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
   </div>
 </template>
 
@@ -78,22 +92,10 @@ export default {
   display: flex;
   justify-content: center;
   text-align: center;
-  &-guilds {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    &.mobile {
-      flex-direction: column;
-    }
-    & a {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-decoration: none;
-      margin: 16px;
-    }
+  &-list {
+    width: 100%;
   }
-  &-no-guilds {
+  &-empty {
     display: flex;
     flex-direction: column;
     text-align: center;
