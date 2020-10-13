@@ -46,7 +46,7 @@
             <v-list-item-avatar>
               <guild-icon
                 :icon="item.icon"
-                :alt="`${name} profile`"
+                :alt="`${item.name} profile`"
                 :text="item.name"
                 :size="38"
               />
@@ -111,9 +111,12 @@
         <v-list-item-group v-if="isSmallMobile" style="padding-bottom: 8px">
           <v-list-item v-for="n of nav" :key="n.name" :to="n.to">
             <v-list-item-avatar tile>
-              <v-icon>
-                {{ n.icon }}
-              </v-icon>
+              <guild-icon
+                :icon="n.icon"
+                :alt="`${n.name} profile`"
+                :text="n.name"
+                :size="38"
+              />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>{{ n.name }}</v-list-item-title>
