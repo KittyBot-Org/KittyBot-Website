@@ -154,7 +154,12 @@
           :to="`/guilds/${guild.id}/dashboard`"
         >
           <v-list-item-avatar tile>
-            <v-img :src="guild.icon" />
+            <guild-icon
+              :icon="guild.icon"
+              :alt="`${guild.name} guild`"
+              :text="guild.name"
+              :size="40"
+            />
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>{{ guild.name }}</v-list-item-title>
