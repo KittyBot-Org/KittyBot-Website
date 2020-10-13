@@ -1,10 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app clipped-left :color="getAppBarColor">
-      <v-app-bar-nav-icon
-        v-if="isDashBoard"
-        @click="drawer = !drawer"
-      />
+      <v-app-bar-nav-icon v-if="isDashBoard" @click="drawer = !drawer" />
       <v-avatar v-else tile>
         <v-img src="./assets/KittyBlink.gif" />
       </v-avatar>
