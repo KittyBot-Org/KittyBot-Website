@@ -19,7 +19,7 @@
         :key="guild.id"
         :to="`/guilds/${guild.id}/dashboard`"
       >
-        <v-img :src="guild.icon" height="128" width="128" />
+        <guild-icon :icon="guild.icon" :text="guild.name" :alt="guild.name" />
         <span>{{ guild.name }}</span>
       </router-link>
     </div>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import GuildIcon from "../components/GuildIcon";
 import InviteButton from "../components/InviteButton";
 import API from "../api";
 
@@ -65,6 +66,7 @@ export default {
 
   components: {
     InviteButton,
+    GuildIcon,
   },
 };
 </script>
@@ -88,6 +90,7 @@ export default {
       flex-direction: column;
       justify-content: center;
       text-decoration: none;
+      margin: 16px;
     }
   }
   &-no-guilds {

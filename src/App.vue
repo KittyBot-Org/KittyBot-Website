@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app clipped-left :color="getAppBarColor">
       <v-app-bar-nav-icon
-        v-if="isDashBoard || isMobile"
+        v-if="isDashBoard"
         @click="drawer = !drawer"
       />
       <v-avatar v-else tile>
@@ -28,18 +28,58 @@
 
       <v-spacer />
 
+      <v-autocomplete
+        v-if="isDashBoard"
+        class="guild-selector"
+        :class="{ 'small-mobile': isSmallMobile }"
+        v-model="selectedGuild"
+        placeholder="Select Guild..."
+        :single-line="true"
+        :items="guilds"
+        item-value="id"
+        item-text="name"
+        no-data-text="No mutal guilds found"
+        @change="selectGuild"
+      >
+        <template v-slot:item="{ item }">
+          <template>
+            <v-list-item-avatar>
+              <guild-icon
+                :icon="item.icon"
+                :alt="`${name} profile`"
+                :text="item.name"
+                :size="38"
+              />
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.name }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+        </template>
+        <template v-slot:selection="{ item }">
+          <guild-icon
+            :icon="item.icon"
+            :alt="`${item.name} profile`"
+            :text="item.name"
+            :size="36"
+            style="margin-right: 8px; margin-bottom: 4px"
+          />
+          <span style="margin-bottom: 4px">{{ item.name }}</span>
+        </template>
+      </v-autocomplete>
+
       <v-btn icon @click="switchTheme">
         <v-icon>brightness_4</v-icon>
       </v-btn>
       <v-menu v-if="loggedIn" offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
-            <v-avatar v-if="icon == null">
-              <span>{{ shortName }}</span>
-            </v-avatar>
-            <v-avatar v-else :src="icon" :size="38">
-              <v-img :alt="`${name} profile`" :src="icon" />
-            </v-avatar>
+            <guild-icon
+              :icon="icon"
+              :alt="`${name} profile`"
+              :text="name"
+              :size="38"
+            />
           </v-btn>
         </template>
         <v-list>
@@ -61,13 +101,14 @@
     </v-app-bar>
 
     <v-navigation-drawer
-      v-if="isDashBoard || isMobile"
+      v-if="isDashBoard || isSmallMobile"
       v-model="drawer"
+      mobile-breakpoint="960"
       clipped
       app
     >
       <v-list shaped nav>
-        <v-list-item-group v-if="isMobile" style="padding-bottom: 8px">
+        <v-list-item-group v-if="isSmallMobile" style="padding-bottom: 8px">
           <v-list-item v-for="n of nav" :key="n.name" :to="n.to">
             <v-list-item-avatar tile>
               <v-icon>
@@ -84,7 +125,7 @@
             target="_blank"
           >
             <v-list-item-avatar tile>
-              <v-icon> code </v-icon>
+              <v-icon>code</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>GitHub</v-list-item-title>
@@ -93,7 +134,7 @@
         </v-list-item-group>
         <v-list-item v-if="!isMobile" :to="`/guilds`" exact>
           <v-list-item-avatar tile>
-            <v-icon> list </v-icon>
+            <v-icon>list</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>Guilds</v-list-item-title>
@@ -101,7 +142,7 @@
         </v-list-item>
         <v-list-item v-if="isAdmin" to="/admin/dashboard" exact>
           <v-list-item-avatar tile>
-            <v-icon> supervisor_account </v-icon>
+            <v-icon>supervisor_account</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>Admin</v-list-item-title>
@@ -146,6 +187,7 @@
 </template>
 
 <script>
+import GuildIcon from "./components/GuildIcon";
 import API from "./api";
 
 export default {
@@ -190,7 +232,16 @@ export default {
       id: "",
       icon: null,
       guilds: [],
+      selectedGuild: -1,
     };
+  },
+
+  beforeUpdate() {
+    this.selectedGuild = this.$route.params.guildId;
+  },
+
+  components: {
+    GuildIcon,
   },
 
   created() {
@@ -230,6 +281,9 @@ export default {
       return API.theme.isDark;
     },
     isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
+    isSmallMobile() {
       return this.$vuetify.breakpoint.xsOnly;
     },
     isDashBoard() {
@@ -263,6 +317,9 @@ export default {
   },
 
   methods: {
+    selectGuild(guildId) {
+      this.$router.push({ path: `/guilds/${guildId}/dashboard` });
+    },
     cleanErrors() {
       this.errors = [];
     },
@@ -314,6 +371,16 @@ export default {
 
 <style lang="less">
 @import "./style/style.less";
+
+.guild-selector {
+  width: min-content;
+  .small-mobile {
+    width: 100%;
+  }
+  .v-text-field__details {
+    display: none;
+  }
+}
 
 .v-application {
   .font-default();
