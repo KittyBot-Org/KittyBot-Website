@@ -3,7 +3,7 @@
     <v-avatar
       :color="icon == null ? 'blue' : undefined"
       :size="size"
-      :tile="!hasIcon"
+      :tile="tile"
     >
       <span v-if="hasIcon" :style="{ 'font-size': `${size / 2.5}px` }">{{
         shortText
@@ -27,6 +27,10 @@ export default {
     alt: {
       type: String,
       default: "",
+    },
+    tile: {
+      type: Boolean,
+      default: false,
     },
     size: {
       type: Number,

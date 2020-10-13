@@ -20,30 +20,32 @@
       <h2>Do you want to add me to your server?</h2>
       <invite-button />
     </div>
-    <v-simple-table v-else class="view-guilds-list">
-      <template>
-        <tbody>
-          <tr v-for="guild in guilds" :key="guild.id">
-            <td>
-              <guild-icon
-                :icon="guild.icon"
-                :text="guild.name"
-                :alt="guild.name"
-                :size="78"
-              />
-            </td>
-            <td>
-              <span>{{ guild.name }}</span>
-            </td>
-            <td>
-              <v-btn :to="`/guilds/${guild.id}/dashboard`" color="primary"
-                >Open Dashboard</v-btn
-              >
-            </td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+    <div v-else class="view-guilds-list">
+      <router-link
+        :class="{ dark: isdark }"
+        class="view-guilds-list-tr"
+        v-for="guild in guilds"
+        :key="guild.id"
+        :to="`/guilds/${guild.id}/dashboard`"
+      >
+        <div class="view-guilds-list-td">
+          <guild-icon
+            :icon="guild.icon"
+            :text="guild.name"
+            :alt="guild.name"
+            :size="60"
+          />
+        </div>
+        <div class="view-guilds-list-td">
+          {{ guild.name }}
+        </div>
+        <div class="view-guilds-list-td">
+          <v-btn :to="`/guilds/${guild.id}/dashboard`" color="primary"
+            >Open Dashboard</v-btn
+          >
+        </div>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -76,6 +78,9 @@ export default {
     isMobile() {
       return this.$vuetify.breakpoint.xsOnly;
     },
+    isdark() {
+      return this.$vuetify.theme.dark;
+    },
   },
 
   components: {
@@ -94,6 +99,28 @@ export default {
   text-align: center;
   &-list {
     width: 100%;
+    &-tr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 4px;
+      &:not(:last-child) {
+        margin-bottom: 16px;
+      }
+      background-color: #eeeeee;
+      &.dark {
+        background-color: #1e1e1e;
+      }
+      &:hover {
+        transition: background-color 0.2s;
+        background-color: #d8d8d8;
+        &.dark {
+          background-color: #616161;
+        }
+      }
+    }
   }
   &-empty {
     display: flex;
