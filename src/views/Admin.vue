@@ -5,6 +5,8 @@
       :items="guilds"
       item-key="name"
       :loading="loading"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
       disable-pagination
       hide-default-footer
     >
@@ -49,6 +51,8 @@ export default {
 
   data() {
     return {
+      sortBy: "name",
+      sortDesc: false,
       headers: [
         { value: "icon", sortable: false },
         { text: "Name", value: "name" },
