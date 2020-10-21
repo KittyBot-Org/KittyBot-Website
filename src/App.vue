@@ -222,9 +222,9 @@ export default {
           to: "/commands",
         },
         {
-          name: "About",
-          icon: "info",
-          to: "/about",
+          name: "Privacy",
+          icon: "security",
+          to: "/privacy",
         },
       ],
       alert: true,
@@ -296,7 +296,7 @@ export default {
         this.$route.fullPath == "/" ||
         this.$route.fullPath == "/features" ||
         this.$route.fullPath == "/commands" ||
-        this.$route.fullPath == "/about"
+        this.$route.fullPath == "/privacy"
       );
     },
     getAppBarColor() {
