@@ -355,6 +355,12 @@ export default {
             this.guilds = response.body.guilds;
           },
           (error) => {
+            if (error.status == 400) {
+              console.log(error);
+              API.authKey.set = "";
+              window.location = API.getURL("discord_login");
+              return;
+            }
             this.addError(error);
           }
         );
@@ -362,7 +368,7 @@ export default {
     },
     logout() {
       API.post("logout").then();
-      this.loading = true;
+      this.loading = false;
       API.authKey.set = "";
       this.loggedIn = false;
       this.icon = null;
