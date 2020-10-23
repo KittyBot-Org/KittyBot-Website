@@ -74,7 +74,6 @@
       <v-menu v-if="loggedIn" offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
-            fixed weird offs
             <v-avatar :size="38">
               <v-img :src="icon" :alt="`${name}'s profile`" />
             </v-avatar>
