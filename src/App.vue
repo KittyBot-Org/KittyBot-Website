@@ -9,7 +9,11 @@
         <v-img src="./assets/KittyBlink.gif" />
       </v-avatar>
 
-      <div v-if="!isMobile" class="nav">
+      <div
+        v-if="!isMobile"
+        class="nav"
+        :class="{ 'not-dashboard': !isDashBoard }"
+      >
         <router-link
           v-for="n of nav"
           :key="n.name"
@@ -400,7 +404,7 @@ export default {
   padding: 16px;
 }
 
-.nav .dark {
+.not-dashboard .nav {
   color: #ffffff !important;
 }
 
