@@ -9,7 +9,11 @@
         <v-img src="./assets/KittyBlink.gif" />
       </v-avatar>
 
-      <div v-if="!isMobile" class="nav">
+      <div
+        v-if="!isMobile"
+        class="nav"
+        :class="{ 'not-dashboard': !isDashBoard }"
+      >
         <router-link
           v-for="n of nav"
           :key="n.name"
@@ -74,12 +78,9 @@
       <v-menu v-if="loggedIn" offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
-            <guild-icon
-              :icon="icon"
-              :alt="`${name} profile`"
-              :text="name"
-              :size="38"
-            />
+            <v-avatar :size="38">
+              <v-img :src="icon" :alt="`${name}'s profile`" />
+            </v-avatar>
           </v-btn>
         </template>
         <v-list>
@@ -222,9 +223,9 @@ export default {
           to: "/commands",
         },
         {
-          name: "About",
-          icon: "info",
-          to: "/about",
+          name: "Privacy",
+          icon: "security",
+          to: "/privacy",
         },
       ],
       alert: true,
@@ -296,7 +297,7 @@ export default {
         this.$route.fullPath == "/" ||
         this.$route.fullPath == "/features" ||
         this.$route.fullPath == "/commands" ||
-        this.$route.fullPath == "/about"
+        this.$route.fullPath == "/privacy"
       );
     },
     getAppBarColor() {
@@ -355,6 +356,12 @@ export default {
             this.guilds = response.body.guilds;
           },
           (error) => {
+            if (error.status == 400) {
+              console.log(error);
+              API.authKey.set = "";
+              window.location = API.getURL("discord_login");
+              return;
+            }
             this.addError(error);
           }
         );
@@ -362,7 +369,7 @@ export default {
     },
     logout() {
       API.post("logout").then();
-      this.loading = true;
+      this.loading = false;
       API.authKey.set = "";
       this.loggedIn = false;
       this.icon = null;
@@ -397,7 +404,7 @@ export default {
   padding: 16px;
 }
 
-.nav .dark {
+.not-dashboard .nav {
   color: #ffffff !important;
 }
 

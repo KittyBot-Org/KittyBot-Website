@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "./views/Home";
 import Features from "./views/Features";
 import Commands from "./views/Commands";
-import About from "./views/About";
+import Privacy from "./views/Privacy";
 import Guilds from "./views/Guilds";
 import Admin from "./views/Admin";
 import Dashboard from "./views/Dashboard";
@@ -11,46 +11,61 @@ import NotFound from "./views/NotFound";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     component: Home,
-    meta: { title: "Home" },
+    meta: {
+      title: "Home",
+    },
   },
   {
     path: "/features",
     component: Features,
-    meta: { title: "Features" },
+    meta: {
+      title: "Features",
+    },
   },
   {
     path: "/commands",
     component: Commands,
-    meta: { title: "Commands" },
+    meta: {
+      title: "Commands",
+    },
   },
   {
-    path: "/about",
-    component: About,
-    meta: { title: "About" },
+    path: "/privacy",
+    component: Privacy,
+    meta: {
+      title: "Privacy",
+    },
   },
   {
     path: "/admin/dashboard",
     component: Admin,
-    meta: { title: "Admin" },
+    meta: {
+      title: "Admin",
+    },
   },
   {
     path: "/guilds/",
     component: Guilds,
-    meta: { title: "Guilds" },
+    meta: {
+      title: "Guilds",
+    },
   },
   {
     path: "/guilds/:guildId/dashboard",
     component: Dashboard,
-    meta: { title: "Dashboard" },
+    meta: {
+      title: "Dashboard",
+    },
   },
   {
     path: "*",
     component: NotFound,
-    meta: { title: "NotFound" },
+    meta: {
+      title: "NotFound",
+    },
   },
 ];
 

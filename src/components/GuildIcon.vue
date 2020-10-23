@@ -1,11 +1,11 @@
 <template>
-  <div class="guild-icon">
+  <div>
     <v-avatar
       :color="icon == null ? 'blue' : undefined"
       :size="size"
       :tile="tile"
     >
-      <span v-if="hasIcon" :style="{ 'font-size': `${size / 2.5}px` }">{{
+      <span v-if="hasNoIcon" :style="{ 'font-size': `${size / 2.5}px` }">{{
         shortText
       }}</span>
       <v-img v-else :src="icon" :alt="alt" />
@@ -51,10 +51,9 @@ export default {
       }
       return text.substr(0, this.size > 42 ? 3 : 2);
     },
-    hasIcon() {
+    hasNoIcon() {
       return this.icon == null || this.icon == "";
     },
   },
 };
 </script>
-40 src/router.js
