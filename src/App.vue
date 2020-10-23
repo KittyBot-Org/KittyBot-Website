@@ -74,12 +74,10 @@
       <v-menu v-if="loggedIn" offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
-            <guild-icon
-              :icon="icon"
-              :alt="`${name} profile`"
-              :text="name"
-              :size="38"
-            />
+            fixed weird offs
+            <v-avatar :size="38">
+              <v-img :src="icon" :alt="`${name}'s profile`" />
+            </v-avatar>
           </v-btn>
         </template>
         <v-list>
