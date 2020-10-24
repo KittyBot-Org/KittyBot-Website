@@ -31,7 +31,7 @@
     <p>
       To get more information on how the bot works/saves your data feel free to
       ask me on my Discord or take a look at the source code at
-      <a href="https://github.com/KittyBot-Org/KittyBot" target="_blank"></a>
+      <a href="https://github.com/KittyBot-Org/KittyBot" target="_blank">GitHub</a>
     </p>
   </div>
 </template>
