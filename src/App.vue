@@ -32,7 +32,7 @@
 
       <v-spacer />
 
-      <v-autocomplete
+      <v-select
         v-if="isDashBoard"
         class="guild-selector"
         :class="{ 'small-mobile': isSmallMobile }"
@@ -70,7 +70,7 @@
           />
           <span style="margin-bottom: 4px">{{ item.name }}</span>
         </template>
-      </v-autocomplete>
+      </v-select>
 
       <v-btn icon @click="switchTheme">
         <v-icon>brightness_4</v-icon>
