@@ -154,6 +154,7 @@
                   v-model="selectedEmote"
                   placeholder="Select Emote..."
                   :items="getEmotes"
+                  no-data-text="No Emotes found"
                 >
                   <template v-slot:item="{ item }">
                     <v-list-item-avatar tile>
@@ -168,6 +169,7 @@
                   v-model="selectedRole"
                   placeholder="Select Role..."
                   :items="getRoles"
+                  no-data-text="No Roles found"
                 >
                   <template v-slot:item="{ item }">
                     <v-list-item-content>
