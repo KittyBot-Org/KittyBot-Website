@@ -293,12 +293,11 @@ export default {
       return this.$vuetify.breakpoint.xsOnly;
     },
     isDashBoard() {
-      return !(
-        this.$route.fullPath == "/" ||
-        this.$route.fullPath == "/features" ||
-        this.$route.fullPath == "/commands" ||
-        this.$route.fullPath == "/privacy"
-      );
+      let path = this.$route.path;
+      if (path.substr(-1) == "/") {
+        path = path.substr(0, path.length - 1);
+      }
+      return !["", "/features", "/commands", "/privacy"].includes(path);
     },
     getAppBarColor() {
       return this.isDashBoard ? "" : "#5c5fea";
