@@ -11,7 +11,7 @@ const CLIENT_ID =
     ? "587697058602025011"
     : "695662898919506020";
 const ADMIN_IDS = ["170939974227591168", "394607709741252621"];
-const AUTH_KEY = "AUTH_KEY";
+const TOKEN = "token";
 const IS_DARK = "IS_DARK";
 const SETTING_PROPS = [
   "prefix",
@@ -26,15 +26,15 @@ const SETTING_PROPS = [
   "self_assignable_roles",
 ];
 
-const authKey = {
+const token = {
   get get() {
-    return localStorage.getItem(AUTH_KEY);
+    return localStorage.getItem(TOKEN);
   },
-  set set(key) {
-    if (key == "") {
-      localStorage.removeItem(AUTH_KEY);
+  set set(token) {
+    if (token == "") {
+      localStorage.removeItem(TOKEN);
     } else {
-      localStorage.setItem(AUTH_KEY, key);
+      localStorage.setItem(TOKEN, token);
     }
   },
 };
@@ -68,7 +68,7 @@ function getURL(url) {
 function getOptions() {
   return {
     headers: {
-      Authorization: authKey.get,
+      Authorization: token.get,
     },
   };
 }
@@ -110,7 +110,7 @@ export default {
   ADMIN_IDS,
   post,
   get,
-  authKey,
+  token,
   theme,
   getURL,
   areSettingsChanged,
