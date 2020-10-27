@@ -263,7 +263,7 @@ export default {
       ).then(
         (response) => {
           this.$router.replace({ query: null });
-          API.authKey.set = response.body.token;
+          API.token.set = response.body.token;
           this.loadData();
         },
         (error) => {
@@ -342,7 +342,7 @@ export default {
       this.$vuetify.theme.dark = isDark;
     },
     loadData() {
-      if (API.authKey.get != null) {
+      if (API.token.get != null) {
         API.get("user/me").then(
           (response) => {
             this.loggedIn = response.status == 200;
