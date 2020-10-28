@@ -263,14 +263,11 @@ export default {
       ).then(
         (response) => {
           this.$router.replace({ query: null });
-          if (response.status == 200) {
-            API.authKey.set = response.body.key;
-            this.loadData();
-          } else {
-            this.addError(response);
-          }
+          API.token.set = response.body.token;
+          this.loadData();
         },
         (error) => {
+          this.$router.replace({ query: null });
           this.addError(error);
         }
       );
@@ -345,7 +342,7 @@ export default {
       this.$vuetify.theme.dark = isDark;
     },
     loadData() {
-      if (API.authKey.get != null) {
+      if (API.token.get != null) {
         API.get("user/me").then(
           (response) => {
             this.loggedIn = response.status == 200;
@@ -357,7 +354,7 @@ export default {
           (error) => {
             if (error.status == 400) {
               console.log(error);
-              API.authKey.set = "";
+              API.token.set = "";
               window.location = API.getURL("discord_login");
               return;
             }
@@ -369,7 +366,7 @@ export default {
     logout() {
       API.post("logout").then();
       this.loading = false;
-      API.authKey.set = "";
+      API.token.set = "";
       this.loggedIn = false;
       this.icon = null;
       this.name = "";
