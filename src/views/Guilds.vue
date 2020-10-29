@@ -9,11 +9,7 @@
         src="../assets/KittyBlink.gif"
       />
     </div>
-    <div
-      v-else-if="guilds.length == 0"
-      class="view-guilds-empty"
-      :class="{ mobile: isMobile }"
-    >
+    <div v-else-if="guilds.length == 0" class="view-guilds-empty">
       <h2>
         I'm not in any mutual servers in which you have Administrator permission
       </h2>
@@ -22,7 +18,7 @@
     </div>
     <div v-else class="view-guilds-list">
       <router-link
-        :class="{ dark: isdark }"
+        :class="{ isDark, isMobile }"
         class="view-guilds-list-tr"
         v-for="guild in guilds"
         :key="guild.id"
@@ -39,7 +35,7 @@
         <div class="view-guilds-list-td">
           {{ guild.name }}
         </div>
-        <div class="view-guilds-list-td">
+        <div v-if="!isMobile">
           <v-btn :to="`/guilds/${guild.id}/dashboard`" color="primary"
             >Open Dashboard</v-btn
           >
@@ -78,7 +74,7 @@ export default {
     isMobile() {
       return this.$vuetify.breakpoint.xsOnly;
     },
-    isdark() {
+    isDark() {
       return this.$vuetify.theme.dark;
     },
   },
@@ -102,21 +98,26 @@ export default {
     &-tr {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       padding: 8px;
       text-decoration: none;
       border-radius: 4px;
+      & *:not(:first-child) {
+        margin-left: 8px;
+      }
+      &:not(.isMobile) {
+        justify-content: space-between;
+      }
       &:not(:last-child) {
         margin-bottom: 16px;
       }
       background-color: #eeeeee;
-      &.dark {
+      &.isDark {
         background-color: #1e1e1e;
       }
       &:hover {
         transition: background-color 0.2s;
         background-color: #d8d8d8;
-        &.dark {
+        &.isDark {
           background-color: #616161;
         }
       }

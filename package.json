@@ -12,16 +12,16 @@
     "dev": "vue-cli-service serve --port 80"
   },
   "dependencies": {
-    "@sentry/browser": "^5.27.1",
-    "@sentry/integrations": "^5.27.1",
+    "@sentry/browser": "^5.27.2",
+    "@sentry/integrations": "^5.27.2",
     "@vue/cli": "^4.5.8",
     "core-js": "^3.6.4",
     "less-loader": "^6.2.0",
     "lodash": "^4.17.20",
     "vue": "^2.6.12",
     "vue-resource": "^1.5.1",
-    "vue-router": "^3.4.7",
-    "vuetify": "^2.3.15"
+    "vue-router": "^3.4.8",
+    "vuetify": "^2.3.16"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.8",
@@ -30,11 +30,11 @@
     "@vue/cli-service": "^4.5.8",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.12.0",
+    "eslint": "^7.12.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^7.1.0",
     "prettier": "^2.1.2",
-    "sass": "^1.27.0",
+    "sass": "^1.27.1",
     "sass-loader": "^10.0.4",
     "vue-cli-plugin-vuetify": "^2.0.7",
     "vue-template-compiler": "^2.6.12",
