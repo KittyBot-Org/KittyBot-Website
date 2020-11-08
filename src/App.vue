@@ -352,12 +352,8 @@ export default {
             this.guilds = response.body.guilds;
           },
           (error) => {
-            if (error.status == 400) {
-              console.log(error);
-              API.token.set = "";
-              window.location = API.getURL("discord_login");
-              return;
-            }
+            API.token.set = "";
+            window.location = API.getURL("discord_login");
             this.addError(error);
           }
         );

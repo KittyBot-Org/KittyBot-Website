@@ -1,17 +1,26 @@
 <template>
   <div class="view-commands">
     <h1>Commands</h1>
-    <entity-command-category
-      v-for="category of categories"
-      :key="category.name"
-      :category="category"
-      :prefix="prefix"
-    />
+    <v-expansion-panels :multiple="true">
+      <v-expansion-panel v-for="category in categories" :key="category.name">
+        <v-expansion-panel-header>
+          <div>
+            <v-avatar :size="32" tile>
+              <img :src="category.emote_url" />
+            </v-avatar>
+            <span class="view-commands-header">{{ category.name }}</span>
+          </div>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <entity-commands :commands="category.commands" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
 <script>
-import EntityCommandCategory from "../components/EntityCommandCategory";
+import EntityCommands from "../components/EntityCommands";
 import API from "../api";
 
 export default {
@@ -44,7 +53,7 @@ export default {
   },
 
   components: {
-    EntityCommandCategory,
+    EntityCommands,
   },
 
   methods: {
@@ -62,6 +71,10 @@ export default {
   text-align: center;
   h1 {
     color: @primary;
+    margin-bottom: 8px;
+  }
+  &-header {
+    margin-left: 8px;
   }
 }
 </style>
