@@ -280,9 +280,6 @@ export default {
     isAdmin() {
       return API.ADMIN_IDS.includes(this.id);
     },
-    isDark() {
-      return API.theme.isDark;
-    },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
     },
@@ -352,12 +349,8 @@ export default {
             this.guilds = response.body.guilds;
           },
           (error) => {
-            if (error.status == 400) {
-              console.log(error);
-              API.token.set = "";
-              window.location = API.getURL("discord_login");
-              return;
-            }
+            API.token.set = "";
+            window.location = API.getURL("discord_login");
             this.addError(error);
           }
         );
