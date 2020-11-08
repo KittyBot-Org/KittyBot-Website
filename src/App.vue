@@ -280,9 +280,6 @@ export default {
     isAdmin() {
       return API.ADMIN_IDS.includes(this.id);
     },
-    isDark() {
-      return API.theme.isDark;
-    },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
     },

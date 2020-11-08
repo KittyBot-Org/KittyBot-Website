@@ -8,28 +8,31 @@
       >
         <div class="entity-commands-list-entry-command">{{ cmd.command }}</div>
         <div class="entity-commands-list-entry-usage">{{ cmd.usage }}</div>
-        <div class="entity-commands-list-entry-description">
-          {{ cmd.description }}
-        </div>
+        <div
+          class="entity-commands-list-entry-description"
+          v-html="formatDescription(cmd.description)"
+        />
         <v-divider v-if="i < commands.length - 1" />
       </div>
     </div>
     <table v-else class="entity-commands-table">
-      <tr v-for="cmd in commands" :key="cmd.command">
+      <tr
+        v-for="cmd in commands"
+        :key="cmd.command"
+        class="entity-commands-table-row"
+      >
         <td>
-          <div class="entity-commands-command">
+          <div>
             {{ cmd.command }}
           </div>
         </td>
         <td>
-          <div class="entity-commands-usage">
+          <div>
             {{ cmd.usage }}
           </div>
         </td>
         <td>
-          <div class="entity-commands-description">
-            {{ cmd.description }}
-          </div>
+          <div v-html="formatDescription(cmd.description)" />
         </td>
       </tr>
     </table>
@@ -43,6 +46,23 @@ export default {
     commands: {
       required: true,
       type: Array,
+    },
+  },
+
+  methods: {
+    formatDescription(description) {
+      let elements = description.match(/\[.*?\)/g);
+      if (elements != null && elements.length > 0) {
+        for (let el of elements) {
+          let txt = el.match(/\[(.*?)\]/)[1];
+          let url = el.match(/\((.*?)\)/)[1];
+          description = description.replace(
+            el,
+            `<a href="${url}" style="color: #5c5fea" target="_blank">${txt}</a>`
+          );
+        }
+      }
+      return description;
     },
   },
 
@@ -71,15 +91,17 @@ export default {
   }
   &-table {
     width: 100%;
+    border-collapse: collapse;
   }
-  &-command {
+  & td {
     text-align: start;
+    vertical-align: top;
+    & div {
+      padding-left: 8px;
+    }
+  }
+  & td:first-child {
     color: @primary;
-  }
-  &-usage,
-  &-description {
-    text-align: start;
-    margin-left: 8px;
   }
 }
 </style>
