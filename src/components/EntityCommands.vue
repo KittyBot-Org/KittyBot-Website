@@ -96,7 +96,14 @@ export default {
   & td {
     text-align: start;
     vertical-align: top;
+    &:nth-child(1) {
+      width: 20%;
+    }
+    &:nth-child(2) {
+      width: 40%;
+    }
     & div {
+      padding: 2px;
       padding-left: 8px;
     }
   }
