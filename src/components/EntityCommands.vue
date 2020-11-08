@@ -4,7 +4,7 @@
       <div
         v-for="(cmd, i) in commands"
         class="entity-commands-list-entry"
-        :key="cmd.id"
+        :key="cmd.command"
       >
         <div class="entity-commands-list-entry-command">{{ cmd.command }}</div>
         <div class="entity-commands-list-entry-usage">{{ cmd.usage }}</div>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <table v-else class="entity-commands-table">
-      <tr v-for="cmd in commands" :key="cmd.id">
+      <tr v-for="cmd in commands" :key="cmd.command">
         <td>
           <div class="entity-commands-command">
             {{ cmd.command }}
