@@ -212,11 +212,11 @@ export default {
           icon: "dashboard",
           to: "/guilds",
         },
-        {
+        /*{
           name: "Features",
           icon: "star",
           to: "/features",
-        },
+        },*/
         {
           name: "Commands",
           icon: "comment",
