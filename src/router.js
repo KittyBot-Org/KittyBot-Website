@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "./views/Home";
 import Features from "./views/Features";
 import Commands from "./views/Commands";
-import Privacy from "./views/Privacy";
+import Login from "./views/Login";
 import Guilds from "./views/Guilds";
 import Admin from "./views/Admin";
 import Dashboard from "./views/Dashboard";
@@ -20,6 +20,13 @@ const routes = [
     },
   },
   {
+    path: "/login",
+    component: Login,
+    meta: {
+      title: "Login",
+    },
+  },
+  {
     path: "/features",
     component: Features,
     meta: {
@@ -31,13 +38,6 @@ const routes = [
     component: Commands,
     meta: {
       title: "Commands",
-    },
-  },
-  {
-    path: "/privacy",
-    component: Privacy,
-    meta: {
-      title: "Privacy",
     },
   },
   {

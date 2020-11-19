@@ -94,8 +94,7 @@
         :loading="loading"
         :text="true"
         :color="getLoginButtonColor"
-        :href="api.getURL('discord_login')"
-        @click="loading = true"
+        @click="login"
       >
         Login
       </v-btn>
@@ -252,28 +251,7 @@ export default {
 
   created() {
     this.$vuetify.theme.dark = API.theme.isDark;
-    if (
-      this.$route.query.code != undefined &&
-      this.$route.query.state != undefined
-    ) {
-      API.post(
-        "login",
-        { code: this.$route.query.code, state: this.$route.query.state },
-        {}
-      ).then(
-        (response) => {
-          this.$router.replace({ query: null });
-          API.token.set = response.body.token;
-          this.loadData();
-        },
-        (error) => {
-          this.$router.replace({ query: null });
-          this.addError(error);
-        }
-      );
-    } else {
-      this.loadData();
-    }
+    //TODO
   },
 
   computed: {
@@ -355,6 +333,10 @@ export default {
           }
         );
       }
+    },
+    login() {
+      this.loading = true;
+      window.open(API.getURL("discord_login"), "", "width=400,height=800");
     },
     logout() {
       API.post("logout").then();
