@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "./views/Home";
-import Features from "./views/Features";
 import Commands from "./views/Commands";
+import Login from "./views/Login";
 import Privacy from "./views/Privacy";
 import Guilds from "./views/Guilds";
 import Admin from "./views/Admin";
@@ -20,17 +20,10 @@ const routes = [
     },
   },
   {
-    path: "/features",
-    component: Features,
+    path: "/login",
+    component: Login,
     meta: {
-      title: "Features",
-    },
-  },
-  {
-    path: "/commands",
-    component: Commands,
-    meta: {
-      title: "Commands",
+      title: "Login",
     },
   },
   {
@@ -38,6 +31,13 @@ const routes = [
     component: Privacy,
     meta: {
       title: "Privacy",
+    },
+  },
+  {
+    path: "/commands",
+    component: Commands,
+    meta: {
+      title: "Commands",
     },
   },
   {
