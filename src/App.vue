@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view v-if="$route.path == '/login'" />
+    <router-view v-if="$route.path == '/login'" class="view-login" />
     <v-app v-else>
       <v-app-bar app clipped-left :color="getAppBarColor">
         <v-app-bar-nav-icon
@@ -346,7 +346,14 @@ export default {
     },
     login() {
       this.loading = true;
-      window.open(API.getURL("discord_login"), "", "width=600,height=800");
+      window.open(
+        API.getURL("discord_login"),
+        "KittyBotLoginWindow",
+        "width=600,height=800"
+      );
+      window.setTimeout(() => {
+        this.loading = false;
+      }, 1000);
     },
     logout() {
       API.post("logout");
@@ -394,5 +401,8 @@ button.not-dashboard {
 
 html {
   overflow-y: auto !important;
+  min-width: 100%;
+  min-height: 100%;
+  background-color: #121212;
 }
 </style>
