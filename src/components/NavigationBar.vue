@@ -31,6 +31,8 @@
 
     <v-spacer />
 
+    <language-selector />
+
     <guild-selector :guilds="guilds" />
 
     <v-btn :class="{ 'not-dashboard': !isDashBoard }" icon @click="switchTheme">
@@ -63,6 +65,7 @@
   </v-app-bar>
 </template>
 <script>
+import LanguageSelector from "./LanguageSelector";
 import GuildSelector from "./GuildSelector";
 import API from "../api";
 
@@ -92,6 +95,7 @@ export default {
   },
 
   components: {
+    LanguageSelector,
     GuildSelector,
   },
 

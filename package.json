@@ -19,6 +19,7 @@
     "less-loader": "^6.2.0",
     "lodash": "^4.17.20",
     "vue": "^2.6.12",
+    "vue-country-flag": "^2.0.2",
     "vue-i18n": "^8.22.2",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.4.9",
