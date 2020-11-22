@@ -9,7 +9,7 @@
         :guilds="guilds"
         @logout="logout"
       />
-      <navigation-drawer :nav="nav" :guilds="guilds" />
+      <navigation-drawer :nav="nav" :user="user" :guilds="guilds" />
       <v-main>
         <v-alert v-if="isAlertVisible" dismissible type="error">
           <template v-slot:close="">

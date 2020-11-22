@@ -83,6 +83,10 @@ export default {
       required: true,
       type: Array,
     },
+    user: {
+      required: true,
+      validator: (prop) => prop instanceof Object || prop === null,
+    },
   },
 
   data() {
@@ -97,7 +101,10 @@ export default {
 
   computed: {
     isAdmin() {
-      return API.ADMIN_IDS.includes(this.id);
+      if (this.user == null) {
+        return false;
+      }
+      return API.ADMIN_IDS.includes(this.user.id);
     },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
