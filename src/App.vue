@@ -22,6 +22,7 @@
             <br />
           </span>
         </v-alert>
+        {{ $t("test") }}
         <router-view
           class="dashboard-navigation-view"
           :guilds="guilds"

@@ -3,6 +3,7 @@ import VueResource from "vue-resource";
 import App from "./App.vue";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
+import i18n from "./i18n";
 import * as Sentry from "@sentry/browser";
 import { Vue as VueIntegration } from "@sentry/integrations";
 
@@ -10,7 +11,12 @@ if (process.env.NODE_ENV === "production") {
   Sentry.init({
     dsn:
       "https://6a900b0e67d34d05bd5dc65dbdd94513@o408367.ingest.sentry.io/5279237",
-    integrations: [new VueIntegration({ Vue, attachProps: true })],
+    integrations: [
+      new VueIntegration({
+        Vue,
+        attachProps: true,
+      }),
+    ],
   });
 }
 
@@ -21,5 +27,6 @@ Vue.use(VueResource);
 new Vue({
   vuetify,
   router,
+  i18n,
   render: (h) => h(App),
 }).$mount("#app");
