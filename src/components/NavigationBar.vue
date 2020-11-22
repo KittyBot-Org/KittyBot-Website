@@ -31,9 +31,9 @@
 
     <v-spacer />
 
-    <language-selector />
-
     <guild-selector :guilds="guilds" />
+
+    <language-selector />
 
     <v-btn :class="{ 'not-dashboard': !isDashBoard }" icon @click="switchTheme">
       <v-icon>brightness_4</v-icon>
