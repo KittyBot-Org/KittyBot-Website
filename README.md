@@ -1,4 +1,4 @@
-[![Last Build Status](https://img.shields.io/teamcity/https/ci.anteiku.de/s/KittyBot_Website_Master_Build.svg)](https://ci.anteiku.de/project/KittyBot_Bot?guest=1)
+[![Last Build Status](https://img.shields.io/teamcity/https/ci.kittybot.de/s/KittyBot_Website_Master_Build.svg)](https://ci.kittybot.de/project/KittyBot_Bot?guest=1)
 [![Total Downloads](https://img.shields.io/github/downloads/TopiSenpai/kittybot-website/total.svg)](https://github.com/TopiSenpai/kittybot-website/releases) 
 [![Docker Pulls](https://img.shields.io/docker/pulls/topisenpai/kittybot-website.svg)](https://hub.docker.com/repository/docker/topisenpai/kittybot-website) 
 [![Docker Image Size](https://img.shields.io/docker/image-size/topisenpai/kittybot-website/latest)](https://hub.docker.com/repository/docker/topisenpai/kittybot-website)
