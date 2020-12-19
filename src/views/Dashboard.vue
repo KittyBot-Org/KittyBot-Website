@@ -89,30 +89,6 @@
                 </ul>
               </div>
             </entity-setting>
-
-            <v-divider />
-
-            <entity-setting label="Enable Boost Messages">
-              <v-switch v-model="settings.boost_messages_enabled" />
-            </entity-setting>
-            <entity-setting
-              v-if="settings.boost_messages_enabled"
-              label="Boost Message"
-            >
-              <v-textarea
-                v-model="settings.boost_messages"
-                placeholder="Boost Message"
-              />
-              <div slot="description">
-                <span>Placeholders:</span>
-                <ul>
-                  <li>${random_boost_message}</li>
-                  <li>${user}</li>
-                  <li>${user_tag}</li>
-                  <li>${name}</li>
-                </ul>
-              </div>
-            </entity-setting>
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -254,12 +230,14 @@ export default {
       return !API.areSettingsChanged(this.settings, this.initialSettings);
     },
     getChannels() {
-      return this.channels.map((c) => {
-        return {
-          text: c.name,
-          value: c.id,
-        };
-      });
+      return [
+        ...this.channels.map((c) => {
+          return {
+            text: c.name,
+            value: c.id,
+          };
+        }),
+      ];
     },
     getRoles() {
       return this.roles
@@ -296,10 +274,10 @@ export default {
 
   created() {
     Promise.all([
-      API.get(`guilds/${this.guildId}/channels/get`),
-      API.get(`guilds/${this.guildId}/emotes/get`),
-      API.get(`guilds/${this.guildId}/roles/get`),
-      API.get(`guilds/${this.guildId}/settings/get`),
+      API.get(`guilds/${this.guildId}/channels`),
+      API.get(`guilds/${this.guildId}/emotes`),
+      API.get(`guilds/${this.guildId}/roles`),
+      API.get(`guilds/${this.guildId}/settings`),
     ]).then(
       (responses) => {
         responses[0].body.channels.forEach((e) => {
@@ -361,7 +339,7 @@ export default {
     },
     save() {
       this.saveLoading = true;
-      API.post(`guilds/${this.guildId}/settings/set`, this.settings).then(
+      API.post(`guilds/${this.guildId}/settings`, this.settings).then(
         () => {
           let settings = cloneDeep(this.settings);
           Object.keys(settings).forEach((s) => {

@@ -2,15 +2,15 @@ import Vue from "vue";
 
 const BACKEND_URL =
   process.env.NODE_ENV === "production"
-    ? "https://api.kittybot.de/"
+    ? "https://api-dev.kittybot.de/"
     : process.env.VUE_APP_DOCKER_ENV
     ? "https://api.localhost/"
     : "http://localhost:6969/";
 const CLIENT_ID =
   process.env.NODE_ENV === "production"
-    ? "587697058602025011"
-    : "695662898919506020";
-const ADMIN_IDS = ["170939974227591168", "394607709741252621"];
+    ? 587697058602025011
+    : 695662898919506020;
+const OWNER_IDS = [170939974227591168, 394607709741252621];
 const TOKEN = "token";
 const IS_DARK = "IS_DARK";
 const SETTING_PROPS = [
@@ -107,7 +107,7 @@ function areSettingsChanged(settings, initialSettings) {
 
 export default {
   CLIENT_ID,
-  ADMIN_IDS,
+  OWNER_IDS,
   post,
   get,
   token,
