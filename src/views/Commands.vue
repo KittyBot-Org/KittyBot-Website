@@ -1,7 +1,7 @@
 <template>
   <div class="view-commands">
     <h1>Commands</h1>
-    <v-expansion-panels :multiple="true">
+    <v-expansion-panels v-model="openPanels" :multiple="true">
       <v-expansion-panel v-for="category in categories" :key="category.name">
         <v-expansion-panel-header>
           <div>
@@ -30,6 +30,7 @@ export default {
     return {
       prefix: "",
       categories: [],
+      openPanels: [],
     };
   },
 
@@ -45,6 +46,16 @@ export default {
           });
         });
         this.ready = true;
+        const category = this.categories.findIndex(
+          (i) =>
+            `#${i.name.toLowerCase()}` ===
+            decodeURI(this.$route.hash.toLowerCase())
+        );
+        console.log(this.categories);
+        console.log(decodeURI(this.$route.hash.toLowerCase()));
+        if (category != -1) {
+          this.openPanels.push(category);
+        }
       },
       (error) => {
         this.addError(error);
