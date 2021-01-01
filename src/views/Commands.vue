@@ -34,7 +34,7 @@ export default {
   },
 
   created() {
-    API.get("commands/get").then(
+    API.get("commands").then(
       (response) => {
         this.prefix = response.body.prefix;
         response.body.categories.forEach((e) => {

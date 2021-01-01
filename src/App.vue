@@ -8,6 +8,7 @@
         :user="user"
         :guilds="guilds"
         @logout="logout"
+        @loading="setLoading"
       />
       <navigation-drawer :nav="nav" :user="user" :guilds="guilds" />
       <v-main>
@@ -119,6 +120,9 @@ export default {
             : response.body.error
         }`
       );
+    },
+    setLoading(loading) {
+      this.loading = loading;
     },
     loadData() {
       if (API.token.get != null) {

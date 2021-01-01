@@ -25,11 +25,14 @@ export default {
         this.$router.replace({ query: null });
         if (response.status == 202) {
           API.token.set = response.body.token;
+        } else {
+          API.token.set = "";
         }
         window.close();
       },
       () => {
         this.$router.replace({ query: null });
+        API.token.set = "";
         window.close();
       }
     );

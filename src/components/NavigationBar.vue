@@ -59,6 +59,11 @@
       @click="login"
     >
       Login
+      <template v-slot:loader>
+        <v-avatar icon>
+          <v-img src="../assets/loading.gif" />
+        </v-avatar>
+      </template>
     </v-btn>
   </v-app-bar>
 </template>
@@ -122,6 +127,7 @@ export default {
     },
     login() {
       this.loading = true;
+      this.$emit("loading", true);
       let windowRef = open(
         API.getURL("discord_login"),
         "KittyBotLoginWindow",
@@ -131,6 +137,7 @@ export default {
         if (windowRef.closed) {
           clearInterval(intervalId);
           this.loading = false;
+          this.$emit("loading", false);
         }
       }, 250);
     },
