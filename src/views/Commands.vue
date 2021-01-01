@@ -46,15 +46,13 @@ export default {
           });
         });
         this.ready = true;
-        const category = this.categories.findIndex(
+        const categoryIndex = this.categories.findIndex(
           (i) =>
             `#${i.name.toLowerCase()}` ===
             decodeURI(this.$route.hash.toLowerCase())
         );
-        console.log(this.categories);
-        console.log(decodeURI(this.$route.hash.toLowerCase()));
-        if (category != -1) {
-          this.openPanels.push(category);
+        if (categoryIndex != -1) {
+          this.openPanels.push(categoryIndex);
         }
       },
       (error) => {
