@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <page-shadow :show="loading" />
     <router-view v-if="$route.path == '/login'" class="view-login" />
     <v-app v-else>
@@ -34,7 +34,6 @@
     </v-app>
   </div>
 </template>
-
 <script>
 import PageShadow from "./components/PageShadow";
 import NavigationBar from "./components/NavigationBar";
@@ -149,7 +148,6 @@ export default {
   },
 };
 </script>
-
 <style lang="less">
 @import "./style/style.less";
 
@@ -176,10 +174,12 @@ button.not-dashboard {
   color: #ffffff !important;
 }
 
-html {
+html,
+body,
+#app {
   overflow-y: auto !important;
   min-width: 100%;
-  min-height: 100%;
+  height: 100%;
   background-color: #121212;
 }
 </style>
