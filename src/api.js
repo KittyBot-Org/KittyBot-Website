@@ -2,7 +2,7 @@ import Vue from "vue";
 
 const BACKEND_URL =
   process.env.NODE_ENV === "production"
-    ? "https://api-dev.kittybot.de/"
+    ? "https://api.kittybot.de/"
     : "http://localhost:6969/";
 const CLIENT_ID =
   process.env.NODE_ENV === "production"
