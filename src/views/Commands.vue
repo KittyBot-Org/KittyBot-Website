@@ -1,7 +1,7 @@
 <template>
   <div class="view-commands">
     <h1>Commands</h1>
-    <v-expansion-panels :multiple="true">
+    <v-expansion-panels v-model="openPanels" :multiple="true">
       <v-expansion-panel v-for="category in categories" :key="category.name">
         <v-expansion-panel-header>
           <div>
@@ -30,11 +30,12 @@ export default {
     return {
       prefix: "",
       categories: [],
+      openPanels: [],
     };
   },
 
   created() {
-    API.get("commands/get").then(
+    API.get("commands").then(
       (response) => {
         this.prefix = response.body.prefix;
         response.body.categories.forEach((e) => {
@@ -45,6 +46,14 @@ export default {
           });
         });
         this.ready = true;
+        const categoryIndex = this.categories.findIndex(
+          (i) =>
+            `#${i.name.toLowerCase()}` ===
+            decodeURI(this.$route.hash.toLowerCase())
+        );
+        if (categoryIndex != -1) {
+          this.openPanels.push(categoryIndex);
+        }
       },
       (error) => {
         this.addError(error);
