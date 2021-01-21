@@ -39,7 +39,7 @@
           <v-list-item-title>Guilds</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item v-if="isAdmin" to="/admin/dashboard" exact>
+      <v-list-item v-if="isOwner" to="/admin/dashboard" exact>
         <v-list-item-avatar tile>
           <v-icon>supervisor_account</v-icon>
         </v-list-item-avatar>
@@ -100,11 +100,11 @@ export default {
   },
 
   computed: {
-    isAdmin() {
+    isOwner() {
       if (this.user == null) {
         return false;
       }
-      return API.ADMIN_IDS.includes(this.user.id);
+      return API.OWNER_IDS.includes(this.user.id);
     },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;

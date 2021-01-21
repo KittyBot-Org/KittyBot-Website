@@ -7,7 +7,7 @@
 [![KittyBot License](https://img.shields.io/github/license/TopISenpai/KittyBot)](LICENSE)
 [![Website Status](https://img.shields.io/website?down_message=offline&up_message=online&url=https%3A%2F%2Fkittybot.de)](https://kittybot.de)
 
-[![KittyBot Support Guild](https://discordapp.com/api/guilds/608506410803658753/embed.png?style=banner2)](https://discord.gg/sD3ABd5)
+[![KittyBot Support Guild](https://discord.com/api/guilds/608506410803658753/embed.png?style=banner2)](https://discord.gg/sD3ABd5)
 
 [CI Server](https://ci.anteiku.de/project/KittyBot_Website?guest=1)
 

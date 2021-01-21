@@ -2,7 +2,7 @@ import Vue from "vue";
 
 const BACKEND_URL =
   process.env.NODE_ENV === "production"
-    ? "https://api.kittybot.de/"
+    ? "https://api-dev.kittybot.de/"
     : process.env.VUE_APP_DOCKER_ENV
     ? "https://api.localhost/"
     : "http://localhost:6969/";
@@ -10,20 +10,45 @@ const CLIENT_ID =
   process.env.NODE_ENV === "production"
     ? "587697058602025011"
     : "695662898919506020";
-const ADMIN_IDS = ["170939974227591168", "394607709741252621"];
+const OWNER_IDS = ["170939974227591168", "394607709741252621"];
 const TOKEN = "token";
 const IS_DARK = "IS_DARK";
 const SETTING_PROPS = [
-  "prefix",
+  "stream_announcement_channel_id",
+  "stream_announcement_message",
+  "stream_announcements",
+
   "announcement_channel_id",
+
+  "request_channel_id",
+  "requests_enabled",
+
   "join_messages_enabled",
   "join_messages",
+
   "leave_messages_enabled",
   "leave_messages",
-  "boost_messages_enabled",
-  "boost_messages",
+
+  "log_channel_id",
+  "log_messages_enabled",
+
   "nsfw_enabled",
+
+  "inactive_role_id",
+  "inactive_duration",
+
+  "dj_role_id",
+
+  "snipes_enabled",
+  "snipe_disabled_channels",
+
+  "bot_disabled_channels",
+  "bot_ignored_users",
+
   "self_assignable_roles",
+  "self_assignable_role_groups",
+
+  "invite_roles",
 ];
 
 const token = {
@@ -92,11 +117,24 @@ function areSelfAssignableRolesChanged(setting, initialSetting) {
   );
 }
 
+function areInviteRolesChanged() {
+  //setting, initialSetting) {
+  return false; //setting != initialSetting;
+}
+
 function areSettingsChanged(settings, initialSettings) {
   return SETTING_PROPS.some((s) => {
     const setting = settings[s];
-    if (s == "self_assignable_roles" && setting instanceof Array) {
-      return areSelfAssignableRolesChanged(setting, initialSettings[s]);
+    if (s == "self_assignable_roles") {
+      if (setting instanceof Array) {
+        return areSelfAssignableRolesChanged(setting, initialSettings[s]);
+      }
+    } else if (s == "invite_roles") {
+      if (setting instanceof Array) {
+        var bol = areInviteRolesChanged(setting, initialSettings[s]);
+        console.log(bol);
+        return bol;
+      }
     } else if (s == "prefix" && setting != undefined) {
       return setting.length == 1 && setting != initialSettings[s];
     } else {
@@ -107,7 +145,7 @@ function areSettingsChanged(settings, initialSettings) {
 
 export default {
   CLIENT_ID,
-  ADMIN_IDS,
+  OWNER_IDS,
   post,
   get,
   token,

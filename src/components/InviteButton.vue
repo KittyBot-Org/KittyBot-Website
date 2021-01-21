@@ -2,7 +2,7 @@
   <div class="invite-button">
     <a
       class="invite-button-login"
-      :href="`https://discordapp.com/api/oauth2/authorize?client_id=${api.CLIENT_ID}&permissions=1345841383&scope=bot`"
+      :href="`https://discord.com/api/oauth2/authorize?client_id=${api.CLIENT_ID}&permissions=1345841383&scope=bot%20applications.commands`"
     >
       <v-img
         contain

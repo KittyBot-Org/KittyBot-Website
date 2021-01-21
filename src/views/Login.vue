@@ -1,12 +1,11 @@
+<template>
+  <v-img class="loading" src="../assets/loading.gif" :width="64" :height="64" />
+</template>
 <script>
 import API from "../api";
 
 export default {
   name: "Login",
-
-  render() {
-    return undefined;
-  },
 
   created() {
     if (
@@ -22,17 +21,27 @@ export default {
       {}
     ).then(
       (response) => {
-        this.$router.replace({ query: null });
         if (response.status == 202) {
           API.token.set = response.body.token;
+        } else {
+          API.token.set = "";
         }
         window.close();
       },
       () => {
-        this.$router.replace({ query: null });
+        API.token.set = "";
         window.close();
       }
     );
   },
 };
 </script>
+<style lang="less" scoped>
+.loading {
+  position: absolute;
+  margin: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>

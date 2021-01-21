@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <page-shadow :show="loading" />
     <router-view v-if="$route.path == '/login'" class="view-login" />
     <v-app v-else>
@@ -8,6 +8,7 @@
         :user="user"
         :guilds="guilds"
         @logout="logout"
+        @loading="setLoading"
       />
       <navigation-drawer :nav="nav" :user="user" :guilds="guilds" />
       <v-main>
@@ -33,7 +34,6 @@
     </v-app>
   </div>
 </template>
-
 <script>
 import PageShadow from "./components/PageShadow";
 import NavigationBar from "./components/NavigationBar";
@@ -120,6 +120,9 @@ export default {
         }`
       );
     },
+    setLoading(loading) {
+      this.loading = loading;
+    },
     loadData() {
       if (API.token.get != null) {
         API.get("user/me").then(
@@ -132,7 +135,9 @@ export default {
             this.guilds = response.body.guilds;
           },
           (error) => {
-            API.token.set = "";
+            if (error.code == 401) {
+              API.token.set = "";
+            }
             this.addError(error);
           }
         );
@@ -145,7 +150,6 @@ export default {
   },
 };
 </script>
-
 <style lang="less">
 @import "./style/style.less";
 
@@ -172,10 +176,14 @@ button.not-dashboard {
   color: #ffffff !important;
 }
 
-html {
+html,
+body,
+#app {
   overflow-y: auto !important;
   min-width: 100%;
-  min-height: 100%;
+  height: 100%;
+}
+html {
   background-color: #121212;
 }
 </style>
