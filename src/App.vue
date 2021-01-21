@@ -135,7 +135,9 @@ export default {
             this.guilds = response.body.guilds;
           },
           (error) => {
-            API.token.set = "";
+            if (error.code == 401) {
+              API.token.set = "";
+            }
             this.addError(error);
           }
         );
@@ -180,6 +182,8 @@ body,
   overflow-y: auto !important;
   min-width: 100%;
   height: 100%;
+}
+html {
   background-color: #121212;
 }
 </style>

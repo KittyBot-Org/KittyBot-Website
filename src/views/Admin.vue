@@ -66,7 +66,7 @@ export default {
     };
   },
   created() {
-    API.get(`guilds/all`).then(
+    API.get(`guilds`).then(
       (response) => {
         this.guilds = response.body.guilds;
         this.loading = false;
