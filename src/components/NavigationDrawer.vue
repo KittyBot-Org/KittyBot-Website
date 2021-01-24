@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer
     v-if="isDashBoard || isMobile"
-    v-model="drawer"
+    v-model="showDrawer"
     mobile-breakpoint="960"
     clipped
     app
@@ -30,6 +30,17 @@
             <v-list-item-title>GitHub</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item
+          href="https://api.kittybot.de/discord_invite"
+          target="_blank"
+        >
+          <v-list-item-avatar tile>
+            <v-icon>help</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>Support</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list-item-group>
       <v-list-item v-if="!isMobile" :to="`/guilds`" exact>
         <v-list-item-avatar tile>
@@ -39,12 +50,12 @@
           <v-list-item-title>Guilds</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item v-if="isOwner" to="/admin/dashboard" exact>
+      <v-list-item v-if="isDev" to="/admin/dashboard" exact>
         <v-list-item-avatar tile>
           <v-icon>supervisor_account</v-icon>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title>Admin</v-list-item-title>
+          <v-list-item-title>Dev</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item
@@ -75,6 +86,10 @@ export default {
   name: "NavigationDrawer",
 
   props: {
+    value: {
+      required: true,
+      type: Boolean,
+    },
     nav: {
       required: true,
       type: Array,
@@ -89,22 +104,25 @@ export default {
     },
   },
 
-  data() {
-    return {
-      drawer: null,
-    };
-  },
-
   components: {
     GuildIcon,
   },
 
   computed: {
-    isOwner() {
+    showDrawer: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit("input", value);
+      },
+    },
+    isDev() {
+      console.log(this.user);
       if (this.user == null) {
         return false;
       }
-      return API.OWNER_IDS.includes(this.user.id);
+      return API.DEV_IDS.includes(this.user.id);
     },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
@@ -115,6 +133,13 @@ export default {
         path = path.substr(0, path.length - 1);
       }
       return !["", "/features", "/commands", "/privacy"].includes(path);
+    },
+  },
+
+  methods: {
+    toggleDrawer() {
+      console.log("toggle");
+      this.$emit("toggle-drawer");
     },
   },
 };

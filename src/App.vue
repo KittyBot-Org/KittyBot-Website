@@ -9,8 +9,14 @@
         :guilds="guilds"
         @logout="logout"
         @loading="setLoading"
+        @toggle-drawer="toggleDrawer"
       />
-      <navigation-drawer :nav="nav" :user="user" :guilds="guilds" />
+      <navigation-drawer
+        v-model="drawer"
+        :nav="nav"
+        :user="user"
+        :guilds="guilds"
+      />
       <v-main>
         <v-alert v-if="isAlertVisible" dismissible type="error">
           <template v-slot:close="">
@@ -67,6 +73,7 @@ export default {
           to: "/privacy",
         },
       ],
+      drawer: true,
       alert: true,
       errors: [],
       api: API,
@@ -104,6 +111,10 @@ export default {
   },
 
   methods: {
+    toggleDrawer() {
+      console.log("app toggle");
+      this.drawer = !this.drawer;
+    },
     updateStorage() {
       this.loading = false;
       this.loadData();
@@ -119,6 +130,9 @@ export default {
             : response.body.error
         }`
       );
+    },
+    setDrawer(drawer) {
+      this.drawer = drawer;
     },
     setLoading(loading) {
       this.loading = loading;
