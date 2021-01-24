@@ -130,7 +130,6 @@ function areSettingsChanged(settings, initialSettings) {
     } else if (s == "invite_roles") {
       if (setting instanceof Array) {
         var bol = areInviteRolesChanged(setting, initialSettings[s]);
-        console.log(bol);
         return bol;
       }
     } else if (s == "prefix" && setting != undefined) {

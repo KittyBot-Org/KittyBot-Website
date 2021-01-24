@@ -131,7 +131,6 @@ export default {
       this.$vuetify.theme.dark = isDark;
     },
     toggleDrawer() {
-      console.log("toggle2");
       this.$emit("toggle-drawer");
     },
     login() {

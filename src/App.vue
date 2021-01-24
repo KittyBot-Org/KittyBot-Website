@@ -112,7 +112,6 @@ export default {
 
   methods: {
     toggleDrawer() {
-      console.log("app toggle");
       this.drawer = !this.drawer;
     },
     updateStorage() {

@@ -118,7 +118,6 @@ export default {
       },
     },
     isDev() {
-      console.log(this.user);
       if (this.user == null) {
         return false;
       }
@@ -138,7 +137,6 @@ export default {
 
   methods: {
     toggleDrawer() {
-      console.log("toggle");
       this.$emit("toggle-drawer");
     },
   },
