@@ -20,7 +20,7 @@
     "lodash": "^4.17.20",
     "vue": "^2.6.12",
     "vue-resource": "^1.5.1",
-    "vue-router": "^3.4.9",
+    "vue-router": "^3.5.1",
     "vuetify": "^2.4.2"
   },
   "devDependencies": {
