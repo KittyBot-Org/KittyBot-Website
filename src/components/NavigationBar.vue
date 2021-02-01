@@ -2,6 +2,7 @@
   <v-app-bar app clipped-left :color="getAppBarColor">
     <v-app-bar-nav-icon
       v-if="isDashBoard || isMobile"
+      color="white"
       @click.stop="toggleDrawer"
     />
     <v-avatar v-else tile>

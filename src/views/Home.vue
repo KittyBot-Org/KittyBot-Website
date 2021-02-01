@@ -24,17 +24,48 @@
         <p class="view-home-cards-card-text">{{ card.text }}</p>
       </div>
     </div>
+    <div v-if="ready" class="view-home-infos" :class="{ mobile: isMobile }">
+      <div v-for="(inf, i) in infos" :key="i" class="view-home-infos-info">
+        <span class="view-home-infos-info-value">{{ info[inf.value] }}</span>
+        <span class="view-home-infos-info-name">{{ inf.name }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import InviteButton from "../components/InviteButton";
+import API from "../api";
 
 export default {
   name: "ViewHome",
 
   data() {
     return {
+      ready: false,
+      info: {},
+      infos: [
+        {
+          name: "Total Shards",
+          value: "shards",
+        },
+        {
+          name: "Total Servers",
+          value: "guilds",
+        },
+        {
+          name: "Total Members",
+          value: "users",
+        },
+        {
+          name: "Active Audio players",
+          value: "players",
+        },
+        {
+          name: "Availiable Commands",
+          value: "commands",
+        },
+      ],
       cards: [
         {
           icon: "how_to_reg",
@@ -60,6 +91,30 @@ export default {
         },
       ],
     };
+  },
+
+  created() {
+    API.get("info").then(
+      (response) => {
+        this.info = response.body;
+        this.ready = true;
+      },
+      (error) => {
+        this.addError(error);
+      }
+    );
+  },
+
+  methods: {
+    addError(response) {
+      this.errors.push(
+        `${response.url}: ${response.status}: ${
+          response.body.error == undefined
+            ? response.statusText
+            : response.body.error
+        }`
+      );
+    },
   },
 
   computed: {
@@ -128,6 +183,24 @@ export default {
       &-text {
         font-size: 16px;
         opacity: 0.8;
+      }
+    }
+  }
+  &-infos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    &.mobile {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    padding: 32px;
+    &-info {
+      display: flex;
+      flex-direction: column;
+      padding: 8px;
+      &-value {
+        font-size: 42px;
+        font-weight: bolder;
+        color: #5c5fea;
       }
     }
   }
