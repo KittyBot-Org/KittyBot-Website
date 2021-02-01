@@ -167,7 +167,9 @@ export default {
 
   computed: {
     filteredCommands() {
-      var cmds = this.commands.filter((cmd) => cmd.name.includes(this.search));
+      var cmds = this.commands.filter((cmd) =>
+        cmd.name.includes(this.search.trim().toLowerCase())
+      );
       if (this.filter == "All") {
         return cmds;
       }
