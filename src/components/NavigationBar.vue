@@ -2,7 +2,7 @@
   <v-app-bar app clipped-left :color="getAppBarColor">
     <v-app-bar-nav-icon
       v-if="isDashBoard || isMobile"
-      @click="drawer = !drawer"
+      @click.stop="toggleDrawer"
     />
     <v-avatar v-else tile>
       <v-img src="../assets/KittyBlink.gif" />
@@ -26,6 +26,12 @@
         target="_blank"
         href="https://github.com/KittyBot-Org/KittyBot"
         >GitHub
+      </a>
+      <a
+        class="nav"
+        target="_blank"
+        href="https://api.kittybot.de/discord_invite"
+        >Support
       </a>
     </div>
 
@@ -92,7 +98,6 @@ export default {
   data() {
     return {
       loading: false,
-      drawer: false,
     };
   },
 
@@ -124,6 +129,9 @@ export default {
       let isDark = !API.theme.isDark;
       API.theme.setDark = isDark;
       this.$vuetify.theme.dark = isDark;
+    },
+    toggleDrawer() {
+      this.$emit("toggle-drawer");
     },
     login() {
       this.loading = true;

@@ -5,14 +5,6 @@
         <v-expansion-panel>
           <v-expansion-panel-header>General</v-expansion-panel-header>
           <v-expansion-panel-content>
-            <entity-setting label="Bot Prefix">
-              <v-text-field
-                v-model="settings.prefix"
-                placeholder="Prefix"
-                :counter="1"
-              />
-            </entity-setting>
-
             <entity-setting label="DJ Role">
               <v-autocomplete
                 v-model="settings.dj_role_id"
