@@ -142,7 +142,7 @@ export default {
       }, 250);
     },
     logout() {
-      API.post("logout");
+      API.del("login");
       API.token.set = "";
       this.$emit("logout");
       this.loading = false;

@@ -1,72 +1,178 @@
 <template>
-  <div class="entity-commands">
-    <div v-if="isMobile" class="entity-commands-list">
-      <div
-        v-for="(cmd, i) in commands"
-        class="entity-commands-list-entry"
-        :key="cmd.command"
-      >
-        <div class="entity-commands-list-entry-command">{{ cmd.command }}</div>
-        <div class="entity-commands-list-entry-usage">{{ cmd.usage }}</div>
-        <div
-          class="entity-commands-list-entry-description"
-          v-html="formatDescription(cmd.description)"
-        />
-        <v-divider v-if="i < commands.length - 1" />
+  <expansion-panels class="entity-commands" :multiple="true">
+    <expansion-panel v-for="cmd in filteredCommands" :key="cmd.name">
+      <div slot="header" class="entity-commands-header">
+        <b class="entity-commands-header-name">/{{ cmd.name }}</b>
+        <span class="entity-commands-header-usage">{{ getUsage(cmd) }}</span>
       </div>
-    </div>
-    <table v-else class="entity-commands-table">
-      <tr
-        v-for="cmd in commands"
-        :key="cmd.command"
-        class="entity-commands-table-row"
-      >
-        <td>
-          <div>
-            {{ cmd.command }}
+      <template>
+        <p class="entity-commands-content-description">{{ cmd.description }}</p>
+        <p
+          v-if="cmd.permissions.length > 0 && !hasSubCommands(cmd)"
+          class="entity-commands-content-permissions"
+        >
+          Requires: <span>{{ getPermissions(cmd) }}</span>
+        </p>
+        <template v-if="hasSubCommands(cmd)">
+          <b>Sub Commands:</b>
+          <div
+            class="entity-commands-content-subcommands"
+            :class="{ mobile: isMobile }"
+          >
+            <template v-for="(opt, i) in getSubCommands(cmd)">
+              <div
+                :key="`${i}-name`"
+                class="entity-commands-content-subcommands-name"
+              >
+                <b class="entity-commands-content-subcommands-name-name"
+                  >/{{ opt.name }}</b
+                >
+                <span
+                  v-if="hasPermissions(opt)"
+                  class="entity-commands-content-subcommands-name-perms"
+                >
+                  Requires: {{ getPermissions(opt) }}
+                </span>
+              </div>
+              <div
+                :key="`${i}-usage`"
+                class="entity-commands-content-subcommands-usage"
+              >
+                {{ getUsage(opt) }}
+              </div>
+              <div
+                :key="`${i}-description`"
+                class="entity-commands-content-subcommands-description"
+              >
+                {{ opt.description }}
+              </div>
+            </template>
           </div>
-        </td>
-        <td>
-          <div>
-            {{ cmd.usage }}
-          </div>
-        </td>
-        <td>
-          <div v-html="formatDescription(cmd.description)" />
-        </td>
-      </tr>
-    </table>
-  </div>
+        </template>
+      </template>
+    </expansion-panel>
+  </expansion-panels>
 </template>
 <script>
+import ExpansionPanels from "./ExpansionPanels";
+import ExpansionPanel from "./ExpansionPanel";
 export default {
   name: "EntityCommands",
 
   props: {
+    filter: {
+      required: true,
+      type: String,
+    },
+    search: {
+      required: true,
+      type: String,
+    },
     commands: {
       required: true,
       type: Array,
     },
   },
 
+  components: {
+    ExpansionPanels,
+    ExpansionPanel,
+  },
+
   methods: {
-    formatDescription(description) {
-      let elements = description.match(/\[.*?\)/g);
-      if (elements != null && elements.length > 0) {
-        for (let el of elements) {
-          let txt = el.match(/\[(.*?)\]/)[1];
-          let url = el.match(/\((.*?)\)/)[1];
-          description = description.replace(
-            el,
-            `<a href="${url}" style="color: #5c5fea" target="_blank">${txt}</a>`
-          );
-        }
+    getUsage(cmd) {
+      if (cmd.options == undefined || this.hasSubCommands(cmd)) {
+        return "";
       }
-      return description;
+      var usage = "";
+      cmd.options.forEach(
+        (opt) => (usage += opt.required ? `[${opt.name}] ` : `(${opt.name}) `)
+      );
+      return usage;
+    },
+    getPermissions(opt) {
+      var perms = "";
+      if (opt.dev_only) {
+        perms += "Developer ";
+      }
+      if (opt.permissions == undefined) {
+        return perms;
+      }
+      opt.permissions.forEach((perm) => (perms += perm));
+      return perms;
+    },
+    hasPermissions(opt) {
+      if (
+        opt.permissions == undefined ||
+        (opt.permissions.length == 0 && !opt.dev_only)
+      ) {
+        return false;
+      }
+      return true;
+    },
+    hasSubCommands(cmd) {
+      if (cmd.options == undefined) {
+        return false;
+      }
+      return cmd.options.some((opt) => opt.type == 1 || opt.type == 2);
+    },
+    getSubCommands(cmd) {
+      if (cmd.options == undefined) {
+        return [];
+      }
+      var allCommands = [];
+      cmd.options.forEach((opt) => {
+        allCommands.push(
+          ...this.collectOptions(opt, cmd.name, cmd.permissions, cmd.dev_only)
+        );
+      });
+      return allCommands;
+    },
+    collectOptions(option, baseName, perms, devOnly) {
+      var allCommands = [];
+      switch (option.type) {
+        case 1:
+          allCommands.push({
+            name: baseName + " " + option.name,
+            description: option.description,
+            options: option.options,
+            dev_only: option.dev_only || devOnly,
+            permissions:
+              option.permissions == undefined
+                ? perms
+                : [...option.permissions, ...perms],
+          });
+          break;
+
+        case 2:
+          if (option.options != undefined) {
+            option.options.forEach((opt) => {
+              allCommands.push(
+                ...this.collectOptions(
+                  opt,
+                  baseName + " " + option.name,
+                  option.permissions == undefined
+                    ? perms
+                    : [...option.permissions, ...perms],
+                  option.dev_only || devOnly
+                )
+              );
+            });
+          }
+          break;
+      }
+      return allCommands;
     },
   },
 
   computed: {
+    filteredCommands() {
+      var cmds = this.commands.filter((cmd) => cmd.name.includes(this.search));
+      if (this.filter == "All") {
+        return cmds;
+      }
+      return cmds.filter((cmd) => cmd.category == this.filter);
+    },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
     },
@@ -77,38 +183,60 @@ export default {
 @import "../style/style.less";
 
 .entity-commands {
-  &-list {
-    &-entry {
-      &-command {
-        color: @primary;
-      }
-      &-command,
-      &-usage,
-      &-description {
-        text-align: start;
-      }
-    }
-  }
-  &-table {
+  display: flex;
+  &-header {
+    display: flex;
     width: 100%;
-    border-collapse: collapse;
-  }
-  & td {
-    text-align: start;
-    vertical-align: top;
-    &:nth-child(1) {
-      width: 20%;
-    }
-    &:nth-child(2) {
-      width: 40%;
-    }
-    & div {
-      padding: 2px;
-      padding-left: 8px;
+    &-name {
+      margin-right: 16px;
+      color: @primary;
     }
   }
-  & td:first-child {
-    color: @primary;
+  &-content {
+    &-permissions > span {
+      color: #5c5fea;
+    }
+    &-subcommands {
+      display: grid;
+      &-name {
+        display: flex;
+        flex-direction: column;
+        &-name {
+          color: @primary;
+        }
+        &-perms {
+          font-size: 12px;
+          color: grey;
+        }
+      }
+      &:not(.mobile) {
+        grid-template-columns: minmax(280px, auto) auto auto;
+        & > div {
+          border-bottom: 1px grey solid;
+          padding: 8px;
+          &:last-child,
+          &:nth-last-child(2),
+          &:nth-last-child(3) {
+            border-bottom: none;
+          }
+        }
+      }
+      &.mobile {
+        grid-template-columns: 1fr;
+        & > div {
+          padding-left: 4px;
+          padding-right: 4px;
+          &:nth-child(3n) {
+            border-bottom: 1px grey solid;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+          }
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
   }
 }
 </style>

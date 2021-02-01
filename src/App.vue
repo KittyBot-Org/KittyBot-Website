@@ -67,6 +67,7 @@ export default {
           to: "/privacy",
         },
       ],
+      drawer: false,
       alert: true,
       errors: [],
       api: API,

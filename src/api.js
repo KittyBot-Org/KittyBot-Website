@@ -2,15 +2,13 @@ import Vue from "vue";
 
 const BACKEND_URL =
   process.env.NODE_ENV === "production"
-    ? "https://api-dev.kittybot.de/"
-    : process.env.VUE_APP_DOCKER_ENV
-    ? "https://api.localhost/"
+    ? "https://api.kittybot.de/"
     : "http://localhost:6969/";
 const CLIENT_ID =
   process.env.NODE_ENV === "production"
     ? "587697058602025011"
     : "695662898919506020";
-const OWNER_IDS = ["170939974227591168", "394607709741252621"];
+const DEV_IDS = ["170939974227591168", "394607709741252621"];
 const TOKEN = "token";
 const IS_DARK = "IS_DARK";
 const SETTING_PROPS = [
@@ -82,6 +80,10 @@ function post(url, body, options = getOptions()) {
   return Vue.http.post(getURL(url), body, options);
 }
 
+function del(url, options = getOptions()) {
+  return Vue.http.delete(getURL(url), options);
+}
+
 function get(url, options = getOptions()) {
   return Vue.http.get(getURL(url), options);
 }
@@ -132,7 +134,6 @@ function areSettingsChanged(settings, initialSettings) {
     } else if (s == "invite_roles") {
       if (setting instanceof Array) {
         var bol = areInviteRolesChanged(setting, initialSettings[s]);
-        console.log(bol);
         return bol;
       }
     } else if (s == "prefix" && setting != undefined) {
@@ -145,8 +146,9 @@ function areSettingsChanged(settings, initialSettings) {
 
 export default {
   CLIENT_ID,
-  OWNER_IDS,
+  DEV_IDS,
   post,
+  del,
   get,
   token,
   theme,

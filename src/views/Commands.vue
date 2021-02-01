@@ -1,36 +1,28 @@
 <template>
   <div class="view-commands">
     <h1>Commands</h1>
-    <v-expansion-panels v-model="openPanels" :multiple="true">
-      <v-expansion-panel v-for="category in categories" :key="category.name">
-        <v-expansion-panel-header>
-          <div>
-            <v-avatar :size="32" tile>
-              <img :src="category.emote_url" />
-            </v-avatar>
-            <span class="view-commands-header">{{ category.name }}</span>
-          </div>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <entity-commands :commands="category.commands" />
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-text-field v-model="search" placeholder="search..."></v-text-field>
+    <div class="view-commands-list" :class="{ mobile: isMobile }">
+      <entity-command-filter v-model="filter" :categories="categories" />
+      <entity-commands :filter="filter" :search="search" :commands="commands" />
+    </div>
   </div>
 </template>
 
 <script>
-import EntityCommands from "../components/EntityCommands";
 import API from "../api";
+import EntityCommands from "../components/EntityCommands";
+import EntityCommandFilter from "../components/EntityCommandFilter.vue";
 
 export default {
   name: "ViewCommands",
 
   data() {
     return {
-      prefix: "",
+      filter: "All",
+      search: "",
       categories: [],
-      openPanels: [],
+      commands: [],
     };
   },
 
@@ -38,22 +30,9 @@ export default {
     API.get("commands").then(
       (response) => {
         this.prefix = response.body.prefix;
-        response.body.categories.forEach((e) => {
-          this.categories.push({
-            name: e.name,
-            emote_url: e.emote_url,
-            commands: e.commands,
-          });
-        });
+        this.categories = response.body.categories;
+        this.commands = response.body.commands;
         this.ready = true;
-        const categoryIndex = this.categories.findIndex(
-          (i) =>
-            `#${i.name.toLowerCase()}` ===
-            decodeURI(this.$route.hash.toLowerCase())
-        );
-        if (categoryIndex != -1) {
-          this.openPanels.push(categoryIndex);
-        }
       },
       (error) => {
         this.addError(error);
@@ -63,6 +42,13 @@ export default {
 
   components: {
     EntityCommands,
+    EntityCommandFilter,
+  },
+
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
   },
 
   methods: {
@@ -82,8 +68,13 @@ export default {
     color: @primary;
     margin-bottom: 8px;
   }
-  &-header {
-    margin-left: 8px;
+  &-list {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    &.mobile {
+      flex-wrap: wrap;
+    }
   }
 }
 </style>
