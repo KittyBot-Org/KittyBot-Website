@@ -73,7 +73,7 @@ export default {
           to: "/privacy",
         },
       ],
-      drawer: true,
+      drawer: false,
       alert: true,
       errors: [],
       api: API,

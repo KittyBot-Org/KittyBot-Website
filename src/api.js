@@ -80,6 +80,10 @@ function post(url, body, options = getOptions()) {
   return Vue.http.post(getURL(url), body, options);
 }
 
+function del(url, options = getOptions()) {
+  return Vue.http.delete(getURL(url), options);
+}
+
 function get(url, options = getOptions()) {
   return Vue.http.get(getURL(url), options);
 }
@@ -144,6 +148,7 @@ export default {
   CLIENT_ID,
   DEV_IDS,
   post,
+  del,
   get,
   token,
   theme,
