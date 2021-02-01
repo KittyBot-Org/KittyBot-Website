@@ -202,8 +202,6 @@ export default {
         font-weight: bolder;
         color: #5c5fea;
       }
-      &-name {
-      }
     }
   }
 }
