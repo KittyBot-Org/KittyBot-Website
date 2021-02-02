@@ -26,7 +26,10 @@
     </div>
     <div v-if="ready" class="view-home-infos" :class="{ mobile: isMobile }">
       <div v-for="(inf, i) in infos" :key="i" class="view-home-infos-info">
-        <span class="view-home-infos-info-value">{{ info[inf.value] }}</span>
+        <animated-int
+          class="view-home-infos-info-value"
+          :value="info[inf.value]"
+        />
         <span class="view-home-infos-info-name">{{ inf.name }}</span>
       </div>
     </div>
@@ -35,6 +38,7 @@
 
 <script>
 import InviteButton from "../components/InviteButton";
+import AnimatedInt from "../components/AnimatedInt.vue";
 import API from "../api";
 
 export default {
@@ -125,10 +129,12 @@ export default {
 
   components: {
     InviteButton,
+    AnimatedInt,
   },
 };
 </script>
 
+AnimatedInt
 <style lang="less" scoped>
 @import "../style/style.less";
 
