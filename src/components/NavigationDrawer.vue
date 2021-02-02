@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer
     v-if="isDashBoard || isMobile"
-    v-model="showDrawer"
+    v-model="drawer"
     mobile-breakpoint="960"
     clipped
     app
@@ -50,9 +50,9 @@
           <v-list-item-title>Guilds</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item v-if="isDev" to="/admin/dashboard" exact>
+      <v-list-item v-if="isDev" to="/dev/dashboard" exact>
         <v-list-item-avatar tile>
-          <v-icon>supervisor_account</v-icon>
+          <v-icon>admin_panel_settings</v-icon>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>Dev</v-list-item-title>
@@ -88,7 +88,6 @@ export default {
   props: {
     value: {
       required: true,
-      type: Boolean,
     },
     nav: {
       required: true,
@@ -109,7 +108,7 @@ export default {
   },
 
   computed: {
-    showDrawer: {
+    drawer: {
       get() {
         return this.value;
       },
@@ -132,12 +131,6 @@ export default {
         path = path.substr(0, path.length - 1);
       }
       return !["", "/features", "/commands", "/privacy"].includes(path);
-    },
-  },
-
-  methods: {
-    toggleDrawer() {
-      this.$emit("toggle-drawer");
     },
   },
 };

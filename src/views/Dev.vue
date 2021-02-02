@@ -1,5 +1,5 @@
 <template>
-  <div class="admin">
+  <div class="dev">
     <v-data-table
       :headers="headers"
       :items="guilds"
@@ -83,7 +83,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less" scoped>
-@import "../style/style.less";
-</style>
