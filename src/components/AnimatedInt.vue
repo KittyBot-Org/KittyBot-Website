@@ -17,7 +17,6 @@ export default {
   data() {
     return {
       tweeningValue: 0,
-      format: new Intl.NumberFormat("de-DE", { maximumSignificantDigits: 3 }),
     };
   },
 
@@ -33,7 +32,7 @@ export default {
 
   computed: {
     formattedValue() {
-      return this.format.format(this.tweeningValue);
+      return String(this.tweeningValue).replace(/(.)(?=(\d{3})+$)/g, "$1 ");
     },
   },
 
