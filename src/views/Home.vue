@@ -134,7 +134,6 @@ export default {
 };
 </script>
 
-AnimatedInt
 <style lang="less" scoped>
 @import "../style/style.less";
 
