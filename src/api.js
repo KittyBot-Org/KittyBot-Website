@@ -43,7 +43,6 @@ const SETTING_PROPS = [
   "bot_disabled_channels",
   "bot_ignored_users",
 
-  "self_assignable_roles",
   "self_assignable_role_groups",
 
   "invite_roles",

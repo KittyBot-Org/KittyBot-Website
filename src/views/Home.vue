@@ -66,7 +66,7 @@ export default {
           value: "players",
         },
         {
-          name: "Availiable Commands",
+          name: "Available Commands",
           value: "commands",
         },
       ],
@@ -75,7 +75,7 @@ export default {
           icon: "how_to_reg",
           title: "Easy to use",
           text:
-            "KittyBot uses the new slash commands and is easier to use then ever",
+            "KittyBot uses the new slash commands and is easier to use than ever",
         },
         {
           icon: "money_off",

@@ -43,7 +43,7 @@ import GuildIcon from "../components/GuildIcon";
 import API from "../api";
 
 export default {
-  name: "Admin",
+  name: "Dev",
 
   components: {
     GuildIcon,
