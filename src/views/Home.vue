@@ -195,7 +195,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     &.mobile {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr;
     }
     padding: 32px;
     &-info {
@@ -203,7 +203,7 @@ export default {
       flex-direction: column;
       padding: 8px;
       &-value {
-        font-size: 42px;
+        font-size: 32px;
         font-weight: bolder;
         color: #5c5fea;
       }
