@@ -22,10 +22,10 @@ const SETTING_PROPS = [
   "requests_enabled",
 
   "join_messages_enabled",
-  "join_messages",
+  "join_message",
 
   "leave_messages_enabled",
-  "leave_messages",
+  "leave_message",
 
   "log_channel_id",
   "log_messages_enabled",

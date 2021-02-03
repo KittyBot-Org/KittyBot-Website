@@ -84,7 +84,7 @@
               </ul>
             </div>
           </entity-setting>
-          <entity-setting label="Streams"> </entity-setting>
+          <!--<entity-setting label="Streams"> </entity-setting>-->
         </settings-group>
 
         <settings-group title="Announcements">
@@ -102,7 +102,7 @@
           </entity-setting>
           <entity-setting label="Join Message">
             <v-textarea
-              v-model="settings.join_messages"
+              v-model="settings.join_message"
               placeholder="Join Message"
             />
             <div slot="description">
@@ -127,7 +127,7 @@
           </entity-setting>
           <entity-setting label="Leave Message">
             <v-textarea
-              v-model="settings.leave_messages"
+              v-model="settings.leave_message"
               placeholder="Leave Message"
             />
             <div slot="description">
@@ -143,7 +143,7 @@
         </settings-group>
 
         <settings-group title="Roles">
-          <entity-setting label="Self-assignable Roles">
+          <!--<entity-setting label="Self-assignable Roles">
             <div v-if="settings.self_assignable_role_groups.length > 0">
               <tbody>
                 <tr
@@ -184,7 +184,7 @@
                 Add
               </v-btn>
             </div>
-          </entity-setting>
+          </entity-setting>-->
 
           <entity-setting label="Invite Roles">
             <v-simple-table v-if="settings.invite_roles.length > 0">
@@ -254,9 +254,9 @@
           <v-btn text v-bind="attrs" @click="snackbar = false"> Close </v-btn>
         </template>
       </v-snackbar>
-      <v-btn color="error" text :disabled="isSaveAndResetButtonDisabled">
+      <!--<v-btn color="error" text :disabled="isSaveAndResetButtonDisabled">
         Reset
-      </v-btn>
+      </v-btn>-->
       <v-btn
         color="success"
         :loading="saveLoading"
@@ -275,7 +275,7 @@ import SettingsGroup from "../components/SettingsGroup";
 import RoleSelector from "../components/RoleSelector";
 import ChannelSelector from "../components/ChannelSelector";
 import UserSelector from "../components/UserSelector";
-import EmoteSelector from "../components/EmoteSelector";
+//import EmoteSelector from "../components/EmoteSelector";
 import { cloneDeep } from "lodash";
 import API from "../api";
 
@@ -288,7 +288,7 @@ export default {
     RoleSelector,
     ChannelSelector,
     UserSelector,
-    EmoteSelector,
+    //EmoteSelector,
   },
 
   data() {
@@ -457,27 +457,7 @@ export default {
       this.saveLoading = true;
       API.post(`guilds/${this.guildId}/settings`, this.settings).then(
         () => {
-          let settings = cloneDeep(this.settings);
-          Object.keys(settings).forEach((s) => {
-            if (s == "self_assignable_roles" && settings[s] instanceof Array) {
-              if (
-                API.areSelfAssignableRolesChanged(
-                  settings[s],
-                  this.initialSettings[s]
-                )
-              ) {
-                this.initialSettings[s] = cloneDeep(settings[s]);
-              } else {
-                delete settings[s];
-              }
-            } else {
-              if (Object.is(settings[s], this.initialSettings[s])) {
-                delete settings[s];
-              } else {
-                this.initialSettings[s] = cloneDeep(settings[s]);
-              }
-            }
-          });
+          this.initialSettings = cloneDeep(this.settings);
           this.saveLoading = false;
           this.snackbar = true;
           this.snackbarColor = "success";
