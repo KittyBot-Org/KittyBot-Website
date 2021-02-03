@@ -66,7 +66,7 @@ export default {
           value: "players",
         },
         {
-          name: "Availiable Commands",
+          name: "Available Commands",
           value: "commands",
         },
       ],
@@ -75,7 +75,7 @@ export default {
           icon: "how_to_reg",
           title: "Easy to use",
           text:
-            "KittyBot uses the new slash commands and is easier to use then ever",
+            "KittyBot uses the new slash commands and is easier to use than ever",
         },
         {
           icon: "money_off",
@@ -195,7 +195,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     &.mobile {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr;
     }
     padding: 32px;
     &-info {
@@ -203,7 +203,7 @@ export default {
       flex-direction: column;
       padding: 8px;
       &-value {
-        font-size: 42px;
+        font-size: 32px;
         font-weight: bolder;
         color: #5c5fea;
       }

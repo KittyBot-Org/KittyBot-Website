@@ -5,7 +5,7 @@ import Commands from "./views/Commands";
 import Login from "./views/Login";
 import Privacy from "./views/Privacy";
 import Guilds from "./views/Guilds";
-import Admin from "./views/Admin";
+import Dev from "./views/Dev";
 import Dashboard from "./views/Dashboard";
 import NotFound from "./views/NotFound";
 
@@ -41,10 +41,10 @@ const routes = [
     },
   },
   {
-    path: "/admin/dashboard",
-    component: Admin,
+    path: "/dev/dashboard",
+    component: Dev,
     meta: {
-      title: "Admin",
+      title: "Dev",
     },
   },
   {

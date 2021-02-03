@@ -2,228 +2,249 @@
   <div class="view-dashboard">
     <div v-if="ready" class="view-dashboard-settings">
       <v-expansion-panels v-model="openPanel" multiple>
-        <v-expansion-panel>
-          <v-expansion-panel-header>General</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <entity-setting label="DJ Role">
+        <settings-group title="General">
+          <entity-setting label="Enable NSFW Commands">
+            <v-switch v-model="settings.nsfw_enabled" />
+          </entity-setting>
+
+          <v-divider />
+
+          <entity-setting label="DJ Role">
+            <role-selector v-model="settings.dj_role_id" :roles="roles" />
+          </entity-setting>
+        </settings-group>
+
+        <settings-group title="Logs">
+          <entity-setting label="Enable Logs">
+            <v-switch v-model="settings.log_messages_enabled" />
+          </entity-setting>
+          <entity-setting label="Log Channel">
+            <channel-selector
+              v-model="settings.log_channel_id"
+              :channels="channels"
+            />
+          </entity-setting>
+        </settings-group>
+
+        <settings-group title="Snipes">
+          <entity-setting label="Snipes Globally Enabled">
+            <v-switch v-model="settings.snipes_enabled" />
+          </entity-setting>
+          <entity-setting label="Snipe Disabled Channels">
+            <channel-selector
+              v-model="settings.snipe_disabled_channels"
+              :channels="channels"
+              chips
+              clearable
+              deletable-chips
+              multiple
+            />
+          </entity-setting>
+        </settings-group>
+
+        <settings-group title="Ignored Channels/Users">
+          <entity-setting label="Ignored Channels">
+            <channel-selector
+              v-model="settings.bot_disabled_channels"
+              :channels="channels"
+              chips
+              clearable
+              deletable-chips
+              multiple
+            />
+          </entity-setting>
+          <entity-setting label="Ignored Users">
+            <user-selector
+              v-model="settings.bot_ignored_users"
+              :users="users"
+              chips
+              clearable
+              deletable-chips
+              multiple
+            />
+          </entity-setting>
+        </settings-group>
+
+        <settings-group title="Stream Announcements">
+          <entity-setting label="Channel">
+            <channel-selector
+              v-model="settings.stream_announcement_channel_id"
+              :channels="channels"
+            />
+          </entity-setting>
+          <entity-setting label="Message">
+            <v-textarea
+              v-model="settings.stream_announcement_message"
+              placeholder="Stream Announcement Message"
+            />
+            <div slot="description">
+              <span>Placeholders:</span>
+              <ul>
+                <li>${user}</li>
+              </ul>
+            </div>
+          </entity-setting>
+          <!--<entity-setting label="Streams"> </entity-setting>-->
+        </settings-group>
+
+        <settings-group title="Announcements">
+          <entity-setting label="Announcement Channel">
+            <channel-selector
+              v-model="settings.announcement_channel_id"
+              :channels="channels"
+            />
+          </entity-setting>
+
+          <v-divider />
+
+          <entity-setting label="Enable Join Messages">
+            <v-switch v-model="settings.join_messages_enabled" />
+          </entity-setting>
+          <entity-setting label="Join Message">
+            <v-textarea
+              v-model="settings.join_message"
+              placeholder="Join Message"
+            />
+            <div slot="description">
+              <span>Placeholders:</span>
+              <ul>
+                <li>${random_join_message}</li>
+                <li>${inviter}</li>
+                <li>${invite_link}</li>
+                <li>${invite_code}</li>
+                <li>${invite_uses}</li>
+                <li>${user}</li>
+                <li>${user_tag}</li>
+                <li>${name}</li>
+              </ul>
+            </div>
+          </entity-setting>
+
+          <v-divider />
+
+          <entity-setting label="Enable Leave Messages">
+            <v-switch v-model="settings.leave_messages_enabled" />
+          </entity-setting>
+          <entity-setting label="Leave Message">
+            <v-textarea
+              v-model="settings.leave_message"
+              placeholder="Leave Message"
+            />
+            <div slot="description">
+              <span>Placeholders:</span>
+              <ul>
+                <li>${random_leave_message}</li>
+                <li>${user}</li>
+                <li>${user_tag}</li>
+                <li>${name}</li>
+              </ul>
+            </div>
+          </entity-setting>
+        </settings-group>
+
+        <settings-group title="Roles">
+          <!--<entity-setting label="Self-assignable Roles">
+            <div v-if="settings.self_assignable_role_groups.length > 0">
+              <tbody>
+                <tr
+                  v-for="(group, i) in settings.self_assignable_role_groups"
+                  :key="i"
+                >
+                  <td tile>
+                    <v-avatar :size="32" tile>
+                      <v-img :src="getRoleEmote(role)" />
+                    </v-avatar>
+                  </td>
+                  <td :style="{ color: getRoleColor(role) }">
+                    {{ getRoleName(role) }}
+                  </td>
+                  <td>
+                    <v-btn icon @click="removeSelfAssignableRole(i)">
+                      <v-icon color="red">delete</v-icon>
+                    </v-btn>
+                  </td>
+                </tr>
+              </tbody>
+            </div>
+            <div v-else>
+              <span>You have no self assignable roles set up yet</span>
+            </div>
+            <div class="view-dashboard-settings-selfassignable-roles">
+              <emote-selector
+                v-model="selectedEmote"
+                placeholder="Select Emote..."
+                :emotes="emotes"
+              />
+              <role-selector v-model="selectedRoles" :roles="roles" />
+              <v-btn
+                color="#5c5fea"
+                :disabled="isAddButtonDisabled"
+                @click="addSelfAssignabelRole()"
+              >
+                Add
+              </v-btn>
+            </div>
+          </entity-setting>-->
+
+          <entity-setting label="Invite Roles">
+            <v-simple-table v-if="settings.invite_roles.length > 0">
+              <template>
+                <tbody>
+                  <tr
+                    v-for="invite in settings.invite_roles"
+                    :key="invite.code"
+                  >
+                    <td>
+                      {{ invite.code }}
+                    </td>
+                    <td>
+                      {{
+                        invite.roles.map(
+                          (roleId) => roles.find((r) => r.id == roleId).name
+                        )
+                      }}
+                    </td>
+                    <td>
+                      <v-btn icon @click="removeInviteRoles(invite.code)">
+                        <v-icon color="red">delete</v-icon>
+                      </v-btn>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+            <div v-else>
+              <span>You have no invite roles added yet</span>
+            </div>
+            <div class="view-dashboard-settings-selfassignable-roles">
               <v-autocomplete
-                v-model="settings.dj_role_id"
-                placeholder="Select Role..."
-                :items="getRoles"
-              />
-            </entity-setting>
-
-            <entity-setting label="Enable NSFW Commands">
-              <v-switch v-model="settings.nsfw_enabled" />
-            </entity-setting>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header>Announcements</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <entity-setting label="Announcement Channel">
-              <v-autocomplete
-                v-model="settings.announcement_channel_id"
-                placeholder="Select Channel..."
-                :items="getChannels"
-              />
-            </entity-setting>
-
-            <v-divider />
-
-            <entity-setting label="Enable Join Messages">
-              <v-switch v-model="settings.join_messages_enabled" />
-            </entity-setting>
-            <entity-setting
-              v-if="settings.join_messages_enabled"
-              label="Join Message"
-            >
-              <v-textarea
-                v-model="settings.join_messages"
-                placeholder="Join Message"
-              />
-              <div slot="description">
-                <span>Placeholders:</span>
-                <ul>
-                  <li>${random_join_message}</li>
-                  <li>${inviter}</li>
-                  <li>${invite_link}</li>
-                  <li>${invite_code}</li>
-                  <li>${invite_uses}</li>
-                  <li>${user}</li>
-                  <li>${user_tag}</li>
-                  <li>${name}</li>
-                </ul>
-              </div>
-            </entity-setting>
-
-            <v-divider />
-
-            <entity-setting label="Enable Leave Messages">
-              <v-switch v-model="settings.leave_messages_enabled" />
-            </entity-setting>
-            <entity-setting
-              v-if="settings.leave_messages_enabled"
-              label="Leave Message"
-            >
-              <v-textarea
-                v-model="settings.leave_messages"
-                placeholder="Leave Message"
-              />
-              <div slot="description">
-                <span>Placeholders:</span>
-                <ul>
-                  <li>${random_leave_message}</li>
-                  <li>${user}</li>
-                  <li>${user_tag}</li>
-                  <li>${name}</li>
-                </ul>
-              </div>
-            </entity-setting>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header>Roles</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <entity-setting label="Self-assignable Roles">
-              <v-simple-table v-if="settings.self_assignable_roles.length > 0">
-                <template>
-                  <tbody>
-                    <tr
-                      v-for="(role, i) in settings.self_assignable_roles"
-                      :key="role.role"
-                    >
-                      <td tile>
-                        <v-avatar :size="32" tile>
-                          <v-img :src="getRoleEmote(role)" />
-                        </v-avatar>
-                      </td>
-                      <td :style="{ color: getRoleColor(role) }">
-                        {{ getRoleName(role) }}
-                      </td>
-                      <td>
-                        <v-btn icon @click="removeSelfAssignableRole(i)">
-                          <v-icon color="red">delete</v-icon>
-                        </v-btn>
-                      </td>
-                    </tr>
-                  </tbody>
+                v-model="selectedInvite"
+                placeholder="Select Invite..."
+                :items="getInvites"
+                no-data-text="No Invites found"
+              >
+                <template v-slot:item="{ item }">
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item.text }}</v-list-item-title>
+                  </v-list-item-content>
                 </template>
-              </v-simple-table>
-              <div v-else>
-                <span>You have no self assignable roles added yet</span>
-              </div>
-              <div class="view-dashboard-settings-selfassignable-roles">
-                <v-autocomplete
-                  v-model="selectedEmote"
-                  placeholder="Select Emote..."
-                  :items="getEmotes"
-                  no-data-text="No Emotes found"
-                >
-                  <template v-slot:item="{ item }">
-                    <v-list-item-avatar tile>
-                      <v-img :src="item.url" />
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-title> {{ item.text }}</v-list-item-title>
-                    </v-list-item-content>
-                  </template>
-                </v-autocomplete>
-                <v-autocomplete
-                  v-model="selectedRole"
-                  placeholder="Select Role..."
-                  :items="getRoles"
-                  no-data-text="No Roles found"
-                >
-                  <template v-slot:item="{ item }">
-                    <v-list-item-content>
-                      <v-list-item-title :style="{ color: item.color }">
-                        {{ item.text }}</v-list-item-title
-                      >
-                    </v-list-item-content>
-                  </template>
-                </v-autocomplete>
-                <v-btn
-                  color="#5c5fea"
-                  :disabled="isAddButtonDisabled"
-                  @click="addSelfAssignabelRole()"
-                >
-                  Add
-                </v-btn>
-              </div>
-            </entity-setting>
-
-            <entity-setting label="Invite Roles">
-              <v-simple-table v-if="settings.invite_roles.length > 0">
-                <template>
-                  <tbody>
-                    <tr
-                      v-for="invite in settings.invite_roles"
-                      :key="invite.code"
-                    >
-                      <td>
-                        {{ invite.code }}
-                      </td>
-                      <td>
-                        {{
-                          invite.roles.map(
-                            (roleId) => roles.find((r) => r.id == roleId).name
-                          )
-                        }}
-                      </td>
-                      <td>
-                        <v-btn icon @click="removeInviteRoles(invite.code)">
-                          <v-icon color="red">delete</v-icon>
-                        </v-btn>
-                      </td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
-              <div v-else>
-                <span>You have no invite roles added yet</span>
-              </div>
-              <div class="view-dashboard-settings-selfassignable-roles">
-                <v-autocomplete
-                  v-model="selectedInvite"
-                  placeholder="Select Invite..."
-                  :items="getInvites"
-                  no-data-text="No Invites found"
-                >
-                  <template v-slot:item="{ item }">
-                    <v-list-item-content>
-                      <v-list-item-title> {{ item.text }}</v-list-item-title>
-                    </v-list-item-content>
-                  </template>
-                </v-autocomplete>
-                <v-autocomplete
-                  v-model="selectedRoles"
-                  placeholder="Select Roles..."
-                  :items="getRolesForInvites"
-                  no-data-text="No Roles found"
-                  multiple
-                >
-                  <template v-slot:item="{ item }">
-                    <v-list-item-content>
-                      <v-list-item-title :style="{ color: item.color }">
-                        {{ item.text }}</v-list-item-title
-                      >
-                    </v-list-item-content>
-                  </template>
-                </v-autocomplete>
-                <v-btn
-                  color="#5c5fea"
-                  :disabled="isInviteRolesAddButtonDisabled"
-                  @click="addInviteRoles()"
-                >
-                  Add
-                </v-btn>
-              </div>
-            </entity-setting>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+              </v-autocomplete>
+              <role-selector
+                v-model="selectedRoles"
+                :roles="getRolesForInvites"
+                clearable
+                multiple
+              />
+              <v-btn
+                color="#5c5fea"
+                :disabled="isInviteRolesAddButtonDisabled"
+                @click="addInviteRoles()"
+              >
+                Add
+              </v-btn>
+            </div>
+          </entity-setting>
+        </settings-group>
       </v-expansion-panels>
     </div>
     <div class="view-dashboard-buttons">
@@ -233,9 +254,9 @@
           <v-btn text v-bind="attrs" @click="snackbar = false"> Close </v-btn>
         </template>
       </v-snackbar>
-      <v-btn color="error" text :disabled="isSaveAndResetButtonDisabled">
+      <!--<v-btn color="error" text :disabled="isSaveAndResetButtonDisabled">
         Reset
-      </v-btn>
+      </v-btn>-->
       <v-btn
         color="success"
         :loading="saveLoading"
@@ -250,6 +271,11 @@
 
 <script>
 import EntitySetting from "../components/EntitySetting";
+import SettingsGroup from "../components/SettingsGroup";
+import RoleSelector from "../components/RoleSelector";
+import ChannelSelector from "../components/ChannelSelector";
+import UserSelector from "../components/UserSelector";
+//import EmoteSelector from "../components/EmoteSelector";
 import { cloneDeep } from "lodash";
 import API from "../api";
 
@@ -258,6 +284,11 @@ export default {
 
   components: {
     EntitySetting,
+    SettingsGroup,
+    RoleSelector,
+    ChannelSelector,
+    UserSelector,
+    //EmoteSelector,
   },
 
   data() {
@@ -270,6 +301,7 @@ export default {
       roles: [],
       channels: [],
       emotes: [],
+      users: [],
       invites: [],
       selectedRole: null,
       selectedEmote: null,
@@ -293,42 +325,6 @@ export default {
     isSaveAndResetButtonDisabled() {
       return !API.areSettingsChanged(this.settings, this.initialSettings);
     },
-    getChannels() {
-      return this.channels.map((c) => {
-        return {
-          text: c.name,
-          value: c.id,
-        };
-      });
-    },
-    getRoles() {
-      return this.roles
-        .filter(
-          (r) =>
-            !this.settings.self_assignable_roles.find((sr) => sr.role == r.id)
-        )
-        .map((r) => {
-          return {
-            text: r.name,
-            value: r.id,
-            color: r.color,
-          };
-        });
-    },
-    getEmotes() {
-      return this.emotes
-        .filter(
-          (e) =>
-            !this.settings.self_assignable_roles.find((sr) => sr.emote == e.id)
-        )
-        .map((e) => {
-          return {
-            text: e.name,
-            url: e.url,
-            value: e.id,
-          };
-        });
-    },
     getInvites() {
       return this.invites.map((c) => {
         return {
@@ -345,7 +341,7 @@ export default {
         (i) => i.code == this.selectedInvite
       );
       const roles = inviteRoles == undefined ? [] : inviteRoles.roles;
-      return this.getRoles.filter((r) => !roles.includes(r.value));
+      return this.roles.filter((r) => !roles.includes(r.value));
     },
     guildId() {
       return this.$route.params.guildId;
@@ -359,6 +355,7 @@ export default {
     Promise.all([
       API.get(`guilds/${this.guildId}/channels`),
       API.get(`guilds/${this.guildId}/emotes`),
+      API.get(`guilds/${this.guildId}/users`),
       API.get(`guilds/${this.guildId}/roles`),
       API.get(`guilds/${this.guildId}/invites`),
       API.get(`guilds/${this.guildId}/settings`),
@@ -377,21 +374,29 @@ export default {
             url: e.url,
           });
         });
-        responses[2].body.roles.forEach((e) => {
+        responses[2].body.users.forEach((e) => {
+          this.users.push({
+            id: e.id,
+            name: e.name,
+            url: e.url,
+            color: e.color,
+          });
+        });
+        responses[3].body.roles.forEach((e) => {
           this.roles.push({
             id: e.id,
             name: e.name,
             color: e.color,
           });
         });
-        responses[3].body.invites.forEach((e) => {
+        responses[4].body.invites.forEach((e) => {
           this.invites.push({
             code: e.code,
             userId: e.user_id,
             uses: e.uses,
           });
         });
-        this.initialSettings = responses[4].body;
+        this.initialSettings = responses[5].body;
         this.settings = cloneDeep(this.initialSettings);
         this.ready = true;
       },
@@ -452,27 +457,7 @@ export default {
       this.saveLoading = true;
       API.post(`guilds/${this.guildId}/settings`, this.settings).then(
         () => {
-          let settings = cloneDeep(this.settings);
-          Object.keys(settings).forEach((s) => {
-            if (s == "self_assignable_roles" && settings[s] instanceof Array) {
-              if (
-                API.areSelfAssignableRolesChanged(
-                  settings[s],
-                  this.initialSettings[s]
-                )
-              ) {
-                this.initialSettings[s] = cloneDeep(settings[s]);
-              } else {
-                delete settings[s];
-              }
-            } else {
-              if (Object.is(settings[s], this.initialSettings[s])) {
-                delete settings[s];
-              } else {
-                this.initialSettings[s] = cloneDeep(settings[s]);
-              }
-            }
-          });
+          this.initialSettings = cloneDeep(this.settings);
           this.saveLoading = false;
           this.snackbar = true;
           this.snackbarColor = "success";

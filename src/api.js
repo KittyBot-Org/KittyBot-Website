@@ -22,10 +22,10 @@ const SETTING_PROPS = [
   "requests_enabled",
 
   "join_messages_enabled",
-  "join_messages",
+  "join_message",
 
   "leave_messages_enabled",
-  "leave_messages",
+  "leave_message",
 
   "log_channel_id",
   "log_messages_enabled",
@@ -43,7 +43,6 @@ const SETTING_PROPS = [
   "bot_disabled_channels",
   "bot_ignored_users",
 
-  "self_assignable_roles",
   "self_assignable_role_groups",
 
   "invite_roles",

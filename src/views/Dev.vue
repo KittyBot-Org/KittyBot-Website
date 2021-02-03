@@ -1,5 +1,5 @@
 <template>
-  <div class="admin">
+  <div class="dev">
     <v-data-table
       :headers="headers"
       :items="guilds"
@@ -43,7 +43,7 @@ import GuildIcon from "../components/GuildIcon";
 import API from "../api";
 
 export default {
-  name: "Admin",
+  name: "Dev",
 
   components: {
     GuildIcon,
@@ -83,7 +83,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less" scoped>
-@import "../style/style.less";
-</style>

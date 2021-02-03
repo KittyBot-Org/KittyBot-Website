@@ -1,44 +1,44 @@
 <template>
-  <div id="app">
+  <v-app v-if="$route.path == '/login'">
+    <router-view class="view-login" />
+  </v-app>
+  <v-app v-else>
     <page-shadow :show="loading" />
-    <router-view v-if="$route.path == '/login'" class="view-login" />
-    <v-app v-else>
-      <navigation-bar
-        :nav="nav"
-        :user="user"
+    <navigation-bar
+      :nav="nav"
+      :user="user"
+      :guilds="guilds"
+      @logout="logout"
+      @loading="setLoading"
+      @toggle-drawer="toggleDrawer"
+    />
+    <navigation-drawer
+      v-model="drawer"
+      :nav="nav"
+      :user="user"
+      :guilds="guilds"
+    />
+    <v-main>
+      <v-alert v-if="isAlertVisible" dismissible type="error">
+        <template v-slot:close="">
+          <v-btn icon @click="cleanErrors">
+            <v-icon>cancel</v-icon>
+          </v-btn>
+        </template>
+        <span v-for="(error, i) in errors" :key="i">
+          {{ error }}
+          <br />
+        </span>
+      </v-alert>
+      <router-view
+        class="dashboard-navigation-view"
         :guilds="guilds"
-        @logout="logout"
-        @loading="setLoading"
-        @toggle-drawer="toggleDrawer"
+        :logged-in="isLoggedIn"
+        :key="$route.path"
+        @error="addError"
       />
-      <navigation-drawer
-        v-model="drawer"
-        :nav="nav"
-        :user="user"
-        :guilds="guilds"
-      />
-      <v-main>
-        <v-alert v-if="isAlertVisible" dismissible type="error">
-          <template v-slot:close="">
-            <v-btn icon @click="cleanErrors">
-              <v-icon>cancel</v-icon>
-            </v-btn>
-          </template>
-          <span v-for="(error, i) in errors" :key="i">
-            {{ error }}
-            <br />
-          </span>
-        </v-alert>
-        <router-view
-          class="dashboard-navigation-view"
-          :guilds="guilds"
-          :logged-in="isLoggedIn"
-          :key="$route.path"
-          @error="addError"
-        />
-      </v-main>
-    </v-app>
-  </div>
+    </v-main>
+  </v-app>
 </template>
 <script>
 import PageShadow from "./components/PageShadow";
@@ -73,7 +73,7 @@ export default {
           to: "/privacy",
         },
       ],
-      drawer: false,
+      drawer: null,
       alert: true,
       errors: [],
       api: API,
