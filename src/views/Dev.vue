@@ -2,7 +2,8 @@
   <div class="dev">
     <v-data-table
       :headers="headers"
-      :items="guilds"
+      :items="filteredGuilds"
+      :search="search"
       item-key="name"
       :loading="loading"
       :sort-by.sync="sortBy"
@@ -10,6 +11,24 @@
       disable-pagination
       hide-default-footer
     >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title>Guilds</v-toolbar-title>
+          <v-divider class="mx-8" inset vertical />
+          <v-spacer />
+          <v-text-field
+            class="search"
+            v-model="search"
+            placeholder="search..."
+          />
+          <v-spacer />
+          <v-switch
+            class="sort-switch"
+            v-model="onlyPlayers"
+            label="Active Players only"
+          />
+        </v-toolbar>
+      </template>
       <template v-slot:[`item.icon`]="{ item }">
         <guild-icon
           :icon="item.icon"
@@ -18,7 +37,7 @@
           :size="36"
         />
       </template>
-      <template v-slot:[`item.open`]="{ item }">
+      <template v-slot:[`item.open_in_new`]="{ item }">
         <v-btn
           icon
           color="#5c5fea"
@@ -54,17 +73,23 @@ export default {
       sortBy: "name",
       sortDesc: false,
       headers: [
-        { value: "icon", sortable: false },
+        { value: "icon", sortable: false, filterable: false },
         { text: "Name", value: "name" },
         { text: "ID", value: "id" },
         { text: "Owner", value: "owner" },
         { text: "Member Count", value: "count" },
-        { value: "open", sortable: false },
+        { text: "Plays Music", value: "plays_music" },
+        { text: "Queue Size", value: "queue_size" },
+        { text: "History Size", value: "history_size" },
+        { value: "open_in_new", sortable: false, filterable: false },
       ],
       guilds: [],
+      search: "",
+      onlyPlayers: false,
       loading: true,
     };
   },
+
   created() {
     API.get(`guilds`).then(
       (response) => {
@@ -76,6 +101,16 @@ export default {
       }
     );
   },
+
+  computed: {
+    filteredGuilds() {
+      if (this.onlyPlayers) {
+        return this.guilds.filter((guild) => guild.plays_music);
+      }
+      return this.guilds;
+    },
+  },
+
   methods: {
     addError(response) {
       this.$emit("error", response);
@@ -83,3 +118,11 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+.search /deep/ .v-input__control .v-input__slot {
+  margin-bottom: 0;
+}
+.sort-switch /deep/ .v-input__control .v-messages {
+  min-height: 0 !important;
+}
+</style>
