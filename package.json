@@ -12,8 +12,8 @@
     "dev": "vue-cli-service serve --port 80"
   },
   "dependencies": {
-    "@sentry/browser": "^6.0.4",
-    "@sentry/integrations": "^6.0.4",
+    "@sentry/integrations": "^6.1.0",
+    "@sentry/browser": "^6.1.0",
     "@vue/cli": "^4.5.11",
     "core-js": "^3.8.3",
     "less-loader": "^6.2.0",
@@ -39,6 +39,6 @@
     "sass-loader": "^10.1.1",
     "vue-cli-plugin-vuetify": "^2.1.0",
     "vue-template-compiler": "^2.6.12",
-    "vuetify-loader": "^1.7.1"
+    "vuetify-loader": "^1.7.2"
   }
 }
