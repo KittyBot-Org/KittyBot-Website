@@ -1,6 +1,6 @@
 <template>
   <expansion-panels class="entity-commands" :multiple="true">
-    <expansion-panel v-for="cmd in filteredCommands" :key="cmd.name">
+    <expansion-panel v-for="cmd in sortedCommands" :key="cmd.name">
       <div slot="header" class="entity-commands-header">
         <b class="entity-commands-header-name">/{{ cmd.name }}</b>
         <span class="entity-commands-header-usage">{{ getUsage(cmd) }}</span>
@@ -174,6 +174,9 @@ export default {
         return cmds;
       }
       return cmds.filter((cmd) => cmd.category == this.filter);
+    },
+    sortedCommands() {
+      return this.filteredCommands.slice(0).sort((a, b) => a.name > b.name);
     },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;

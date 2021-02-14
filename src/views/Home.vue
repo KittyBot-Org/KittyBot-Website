@@ -146,8 +146,6 @@ export default {
     justify-content: space-around;
     text-align: center;
     flex-wrap: wrap;
-    flex-grow: 1;
-    flex-shrink: 1;
     &-title {
       display: flex;
       flex-direction: column;
@@ -164,17 +162,15 @@ export default {
     }
   }
   &-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    justify-items: center;
     background-color: #5c5fea;
     color: white;
     border-radius: 8px;
     &-card {
       display: flex;
       flex-direction: column;
-      justify-content: top;
-      align-items: center;
       text-align: center;
       padding: 16px;
       width: 235px;
@@ -193,10 +189,8 @@ export default {
   }
   &-infos {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    &.mobile {
-      grid-template-columns: 1fr;
-    }
+    flex-shrink: 1;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
     padding: 32px;
     &-info {
       display: flex;
