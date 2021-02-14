@@ -1,5 +1,5 @@
 <template>
-  <div class="view-home" :class="{ mobile: isMobile }">
+  <div class="view-home">
     <div class="view-home-header">
       <v-img
         alt="KittyBot Logo"
@@ -24,7 +24,7 @@
         <p class="view-home-cards-card-text">{{ card.text }}</p>
       </div>
     </div>
-    <div v-if="ready" class="view-home-infos" :class="{ mobile: isMobile }">
+    <div v-if="ready" class="view-home-infos">
       <div v-for="(inf, i) in infos" :key="i" class="view-home-infos-info">
         <animated-int
           class="view-home-infos-info-value"
