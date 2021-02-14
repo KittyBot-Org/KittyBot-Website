@@ -148,10 +148,11 @@ export default {
             this.guilds = response.body.guilds;
           },
           (error) => {
-            if (error.code == 401) {
+            if (error.status == 401) {
               API.token.set = "";
+            } else {
+              this.addError(error);
             }
-            this.addError(error);
           }
         );
       }

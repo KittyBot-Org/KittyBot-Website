@@ -13,9 +13,6 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Guilds</v-toolbar-title>
-          <v-divider class="mx-8" inset vertical />
-          <v-spacer />
           <v-text-field
             class="search"
             v-model="search"
@@ -25,7 +22,7 @@
           <v-switch
             class="sort-switch"
             v-model="onlyPlayers"
-            label="Active Players only"
+            label="Plays Music"
           />
         </v-toolbar>
       </template>
