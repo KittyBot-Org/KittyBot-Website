@@ -1,5 +1,5 @@
 <template>
-  <div class="view-home" :class="{ mobile: isMobile }">
+  <div class="view-home">
     <div class="view-home-header">
       <v-img
         alt="KittyBot Logo"
@@ -24,7 +24,7 @@
         <p class="view-home-cards-card-text">{{ card.text }}</p>
       </div>
     </div>
-    <div v-if="ready" class="view-home-infos" :class="{ mobile: isMobile }">
+    <div v-if="ready" class="view-home-infos">
       <div v-for="(inf, i) in infos" :key="i" class="view-home-infos-info">
         <animated-int
           class="view-home-infos-info-value"
@@ -32,6 +32,21 @@
         />
         <span class="view-home-infos-info-name">{{ inf.name }}</span>
       </div>
+    </div>
+    <div class="view-home-botlists">
+      <a
+        v-for="(botlist, i) in botlists"
+        :key="i"
+        class="view-home-botlists-botlist"
+        target="_blank"
+        :href="botlist.url"
+      >
+        <img
+          :src="botlist.widget"
+          :title="`Visit KittyBot listed on ${botlist.name}!`"
+          :alt="`${botlist.name} KittyBot`"
+        />
+      </a>
     </div>
   </div>
 </template>
@@ -45,6 +60,7 @@ export default {
   name: "ViewHome",
 
   data() {
+    const botId = "587697058602025011";
     return {
       ready: false,
       info: {},
@@ -92,6 +108,28 @@ export default {
           icon: "flash_on",
           title: "Feature Rich",
           text: "KittyBot can do a lot of different things",
+        },
+      ],
+      botlists: [
+        {
+          name: "top.gg",
+          url: `https://top.gg/bot/${botId}`,
+          widget: `https://top.gg/api/widget/${botId}.svg`,
+        },
+        {
+          name: "discord.boats",
+          url: `https://discord.boats/bot/${botId}`,
+          widget: `https://discord.boats/api/widget/${botId}`,
+        },
+        {
+          name: "botlist.space",
+          url: `https://botlist.space/bot/${botId}?utm_source=bls&utm_medium=widget&utm_campaign=${botId}`,
+          widget: `https://api.botlist.space/widget/${botId}/5`,
+        },
+        {
+          name: "botsfordiscord.com",
+          url: `https://botsfordiscord.com/bots/${botId}`,
+          widget: `https://botsfordiscord.com/api/bot/${botId}/widget?theme=dark`,
         },
       ],
     };
@@ -201,6 +239,19 @@ export default {
         font-weight: bolder;
         color: #5c5fea;
       }
+    }
+  }
+  &-botlists {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 32px;
+    padding: 32px;
+    &-botlist,
+    &-botlist img {
+      border-radius: 8px;
+      height: 150px;
     }
   }
 }
