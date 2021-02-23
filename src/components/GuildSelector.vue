@@ -89,7 +89,16 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.guild-selector /deep/ .v-input__control .v-input__slot {
-  margin-bottom: 0;
+.guild-selector {
+  width: min-content;
+  & /deep/ .v-input__control .v-input__slot {
+    margin-bottom: 0;
+  }
+  .small-mobile {
+    width: 100%;
+  }
+  .v-text-field__details {
+    display: none;
+  }
 }
 </style>

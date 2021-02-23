@@ -167,16 +167,6 @@ export default {
 <style lang="less">
 @import "./style/style.less";
 
-.guild-selector {
-  width: min-content;
-  .small-mobile {
-    width: 100%;
-  }
-  .v-text-field__details {
-    display: none;
-  }
-}
-
 .v-application {
   .font-default();
 }

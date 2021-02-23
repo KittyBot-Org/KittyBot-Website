@@ -251,7 +251,7 @@ export default {
     &-botlist,
     &-botlist img {
       border-radius: 8px;
-      height: 200px;
+      height: 150px;
     }
   }
 }
