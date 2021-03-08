@@ -32,7 +32,7 @@
         class="nav"
         target="_blank"
         href="https://api.kittybot.de/discord_invite"
-        >Support
+        >Support Server
       </a>
     </div>
 
