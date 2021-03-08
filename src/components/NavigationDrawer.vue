@@ -38,7 +38,7 @@
             <v-icon>help</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>Support</v-list-item-title>
+            <v-list-item-title>Support Server</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>

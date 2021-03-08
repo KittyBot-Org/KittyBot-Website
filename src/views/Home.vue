@@ -24,6 +24,7 @@
         <p class="view-home-cards-card-text">{{ card.text }}</p>
       </div>
     </div>
+
     <div v-if="ready" class="view-home-infos">
       <div v-for="(inf, i) in infos" :key="i" class="view-home-infos-info">
         <animated-int
@@ -33,7 +34,15 @@
         <span class="view-home-infos-info-name">{{ inf.name }}</span>
       </div>
     </div>
+
     <div class="view-home-botlists">
+      <a
+        class="view-home-botlists-botlist"
+        href="https://api.kittybot.de/discord_invite"
+        target="_blank"
+      >
+        <img src="https://invidget.switchblade.xyz/608506410803658753" />
+      </a>
       <a
         v-for="(botlist, i) in botlists"
         :key="i"
@@ -226,9 +235,9 @@ export default {
     }
   }
   &-infos {
-    display: grid;
-    flex-shrink: 1;
-    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     padding: 32px;
     &-info {
       display: flex;
