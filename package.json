@@ -15,7 +15,7 @@
     "@sentry/browser": "^6.2.5",
     "@sentry/integrations": "^6.2.3",
     "@vue/cli": "^4.5.12",
-    "core-js": "^3.9.1",
+    "core-js": "^3.10.1",
     "less-loader": "^8.1.0",
     "lodash": "^4.17.21",
     "tween": "^0.9.0",
