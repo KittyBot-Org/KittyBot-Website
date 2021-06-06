@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@sentry/browser": "^6.3.6",
-    "@sentry/integrations": "^6.3.6",
+    "@sentry/integrations": "^6.5.1",
     "@vue/cli": "^4.5.13",
     "core-js": "^3.14.0",
     "less-loader": "^9.0.0",
