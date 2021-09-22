@@ -41,7 +41,7 @@
         href="https://api.kittybot.de/discord_invite"
         target="_blank"
       >
-        <img src="https://invidget.switchblade.xyz/608506410803658753" />
+        <img src="https://discord.com/api/guilds/608506410803658753/widget.png?style=banner3" />
       </a>
       <a
         v-for="(botlist, i) in botlists"
@@ -131,9 +131,9 @@ export default {
           widget: `https://discord.boats/api/widget/${botId}`,
         },
         {
-          name: "botlist.space",
-          url: `https://botlist.space/bot/${botId}?utm_source=bls&utm_medium=widget&utm_campaign=${botId}`,
-          widget: `https://api.botlist.space/widget/${botId}/5`,
+          name: "discordlist.space",
+          url: `https://discordlist.space/bot/${botId}`,
+          widget: `https://api.discordlist.space/v2/bots/${botId}/widget?background=7289da&radius=8`,
         },
         {
           name: "botsfordiscord.com",
