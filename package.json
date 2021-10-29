@@ -14,7 +14,7 @@
   "dependencies": {
     "@sentry/browser": "^6.8.0",
     "@sentry/integrations": "^6.5.1",
-    "@vue/cli": "^4.5.13",
+    "@vue/cli": "^4.5.15",
     "core-js": "^3.14.0",
     "less-loader": "^10.0.1",
     "lodash": "^4.17.21",
